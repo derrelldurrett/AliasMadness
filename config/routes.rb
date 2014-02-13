@@ -1,6 +1,22 @@
 AliasMadness::Application.routes.draw do
+  root to: 'static_pages#home'
+  get 'login', to: 'sessions#login'
+
+  resources :users do
+    #resources :brackets
+    collection do
+      get :login
+    end
+  end
+
   resources :teams
 
+  match 'admin/login', to: 'admin#login'
+  resources :admin do
+    member do
+      get :show
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

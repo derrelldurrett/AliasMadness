@@ -10,6 +10,8 @@ if defined?(Bundler)
 end
 
 module AliasMadness
+  @name = %q(Alia's Madness)
+  @start_time = DateTime.current
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

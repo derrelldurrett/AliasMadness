@@ -25,4 +25,10 @@ describe Team do
     subject { Team.new(team_specs) }
     it { should_not be_valid }
   end
+
+  context 'Different teams are not equal' do
+    subject { Team.new({name: 'North Carolina', seed: 1, label: '17'}) }
+    it { should be_valid }
+    it { should_not == @team }
+  end
 end

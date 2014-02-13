@@ -1,0 +1,36 @@
+<header>
+  <div class='span-20'>
+    <nav>
+      <ul class='nav-list'>
+        <% if signed_in? %>
+            <li class='nav-list-item'><%= link_to full_title(''), root_path, class: 'nav-list-button' %></li>
+            <% if @user.admin? %>
+                <li class='nav-list-item'>
+                  <%= link_to 'Invite Player', new_user_path,
+                              class: 'nav-list-button' %>
+                </li>
+                <li class='nav-list-item'>
+                  <%= link_to 'Edit Bracket', user_path,
+                              class: 'nav-list-button' %>
+                </li>
+                <li class='nav-list-item'>
+                  <%= link_to 'Send Message', user_path,
+                              class: 'nav-list-button' %>
+                </li>
+                <li class='nav-list-item'>
+                  <%= link_to 'View Scenarios', user_path,
+                              class: 'nav-list-button' %>
+                </li>
+            <% end %>
+                <li class='nav-list-item last'>
+                  <%= link_to 'Contact', %q(mailto:)+Admin.get.email+
+                          '?Subject=Yer%20madness',
+                              class: 'nav-list-button' %>
+                </li>
+        <% else %>
+            <li class='nav-list-item'><%= link_to 'Sign in', root_path, class: 'nav-list-button' %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>

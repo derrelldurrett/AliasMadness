@@ -128,7 +128,7 @@ describe TeamsController do
         team = Team.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Team.any_instance.stub(:save).and_return(false)
-        put :update, {:id => team.to_param, :team => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => team.to_param, :team => { seed: "35" }}, valid_session
         assigns(:team).should eq(team)
       end
 

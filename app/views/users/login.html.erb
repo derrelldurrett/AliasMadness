@@ -1,0 +1,22 @@
+<%# if signed_in? %>
+
+<%# else %>
+  <div class="center hero-unit">
+    <% provide(:title, 'Sign in') %>
+    <h1>Sign in</h1>
+
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <p>
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+      </p>
+      <p>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+      </p>
+      <%= f.submit "Login", class: "btn btn-large btn-primary" %>
+    <% end %>
+
+  </div>
+<%# end %>

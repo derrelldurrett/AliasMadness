@@ -1,7 +1,7 @@
 class Team < ActiveRecord::Base
   attr_accessible :label, :name, :seed
   validates :name, uniqueness: true
-
+  validates :seed, numericality: {only_integer: true}
   # Expect this to bite us in the ass regarding to_json()
   def to_s
     "#{name} (#{seed})"
