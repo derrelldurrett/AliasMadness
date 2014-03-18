@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
+/* //= require bootstrap */
+//= require alias_madness
 //= require_tree .
+

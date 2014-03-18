@@ -12,7 +12,6 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-
   def update
     @user = User.find(params[:id])
     session_authenticate(@user)
@@ -20,11 +19,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @bracket = @user.bracket
   end
 
   def create
     if signed_in?
       begin
+        params[:user][:role]='player'
         @user = User.create!(params[:user])
         UserMailer.welcome_email(@user).deliver if !@user.admin?
         flash.now[:success] = %Q(User '#{ params[:user][:name] }' created.)
@@ -37,7 +38,5 @@ class UsersController < ApplicationController
     else
       redirect_to root_path
     end
-
   end
-
 end

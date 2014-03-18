@@ -2,12 +2,12 @@
 # or I need to learn how to rename step_definition files.
 # Or maybe I need to learn what the rules are for step_definition file names.
 
-Given %q(An admin who is logged in) do
-  login_as_admin
+Given /I am visiting the '([^']+)' page\z/ do |link_name|
+  click_link link_name
 end
 
-Given /A player with name '([^']+)' and email '([^']+)' already exists/ do |name,email|
-  invite_player(name,email)
+Given /\AA player with name '([^']+)' and email '([^']+)' already exists\z/ do |name,email|
+  invite_player name,email
 end
 
 When %q(A Player does not exist and I enter a his data) do
@@ -16,11 +16,18 @@ When %q(A Player does not exist and I enter a his data) do
     id = user.id
     User.delete(id)
   end
-  invite_player('derrell','dd@fake.com')
+  invite_player 'derrell','dd@fake.com'
 end
 
 Then %q(I should have a new player in the database) do
-  User.find_by_name('derrell').should_not be_nil
+  player_name='derrell'
+  User.find_by_name(player_name).should_not be_nil
+  u=User.find_by_name(player_name)
+  u.role.should_not be_nil
+  u=User.find_by_role('player')
+  u.should_not be_nil
+  expect(u.name).to eq(player_name)
+  expect(u.role).to eq(:player)
 end
 
 Then %q(I should see a message that my Player was created) do
@@ -36,7 +43,7 @@ Then %q(I should send an email to the Player with a link for the Player to log i
 end
 
 When %q(I invite an existing player) do
-  invite_player('derrell','dd@fake.com')
+  invite_player 'derrell','dd@fake.com'
 end
 
 Then /\AI should see the "([^"]+)" error\z/ do |error|

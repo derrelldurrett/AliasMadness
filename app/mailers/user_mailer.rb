@@ -1,13 +1,14 @@
 class UserMailer < ActionMailer::Base
 #  default from: %q(ibualia@yahoo.com)
   default reply_to: %q(ibualia@yahoo.com)
-  default from: Admin.get.email
+  #default from: Admin.get.email
 
   def welcome_email(u)
     @user = u
     @url = construct_user_response_url(u)
     name_in_email = %Q(#{@user.name} <#{@user.email}>)
-    mail(to: name_in_email, subject: %Q(Welcome, #{@user.name}, to Alia's Madness!))
+    mail(from: Admin.get.email, to: name_in_email, subject: %Q(Welcome, #{@user.name}, to Alia's Madness!))
+
   end
 
   private

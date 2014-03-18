@@ -11,12 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140209204543) do
+ActiveRecord::Schema.define(:version => 20140218022010) do
+
+  create_table "brackets", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "bracket_data"
+    t.text     "lookup_by_label"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "games", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "bracket_id"
+    t.string   "label"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "games", ["bracket_id"], :name => "index_games_on_bracket_id"
+  add_index "games", ["team_id"], :name => "index_games_on_team_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name"
     t.integer  "seed"
-    t.integer  "label"
+    t.string   "label"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

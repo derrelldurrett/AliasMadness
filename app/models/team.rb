@@ -1,11 +1,11 @@
 class Team < ActiveRecord::Base
+  include HashHelper
   attr_accessible :label, :name, :seed
+  has_many :games, inverse_of: :teams
   validates :name, uniqueness: true
   validates :seed, numericality: {only_integer: true}
-  # Expect this to bite us in the ass regarding to_json()
-  def to_s
-    "#{name} (#{seed})"
-  end
+
+  HashHelper.hash_vars= %i(name seed id)
 
   # Team's clone is itself (Teams are unique, uncopyable)
   def clone
@@ -15,10 +15,9 @@ class Team < ActiveRecord::Base
 
   def eql?(other)
     other.is_a? Team and
-    name == other.name and
+        name == other.name and
         seed == other.seed
   end
-
   alias == eql?
 
 end

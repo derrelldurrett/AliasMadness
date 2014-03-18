@@ -1,0 +1,3 @@
+<%= form_for(@team, remote: true, :format => :json) do |f| %>
+    <%= f.label '('+@team.seed.to_s+')' %><%= f.text_field(:name) %>
+<% end %>

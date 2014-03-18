@@ -10,7 +10,7 @@ def login_as_admin
   password = 'foobaer'
   link = login_path(email: email)
   visit link
+  #save_and_open_page
   fill_in 'Password', with: password
   click_button('Login')
-  click_link('Invite Player')
 end

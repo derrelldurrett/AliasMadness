@@ -3,14 +3,14 @@ AliasMadness::Application.routes.draw do
   get 'login', to: 'sessions#login'
 
   resources :users do
-    #resources :brackets
     collection do
       get :login
     end
   end
 
+  resources :brackets
   resources :teams
-
+  resources :games
   match 'admin/login', to: 'admin#login'
   resources :admin do
     member do

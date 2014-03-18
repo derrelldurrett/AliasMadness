@@ -5,9 +5,14 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-admin = User.create!(
+admin = User.new(
     name: 'admin',
-    password: "foobaer",
-    password_confirmation: "foobaer",
-    email: "foo@bar.com",
+    password: 'foobaer',
+    password_confirmation: 'foobaer',
+    email: 'foo@bar.com',
     role: 'admin')
+admin.save!
+puts 'Admin Bracket: '
+puts admin.bracket.id
+puts 'Admin Bracket\'s Game 32: '
+puts admin.bracket.lookup_node('32').id

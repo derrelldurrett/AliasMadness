@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
   #end
 
   def login
+    reset_session
     @user = User.find_by_email(params[:email])
     if @user.nil?
       redirect_to(root_path) and return
