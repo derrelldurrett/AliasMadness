@@ -6,13 +6,11 @@ gem 'rgl'
 gem 'simple_form'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'active_attr'
-gem 'faker', '1.0.1'
 gem 'sprockets'
 gem 'pg'
-gem 'sass-rails'
 gem 'coffee-rails'
-gem 'uglifier', '>= 1.0.3'
-
+gem 'uglifier'#, '>= 1.0.3'
+# gem 'i18n'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -21,27 +19,34 @@ group :production do
 end
 
 group :development, :test do
-  gem 'rspec', '>= 2.14'
+  gem 'rspec'#, '>= 2.14'
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'factory_girl'
   gem 'factory_girl_rails'
+  gem 'faker', '1.0.1'
   gem 'bootstrap-generators'
-  gem 'debase'
-  gem 'ruby-debug-ide'#, '>= 0.4.17.beta17'
 end
 
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'shoulda', '>3.1.1'
+  gem 'shoulda'#, '>3.1.1'
   gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   gem 'email_spec'
-  gem 'capybara-webkit'
-  gem 'rb-inotify', '0.8.8' # linux
-  gem 'libnotify', '0.5.9' # linux
+  # gem 'jasmine'
+  # gem 'capybara-webkit'
+  # gem 'headless'
+  gem 'selenium-webdriver'
+  # gem 'selenium-client'
+  # gem 'poltergeist'
+  # gem 'capybara-culerity'
+  # gem 'culerity'
+  gem 'launchy'
+  gem 'rb-inotify'#, '0.8.8' # linux
+  gem 'libnotify'#, '0.5.9' # linux
 #  gem 'rb-fsevent', :require => false # OS X
 #  gem 'growl'                         # OS X
 end

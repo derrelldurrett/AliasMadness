@@ -17,8 +17,7 @@ class User < ActiveRecord::Base
       Regexp.new(%q(\A([^@\s]+)@((?:[-.a-z0-9]+)\.[a-z]{2,})\z), Regexp::IGNORECASE)
     end
   end
-  validates :email, presence: true,
-  email: true, uniqueness: true
+  validates :email, presence: true, email: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
@@ -41,7 +40,7 @@ class User < ActiveRecord::Base
   end
 
   def do_validation_setup
-    self.email.downcase!
+    self.email=self.email.downcase
     unless admin?
       self.password =
           self.password_confirmation =

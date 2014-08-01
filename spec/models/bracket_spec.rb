@@ -42,7 +42,6 @@ describe Bracket do
     it { should eql(@reloaded_bracket) }
   end
 
-  #subject { @bracket }
   #describe "Game multiplicity 2 and Team multiplicity 0" do
   #end
   #
@@ -66,4 +65,6 @@ describe Bracket do
     expect(@bracket.lookup_ancestors(g1)).to include(g3)
     expect(@reloaded_bracket.lookup_node('32').id).not_to be_nil
   end
+
+
 end

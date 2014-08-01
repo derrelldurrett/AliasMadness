@@ -7,10 +7,6 @@ class Game < ActiveRecord::Base
   serialize :team, Team
 
   HashHelper.hash_vars= %i(id team bracket label)
-  #def initialize(attributes={})
-  #  super
-  #  #self.hash_vars= %i(id team bracket label)
-  #end
 
   def to_s
     to_json

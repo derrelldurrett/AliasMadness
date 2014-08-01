@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/public/assets/javascripts/update.js" />
+        <item url="file://$PROJECT_DIR$/public/assets/javascripts/brackets.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/assets/javascripts/teams.js" />
+      <root url="file://$PROJECT_DIR$/public/assets/javascripts/update.js" />
+      <root url="file://$PROJECT_DIR$/public/assets/javascripts/brackets.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

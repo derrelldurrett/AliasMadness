@@ -1,4 +1,5 @@
-<table id="bracket" CELLSPACING="0" COLS="13" BORDER="0">
+<%= form_for(@bracket, method: :put, remote: true, format: :json) do |bracket_form| %>
+  <table id="bracket" CELLSPACING="0" COLS="13" BORDER="0">
   <tr>
     <th>Round 1</th>
     <th>Round 2</th>
@@ -10,7 +11,9 @@
   </tr>
   <tr><td colspan="13"></td></tr>
   <TR>
-    <TD><% @team= @bracket.lookup_node('64') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: {form: bracket_form, bracket: @bracket, node: '64'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -22,7 +25,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('96') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '96'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -40,7 +45,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('65') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '65'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -52,7 +59,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('97') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '97'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -70,7 +79,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('66') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '66'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -82,7 +93,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('98') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '98'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -100,7 +113,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('67') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '67'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -112,7 +127,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('99') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '99'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -130,7 +147,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('68') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '68'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -142,7 +161,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('100') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '100'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -160,7 +181,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('69') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '69'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -172,7 +195,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('101') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '101'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -190,7 +215,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('70') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '70'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -202,7 +229,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('102') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '102'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -220,7 +249,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('71') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '71'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -232,7 +263,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('103') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '103'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -250,7 +283,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('72') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '72'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -262,7 +297,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('104') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '104'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -280,7 +317,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('73') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '73'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -292,7 +331,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('105') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '105'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -310,7 +351,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('74') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '74'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -322,7 +365,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('106') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '106'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -340,7 +385,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('75') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '75'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -352,7 +399,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('107') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '107'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -370,7 +419,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('76') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '76'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -382,7 +433,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('108') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '108'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -400,7 +453,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('77') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '77'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -412,7 +467,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('109') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '109'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -430,7 +487,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('78') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '78'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -442,7 +501,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('110') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '110'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -460,7 +521,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('79') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '79'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -472,7 +535,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('111') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '111'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -490,7 +555,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('80') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '80'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -502,7 +569,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('112') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '112'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -520,7 +589,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('81') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '81'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -532,7 +603,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('113') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '113'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -550,7 +623,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('82') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '82'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -562,7 +637,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('114') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '114'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -580,7 +657,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('83') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '83'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -592,7 +671,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('115') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '115'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -610,7 +691,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('84') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '84'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -622,7 +705,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('116') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '116'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -640,7 +725,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('85') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '85'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -652,7 +739,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('117') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '117'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -670,7 +759,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('86') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '86'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -682,7 +773,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('118') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '118'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -700,7 +793,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('87') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '87'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -712,7 +807,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('119') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '119'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -730,7 +827,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('88') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '88'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -742,7 +841,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('120') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '120'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -760,7 +861,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('89') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '89'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -772,7 +875,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('121') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '121'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -790,7 +895,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('90') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '90'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -802,7 +909,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('122') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '122'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -820,7 +929,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('91') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '91'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -832,7 +943,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('123') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '123'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -850,7 +963,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('92') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '92'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -862,7 +977,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('124') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '124'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -880,7 +997,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('93') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '93'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -892,7 +1011,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('125') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '125'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -910,7 +1031,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('94') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '94'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -922,7 +1045,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('126') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '126'}
+    %>
   </TR>
   <TR>
     <TD><BR></TD>
@@ -940,7 +1065,9 @@
     <TD><BR></TD>
   </TR>
   <TR>
-    <TD><% @team= @bracket.lookup_node('95') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '95'}
+    %>
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
@@ -952,6 +1079,9 @@
     <TD><BR></TD>
     <TD><BR></TD>
     <TD><BR></TD>
-    <TD><% @team= @bracket.lookup_node('127') %> <%= render partial: 'teams/edit' %></TD>
+    <%= render partial: 'brackets/edit_team',
+               locals: { form: bracket_form, bracket: @bracket, node: '127'}
+    %>
   </TR>
-</TABLE>
+  </TABLE>
+<% end %>

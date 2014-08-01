@@ -11,8 +11,8 @@ class BracketTemplate
 
   def initialize(template_loader = TemplateLoader.new)
     @@saved_template_loader ||= init_saved_template_loader(template_loader)
-    @template_as_nodes = template_loader.build_graph
-    @label_lookup = template_loader.label_lookup
+    @template_as_nodes = @@saved_template_loader.build_graph
+    @label_lookup = @@saved_template_loader.label_lookup
     iterator
   end
 

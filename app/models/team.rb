@@ -14,9 +14,10 @@ class Team < ActiveRecord::Base
   alias dup clone
 
   def eql?(other)
-    other.is_a? Team and
-        name == other.name and
-        seed == other.seed
+#    other.is_a? Team and puts other.name
+    other.is_a? Team and ((object_id==other.object_id) or (name == other.name and
+        seed == other.seed))
+
   end
   alias == eql?
 

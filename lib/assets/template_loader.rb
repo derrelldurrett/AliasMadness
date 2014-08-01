@@ -39,10 +39,8 @@ class TemplateLoader
 
   def build_graph
     @label_lookup = Hash.new
-
-    # stupid hack to get around the games not having labels
-    # yet-- create a list of edges and reverse it again before
-    # adding them to the graph...
+    # Edge is two node numbers. Lookup allows us to get from a node
+    # number to the Game/Team that it represents
     edge_list = []
     @bracket_structure_data.reverse.each do |d|
       build_lookups(d, edge_list)
@@ -54,9 +52,9 @@ class TemplateLoader
 
   def build_lookups(d, edge_list)
     if d[:has_a]
-      g = (label_lookup.include?(d[:node_num]) && label_lookup.fetch(d[:node_num])) || new_game(d[:node_num])
-      edge_list << [g, label_lookup.fetch(d[:a_node1])]
-      edge_list << [g, label_lookup.fetch(d[:a_node2])]
+      (label_lookup.include?(d[:node_num]) && label_lookup.fetch(d[:node_num])) || label_lookup.store(d[:node_num], new_game(d[:node_num]))
+      edge_list << [d[:node_num], d[:a_node1]]
+      edge_list << [d[:node_num], d[:a_node2]]
     elsif d[:has_t]
       label_lookup.store d[:node_num], get_team(d)
     else

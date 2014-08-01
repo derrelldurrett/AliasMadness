@@ -9,10 +9,14 @@ class Bracket < ActiveRecord::Base
   has_many :games, inverse_of: :brackets
 
   HashHelper.hash_vars= %i(id user)
-  #def initialize(attributes={})
-  #  super
-  #  #self.hash_vars= %i(id user)
-  #end
+
+  def teams
+    @lookup_by_label.fetch(Team)
+  end
+
+  def teams_attributes=(name)
+    puts "Got attributes: #{name}"
+  end
 
   def initialization_data
     bracket_data.template_as_nodes.edges
@@ -50,12 +54,22 @@ class Bracket < ActiveRecord::Base
     end
   end
 
+  def update_team_name(name, node)
+    team = lookup_team node
+    team.name= name
+    team.save!
+    @lookup_by_label[team.class][node] = team
+    self.save!
+    team # maybe don't need this?
+  end
+
   def eql?(o)
     unless self.class.eql?(o.class)
       return false
     end
-    self.initialization_data.zip(o.initialization_data).
-    all? { |a| a[0].eql? a[1] }
+    self.initialization_data.zip(o.initialization_data).all? do |a|
+      a[0].eql? a[1]
+    end
   end
 
   def init_lookups(graph_container)
@@ -73,7 +87,9 @@ class Bracket < ActiveRecord::Base
     if @bracket_ancestors.nil?
       @bracket_ancestors = Hash.new { |h, k| h[k]= Set.new }
       graph_container.template_as_nodes.edges.each do |e|
-        @bracket_ancestors[e.source] << e.target
+        s = graph_container.label_lookup.fetch e.source
+        t = graph_container.label_lookup.fetch e.target
+        @bracket_ancestors[s] << t
       end
     end
   end
@@ -82,17 +98,16 @@ class Bracket < ActiveRecord::Base
     if @lookup_by_label.nil?
       @lookup_by_label= Hash.new { |h, k| h[k] = Hash.new }
       graph_container.template_as_nodes.vertices.each do |v|
-        @lookup_by_label[v.class][v.label] = v
+        n = graph_container.label_lookup.fetch v
+        @lookup_by_label[n.class][n.label] = n
       end
     end
   end
 
   def init_relationships
-    bracket_data.template_as_nodes.vertices.each do |v|
-      if(v.class.eql?(Game) and v.bracket_id.nil?)
-        v.bracket_id= self.id
-        v.save!
-      end
+    @lookup_by_label[Game].each do |k,v|
+      v.bracket_id= self.id
+      v.save!
     end
   end
 

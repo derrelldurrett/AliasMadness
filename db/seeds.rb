@@ -5,14 +5,23 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-admin = User.new(
-    name: 'admin',
-    password: 'foobaer',
-    password_confirmation: 'foobaer',
-    email: 'foo@bar.com',
-    role: 'admin')
-admin.save!
-puts 'Admin Bracket: '
-puts admin.bracket.id
-puts 'Admin Bracket\'s Game 32: '
-puts admin.bracket.lookup_node('32').id
+def seed_admin
+
+  users = User.find_all_by_name('admin')
+  if users.nil? or users == []
+    admin = User.new do |u|
+      u.name = ENV['ALIASMADNESS_ADMIN']
+      u.password = ENV['ALIASMADNESS_PASSWORD']
+      u.password_confirmation = ENV['ALIASMADNESS_PASSWORD']
+      u.email = ENV['ALIASMADNESS_ADMINEMAIL']
+      u.role = 'admin'
+    end
+    admin.save!
+  end
+end
+# puts 'Admin Bracket: '
+# puts admin.bracket.id
+# puts 'Admin Bracket\'s Game 32: '
+# puts admin.bracket.lookup_node('32').id
+# puts ENV['RAILS_ENV']
+seed_admin

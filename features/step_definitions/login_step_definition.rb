@@ -7,11 +7,11 @@ Given %q{a link to the login page with the email as the parameter} do
   @link = login_path(email: @email)
 end
 
-Given %q{an existing database seeded with the Admin’s data} do
+Given %q{an existing database seeded with the Admin's data} do
   # which is satisfied by the Admin.get being successful
 end
 
-Then %q{the page should contain the email address in the ‘email’ field} do
+Then %q{the page should contain the email address in the 'email' field} do
   page.should have_selector('label')
   page.should have_content('Email')
   # save_and_open_page
