@@ -1,3 +1,4 @@
+require 'helpers/hash_helper'
 class Game < ActiveRecord::Base
   include HashHelper
   belongs_to :team, inverse_of: :games
@@ -16,7 +17,7 @@ class Game < ActiveRecord::Base
     other.is_a?(Game) and label.eql? other.label and bracket.eql? other.bracket
   end
   alias == eql? # This was necessary to get the
-                # comparisons to work, even though it
-                # shouldn't have mattered
+                # comparisons to work (even though it
+                # shouldn't have mattered?)
 
 end

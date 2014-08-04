@@ -1,5 +1,6 @@
 require 'assets/rgl/directed_adjacency_graph'
 require 'initialize_bracket/bracket_template'
+require 'helpers/hash_helper'
 class Bracket < ActiveRecord::Base
   include HashHelper
   serialize :bracket_data, BracketTemplate
@@ -23,20 +24,24 @@ class Bracket < ActiveRecord::Base
   end
 
   def lookup_game(l)
-    init_lookups bracket_data if lookup_by_label.nil?
     begin
+      init_lookups bracket_data if lookup_by_label.nil?
       @lookup_by_label.fetch(Game).fetch l
     rescue KeyError
       nil
+    rescue => unknown
+      throw BadProgrammerError(unknown)
     end
   end
 
   def lookup_team(l)
-    init_lookups bracket_data  if lookup_by_label.nil?
     begin
+      init_lookups bracket_data  if lookup_by_label.nil?
       @lookup_by_label.fetch(Team).fetch l
     rescue KeyError
       nil
+    rescue => unknown
+      raise BadProgrammerError(unknown)
     end
   end
 
@@ -46,11 +51,13 @@ class Bracket < ActiveRecord::Base
   end
 
   def lookup_ancestors(g)
-    init_lookups bracket_data
     begin
+      init_lookups bracket_data
       @bracket_ancestors.fetch g
     rescue KeyError
       nil
+    rescue => unknown
+      raise BadProgrammerError(unknown)
     end
   end
 
@@ -60,7 +67,7 @@ class Bracket < ActiveRecord::Base
     team.save!
     @lookup_by_label[team.class][node] = team
     self.save!
-    team # maybe don't need this?
+    team
   end
 
   def eql?(o)

@@ -1,3 +1,4 @@
+require 'helpers/hash_helper'
 class Team < ActiveRecord::Base
   include HashHelper
   attr_accessible :label, :name, :seed

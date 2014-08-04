@@ -48,9 +48,10 @@ When %q(I change the names of the teams) do
     steps %Q{
       When I change the name of the team '#{t[:old_name]}' to '#{t[:new_name]}'
       }
-    sleep 1
+    sleep 5
   end
-  sleep 5
+  sleep 20
+
   # save_and_open_page
 end
 
