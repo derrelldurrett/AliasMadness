@@ -12,7 +12,7 @@ describe Bracket do
     @user.save!
     @user.bracket.save!
     @bracket = @user.bracket
-    @reloaded_bracket = Bracket.find(@user.bracket.id)
+    @reloaded_bracket = Bracket.find_by_user_id(@user.id)
   end
   subject { @bracket }
   describe "identity" do
@@ -38,7 +38,7 @@ describe Bracket do
   end
 
   subject { @bracket }
-  describe "serialization" do
+  describe 'serialization' do
     it { should eql(@reloaded_bracket) }
   end
 
@@ -54,7 +54,7 @@ describe Bracket do
   let(:g1) { @bracket.lookup_game('1') }
   let(:g2) { @bracket.lookup_game('2') }
   let(:g3) { @bracket.lookup_game('3') }
-  it "should do the Bracket things" do
+  it 'should do the Bracket things' do
     expect(g1).to be_a(Game)
     expect(@bracket.lookup_team('64')).to be_a(Team)
     expect(@bracket.lookup_game('63')).to be_a(Game)
@@ -64,7 +64,14 @@ describe Bracket do
     expect(@bracket.lookup_ancestors(g1)).to include(g2)
     expect(@bracket.lookup_ancestors(g1)).to include(g3)
     expect(@reloaded_bracket.lookup_node('32').id).not_to be_nil
+    expect(@reloaded_bracket.lookup_game('63').id).to eql @bracket.lookup_game('63').id
   end
 
-
+  # TODO: This needs a real test
+  # let(:json_format_string) {JSON.parse(@bracket.to_json_client_string)}
+  # it 'should have all the right structure and formats' do
+  #   puts 'response: "'+@json_format_string+'"'
+  #   expect(@json_format_string).to have_key(:id)
+  #   #expect
+  # end
 end

@@ -1,6 +1,42 @@
 module TransformTeamData
+
+  def team_data_old_name
+    OLD_NAME-1
+  end
+
+  def team_data_new_name
+    NEW_NAME-1
+  end
+
+  def team_data_label
+    LABEL-1
+  end
+
+  def lookup_label_by_old_name(name)
+    if @label_by_old_name.nil?
+      init_label_by_old_name
+    end
+    puts "name: #{name} => label: "+ @label_by_old_name[name]
+    @label_by_old_name[name]
+  end
+
+  def lookup_label_by_new_name(name)
+    if @label_by_new_name.nil?
+      init_label_by_new_name
+    end
+    puts "name: #{name} => label: "+ @label_by_new_name[name]
+    @label_by_new_name[name]
+  end
+
+  def team_data
+    init_team_data if @team_data.nil?
+    @team_data
+  end
+
+  private
+
   OLD_NAME,LABEL,NEW_NAME = 1,2,3
-  def init
+  def init_team_data
     @team_data=Array.new
     TEAM_DATA.each_line do |t|
       next if t.strip.empty?
@@ -9,36 +45,21 @@ module TransformTeamData
     end
   end
 
-  def lookup_label_by_team_name(name)
-    if @label_by_old_name.nil?
-      init_label_by_old_name
+
+  def init_label_by_new_name
+    init_team_data
+    @label_by_new_name = Hash.new
+    @team_data.each do |t|
+      @label_by_new_name[t[:new_name]]=t[:label]
     end
-    @label_by_old_name[name]
   end
 
   def init_label_by_old_name
-    init
+    init_team_data
     @label_by_old_name = Hash.new
     @team_data.each do |t|
       @label_by_old_name[t[:old_name]]=t[:label]
     end
-  end
-
-  def team_data
-    init if @team_data.nil?
-    @team_data
-  end
-  
-  def team_data_old_name
-    OLD_NAME
-  end
-
-  def team_data_new_name
-    NEW_NAME
-  end
-
-  def team_data_label
-    LABEL
   end
 
   TEAM_DATA=%q(

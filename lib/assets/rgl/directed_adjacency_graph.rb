@@ -1,15 +1,17 @@
 require 'rgl/base'
 require 'rgl/adjacency'
 require 'rgl/traversal'
-#require 'assets/json_serializable'
 
+# Monkey patch it
 class RGL::DirectedAdjacencyGraph
-#  include JSONSerializable
-#  include ActiveModel::Serializers::JSON
   attr_reader :entry_node
 
   def to_s
-    edges.to_ary.to_s
+    if @vertice_dict.nil?
+      'nil'
+    else
+      edges.to_ary.to_s
+    end
   end
 
   # The graph constructor is an array of edges, which is

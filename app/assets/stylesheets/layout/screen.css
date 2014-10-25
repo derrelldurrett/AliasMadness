@@ -17,11 +17,11 @@ body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd,
 ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
 thead, tr, th, td, article, aside, dialog, figure, footer, header,
-hgroup, nav, section
+nav, section
 {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;
 font-size:100%;font-family:inherit;vertical-align:baseline;}
 
-article, aside, dialog, figure, footer, header, hgroup, nav, section
+article, aside, dialog, figure, footer, header, nav, section
 {display:block;}
 body {line-height:1.5;background:white;}
 table {border-collapse:separate;border-spacing:0;}
@@ -113,7 +113,7 @@ form.inline p {margin-bottom:0px;}
 
 /* grid.css */
 .container {width:1439px;margin:0 auto;}
-.showgrid {background:url(src/grid.png);}
+.showgrid /*{background:url(src/grid.png);}*/
 .column, .span-1, .span-2, .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9, .span-10, .span-11, .span-12, .span-13, .span-14, .span-15, .span-16, .span-17, .span-18, .span-19, .span-20 {float:left;margin-right:1px;}
 .last {margin-right:0;}
 .span-1 {width:71px;}
@@ -136,7 +136,7 @@ form.inline p {margin-bottom:0px;}
 .span-18 {width:1295px;}
 .span-19 {width:1367px;}
 .span-20 {width:1439px;margin-right:0;}
-input.span-1, textarea.span-1, input.span-2, textarea.span-2, input.span-3, textarea.span-3, input.span-4, textarea.span-4, input.span-5, textarea.span-5, input.span-6, textarea.span-6, input.span-7, textarea.span-7, input.span-8, textarea.span-8, input.span-9, textarea.span-9, input.span-10, textarea.span-10, input.span-11, textarea.span-11, input.span-12, textarea.span-12, input.span-13, textarea.span-13, input.span-14, textarea.span-14, input.span-15, textarea.span-15, input.span-16, textarea.span-16, input.span-17, textarea.span-17, input.span-18, textarea.span-18, input.span-19, textarea.span-19, input.span-20, textarea.span-20 {border-left-width:1px;border-right-width:1px;padding-left:5px;padding-right:5px;}
+input.span-1, textarea.span-1, input.span-2, textarea.span-2, input.span-3, textarea.span-3, input.span-4, textarea.span-4, input.span-5, textarea.span-5, input.span-6, textarea.span-6, input.span-7, textarea.span-7, input.span-8, textarea.span-8, input.span-9, textarea.span-9, input.span-10, textarea.span-10, input.span-11, textarea.span-11, input.span-12, textarea.span-12, input.span-13, textarea.span-13, input.span-14, textarea.span-14, input.span-15, textarea.span-15, input.span-16, textarea.span-16, input.span-17, textarea.span-17, input.span-18, textarea.span-18, input.span-19, textarea.span-19, input.span-20, textarea.span-20 {border-left-width:0px;border-right-width:0px;padding-left:0px;padding-right:0px;}
 input.span-1, textarea.span-1 {width:59px;}
 input.span-2, textarea.span-2 {width:131px;}
 input.span-3, textarea.span-3 {width:203px;}

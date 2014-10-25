@@ -57,7 +57,7 @@ group :assets do
   gem 'sass-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+   gem 'therubyracer', :platforms => :ruby
 
 end
 

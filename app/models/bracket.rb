@@ -1,18 +1,35 @@
 require 'assets/rgl/directed_adjacency_graph'
 require 'initialize_bracket/bracket_template'
 require 'helpers/hash_helper'
+require 'helpers/hash_class_helper'
+require 'helpers/json_client_helper'
+require 'helpers/json_client_class_helper'
 class Bracket < ActiveRecord::Base
+  @@cached_teams= Array.new
   include HashHelper
+  extend HashClassHelper
+  include JSONClientHelper
+  extend JSONClientClassHelper
   serialize :bracket_data, BracketTemplate
   serialize :lookup_by_label, Hash
   attr_accessible :bracket_data
-  belongs_to :user#, inverse_of: :brackets
-  has_many :games, inverse_of: :brackets
+  belongs_to :user
+  has_many :games, inverse_of: :bracket
+  after_find :init_lookups_from_database
 
-  HashHelper.hash_vars= %i(id user)
+  self.hash_vars= %i(id user)
+  self.json_client_ids= [:id, :nodes]
 
   def teams
-    @lookup_by_label.fetch(Team)
+    init_cached_teams
+    @@cached_teams
+  end
+
+  def init_cached_teams
+    init_lookups if lookup_by_label_uninitialized?
+    lookup_by_label.each do |l, n|
+      @@cached_teams << n if n.is_a?(Team)
+    end
   end
 
   def teams_attributes=(name)
@@ -20,54 +37,63 @@ class Bracket < ActiveRecord::Base
   end
 
   def initialization_data
-    bracket_data.template_as_nodes.edges
+    bracket_data.edges
   end
 
   def lookup_game(l)
     begin
-      init_lookups bracket_data if lookup_by_label.nil?
-      @lookup_by_label.fetch(Game).fetch l
+      init_lookups if lookup_by_label_uninitialized?
+      r = lookup_by_label.fetch l.to_s
+      unless r.is_a? Game
+        raise KeyError
+      end
+      r
     rescue KeyError
       nil
-    rescue => unknown
-      throw BadProgrammerError(unknown)
+    rescue => other_error
+      raise BadProgrammerError(other_error)
     end
   end
 
   def lookup_team(l)
     begin
-      init_lookups bracket_data  if lookup_by_label.nil?
-      @lookup_by_label.fetch(Team).fetch l
+      init_lookups if lookup_by_label_uninitialized?
+      r = lookup_by_label.fetch l.to_s
+      unless r.is_a? Team
+        raise KeyError
+      end
+      r
     rescue KeyError
       nil
-    rescue => unknown
-      raise BadProgrammerError(unknown)
+    rescue => other_error
+      raise BadProgrammerError(other_error)
     end
   end
 
   def lookup_node(n)
-    init_lookups bracket_data
-    lookup_game(n) || lookup_team(n)
+    init_lookups if lookup_by_label_uninitialized?
+    lookup_by_label[n.to_s]
   end
 
   def lookup_ancestors(g)
     begin
-      init_lookups bracket_data
-      @bracket_ancestors.fetch g
+      init_lookups if @bracket_ancestors.nil?
+      r= Set.new
+      @bracket_ancestors[g.label].each do |a|
+        r << lookup_node(a)
+      end
+      r
     rescue KeyError
       nil
-    rescue => unknown
-      raise BadProgrammerError(unknown)
+    rescue => other_error
+      raise BadProgrammerError(other_error)
     end
   end
 
-  def update_team_name(name, node)
-    team = lookup_team node
-    team.name= name
-    team.save!
-    @lookup_by_label[team.class][node] = team
-    self.save!
-    team
+  def update_node(content, node)
+    # old_content= @lookup_by_label[node]
+    @lookup_by_label[node]= content
+    content
   end
 
   def eql?(o)
@@ -79,43 +105,101 @@ class Bracket < ActiveRecord::Base
     end
   end
 
-  def init_lookups(graph_container)
-    init_lookup_by_label(graph_container)
-    init_ancestors(graph_container)
+  def init_lookups
+    init_lookup_by_label if lookup_by_label_uninitialized?
+    init_ancestors
     init_relationships
+  end
+
+  def to_json_client_string
+    init_lookups
+    as_json_client_data.to_json
+  end
+
+  def lookup_by_label_uninitialized?
+    lookup_by_label.nil? || lookup_by_label.empty?
+  end
+
+  def to_json_ancestor_lookup_string
+    if bracket_ancestors.nil? or bracket_ancestors.empty?
+      init_lookups
+    end
+    @bracket_ancestors.to_json
+  end
+
+  private
+  def init_lookups_from_database
+    if lookup_by_label_uninitialized?
+      @lookup_by_label||= Hash.new
+      games.each do |g|
+        @lookup_by_label[g.label]= g
+      end
+      Team.all.each do |t|
+        @lookup_by_label[t.label]= t
+      end
+    end
+    init_ancestors
   end
 
   private
 
   attr :lookup_by_label, :bracket_ancestors
 
-
-  def init_ancestors(graph_container)
-    if @bracket_ancestors.nil?
-      @bracket_ancestors = Hash.new { |h, k| h[k]= Set.new }
-      graph_container.template_as_nodes.edges.each do |e|
-        s = graph_container.label_lookup.fetch e.source
-        t = graph_container.label_lookup.fetch e.target
-        @bracket_ancestors[s] << t
+  def init_ancestors
+    if @bracket_ancestors.nil? or @bracket_ancestors.empty?
+      @bracket_ancestors = Hash.new { |h, k| h[k]= SortedSet.new }
+      bracket_data.edges.each do |e|
+        @bracket_ancestors[e.source] << e.target
       end
     end
   end
 
-  def init_lookup_by_label(graph_container)
-    if @lookup_by_label.nil?
-      @lookup_by_label= Hash.new { |h, k| h[k] = Hash.new }
-      graph_container.template_as_nodes.vertices.each do |v|
-        n = graph_container.label_lookup.fetch v
-        @lookup_by_label[n.class][n.label] = n
+  def init_lookup_by_label
+    if lookup_by_label_uninitialized?
+      @lookup_by_label||= Hash.new
+      if id.nil? or games.empty?
+        init_lookups_from_template
+      else
+        init_lookups_from_database
       end
+    end
+  end
+
+  def init_lookups_from_template
+    bracket_data.vertices.each do |v|
+      g = bracket_data.label_lookup.fetch v
+      @lookup_by_label[g.label.to_s]= g
     end
   end
 
   def init_relationships
-    @lookup_by_label[Game].each do |k,v|
-      v.bracket_id= self.id
-      v.save!
+    game_ids=[]
+    games=[]
+    lookup_by_label.each_value do |v|
+      if v.is_a? Game
+        if v.id.nil?
+          v.save!
+        end
+        game_ids<< v.id
+        games<< v
+      end
     end
+    if self.id.nil?
+      puts 'adding games to an unsaved bracket'
+      self.games= games
+    else
+      puts 'adding games to an existing bracket'
+      Game.where(id: game_ids).update_all(bracket_id: self.id)
+    end
+  end
+
+  # part of the to_json_client_string pile
+  def nodes
+    r= Array.new
+    bracket_data.vertices.each do |v|
+      r<< lookup_by_label[v].as_json_client_data
+    end
+    r
   end
 
 end

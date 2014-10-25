@@ -3,7 +3,7 @@ class TemplateLoader
   require_relative 'errors/template_format_error'
   require_relative '../../app/models/team'
   require_relative '../../app/models/game'
-
+  include Singleton
   attr_reader :bracket_structure_data,
               :spec_comp_regex,
               :label_lookup
@@ -37,7 +37,7 @@ class TemplateLoader
     cells_as_match_data
   end
 
-  def build_graph
+  def build_graph(graph)
     @label_lookup = Hash.new
     # Edge is two node numbers. Lookup allows us to get from a node
     # number to the Game/Team that it represents
@@ -45,14 +45,14 @@ class TemplateLoader
     @bracket_structure_data.reverse.each do |d|
       build_lookups(d, edge_list)
     end
-    graph = RGL::DirectedAdjacencyGraph.new
     edge_list.reverse.each { |e| graph.add_edge e[0],e[1] }
     graph
   end
 
   def build_lookups(d, edge_list)
     if d[:has_a]
-      (label_lookup.include?(d[:node_num]) && label_lookup.fetch(d[:node_num])) || label_lookup.store(d[:node_num], new_game(d[:node_num]))
+      (label_lookup.include?(d[:node_num]) && label_lookup.fetch(d[:node_num])) ||
+          label_lookup.store(d[:node_num], new_game(d[:node_num]))
       edge_list << [d[:node_num], d[:a_node1]]
       edge_list << [d[:node_num], d[:a_node2]]
     elsif d[:has_t]
@@ -63,7 +63,7 @@ class TemplateLoader
   end
 
   def get_team(d)
-    t=Team.find_by_name(d[:team_name])
+    t=Team.find_by_label(d[:node_num].to_s)
     if t.nil?
       t=Team.new({name:  d[:team_name],
                   seed:  d[:team_seed].to_i,

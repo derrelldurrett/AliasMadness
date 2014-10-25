@@ -15,16 +15,20 @@ describe Team do
     it { should_not be_nil }
     it { should be_valid }
 
-    describe '#to_s' do
-      subject { super().to_s }
-      it { should match team_string_format }
-    end
+    # describe '#to_s' do
+    #   subject { @team.to_s }
+    #   it { should match team_string_format }
+    # end
 
     it { should respond_to(:clone) }
     it { should == @team.clone }
     it { should eql(@team.clone) }
-    its(:hash) {should_not eql(0)}
-    its(:hash) {should_not be_nil}
+    it "has a non-zero hash" do
+      expect(subject.hash).to_not eql(0)
+    end
+    it "has a non-nil hash" do
+      expect(subject.hash).to_not be_nil
+    end
   end
 
   context 'Cannot create a second instance of the same Team that is not the same object' do
@@ -40,6 +44,8 @@ describe Team do
 
   context 'Retrieved Teams should be able to compute a hash' do
     subject { Team.find_by_name('Colorado') }
-    its(:hash) {should_not be_nil}
+    it "has a non-nil hash" do
+      expect(subject.hash).to_not be_nil
+    end
   end
 end

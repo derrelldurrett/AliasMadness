@@ -1,8 +1,11 @@
+require 'helpers/hash_helper'
+require 'helpers/hash_class_helper'
 class User < ActiveRecord::Base
   include HashHelper
-  attr_accessible :name, :password, :password_confirmation, :email, :role#, as: :admin
+  extend HashClassHelper
+  attr_accessible :name, :password, :password_confirmation, :email, :role
   attr_accessor :remember_for_email
-  has_one :bracket#, inverse_of: :users
+  has_one :bracket
   before_validation :do_validation_setup
   before_save :create_remember_token
   before_save :create_initial_bracket
@@ -12,9 +15,9 @@ class User < ActiveRecord::Base
   class EmailValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       record.errors.add attribute,
-      (options[:message] || value+" is not an email") unless
-      value =~
-      Regexp.new(%q(\A([^@\s]+)@((?:[-.a-z0-9]+)\.[a-z]{2,})\z), Regexp::IGNORECASE)
+                        (options[:message] || value+" is not an email") unless
+          value =~
+              Regexp.new(%q(\A([^@\s]+)@((?:[-.a-z0-9]+)\.[a-z]{2,})\z), Regexp::IGNORECASE)
     end
   end
   validates :email, presence: true, email: true, uniqueness: true
@@ -26,11 +29,12 @@ class User < ActiveRecord::Base
     valid_roles :player, :admin
   end
 
-  HashHelper.hash_vars= %i(name email)
+  self.hash_vars= %i(name email)
 
   private
 
   def create_initial_bracket
+    puts 'creating initial bracket'
     self.bracket = BracketFactory.instance.create_bracket
   end
 

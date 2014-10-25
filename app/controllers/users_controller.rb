@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    puts params[:id]
+    puts %Q(display user's bracket for user #{params[:id]})
     @user = User.find(params[:id])
     @bracket = @user.bracket
   end
@@ -28,9 +28,10 @@ class UsersController < ApplicationController
       begin
         params[:user][:role]='player'
         @user = User.create!(params[:user])
-        UserMailer.welcome_email(@user).deliver if !@user.admin?
+        UserMailer.welcome_email(@user).deliver unless @user.admin?
         flash.now[:success] = %Q(User '#{ params[:user][:name] }' created.)
       rescue Exception => e
+        puts e.message
         User.delete(@user)
         flash.now[:error] = %Q(Player '#{ params[:user][:name] }' not invited)
       end

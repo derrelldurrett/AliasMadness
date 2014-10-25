@@ -57,7 +57,7 @@ InitializeBracketFromTemplate.configure do |config|
   # 1) read the csv
   # 2) create and return what is now the template_loader's
   # @bracket_structure_data
-  config.template_loader=TemplateLoader.new
+  config.template_loader=TemplateLoader.instance
   config.bracket_specification_file=template_file
 
   # 3) Store that as a serialized object as the Bracket

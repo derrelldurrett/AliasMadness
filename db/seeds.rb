@@ -6,7 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 def seed_admin
-
   users = User.find_all_by_name('admin')
   if users.nil? or users == []
     admin = User.new do |u|
@@ -17,11 +16,8 @@ def seed_admin
       u.role = 'admin'
     end
     admin.save!
+    puts 'saving the admin at seed time'
   end
 end
-# puts 'Admin Bracket: '
-# puts admin.bracket.id
-# puts 'Admin Bracket\'s Game 32: '
-# puts admin.bracket.lookup_node('32').id
-# puts ENV['RAILS_ENV']
+
 seed_admin

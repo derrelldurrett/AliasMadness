@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 /* //= require bootstrap */
+/* //= require store-master/store */
 //= require alias_madness
 //= require_tree .
 

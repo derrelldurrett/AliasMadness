@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
     @url = construct_user_response_url(u)
     name_in_email = %Q(#{@user.name} <#{@user.email}>)
     mail(from: Admin.get.email, to: name_in_email, subject: %Q(Welcome, #{@user.name}, to Alia's Madness!))
-
+    puts 'user: '+u.email+' token: '+@url
   end
 
   private

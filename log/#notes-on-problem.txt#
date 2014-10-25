@@ -1,0 +1,9 @@
+# my question? "Why does my asset pipeline fail to include my required file?"
+
+This appears to be the question that most closely resembles my problem: http://stackoverflow.com/questions/8125760/uncaught-referenceerror-when-using-the-asset-pipeline-and-pjax
+
+Other references that are similar to the one I am trying to examine suggest I should:
+
+      config.assets.compress = true
+
+I realize I've get rid of the 

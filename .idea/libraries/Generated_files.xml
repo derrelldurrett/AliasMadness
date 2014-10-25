@@ -2,14 +2,18 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/public/assets/javascripts/update.js" />
         <item url="file://$PROJECT_DIR$/public/assets/javascripts/brackets.js" />
+        <item url="file://$PROJECT_DIR$/public/assets/javascripts/alias_madness.js" />
+        <item url="file://$PROJECT_DIR$/public/assets/javascripts/update.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/app/assets/javascripts/teams.js" />
-      <root url="file://$PROJECT_DIR$/public/assets/javascripts/update.js" />
+      <root url="file://$PROJECT_DIR$/public/assets/javascripts/store.js" />
+      <root url="file://$PROJECT_DIR$/public/assets/javascripts/store.js" />
       <root url="file://$PROJECT_DIR$/public/assets/javascripts/brackets.js" />
+      <root url="file://$PROJECT_DIR$/public/assets/javascripts/alias_madness.js" />
+      <root url="file://$PROJECT_DIR$/public/assets/javascripts/update.js" />
     </CLASSES>
     <SOURCES />
   </library>

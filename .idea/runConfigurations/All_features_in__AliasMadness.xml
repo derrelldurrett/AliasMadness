@@ -8,13 +8,13 @@
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
     <envs>
-      <env name="BROWSER" value="/usr/bin/epiphany" />
+      <env name="ANSICON" value="" />
       <env name="RAILS_ENV" value="test" />
       <env name="ALIASMADNESS_ADMIN" value="admin" />
       <env name="JRUBY_OPTS" value="-X+O" />
       <env name="ALIASMADNESS_PASSWORD" value="foobaer" />
       <env name="LAUNCHY_BROWSER" value="/usr/bin/epiphany" />
-      <env name="ANSICON" value="" />
+      <env name="BROWSER" value="/usr/bin/epiphany" />
       <env name="ALIASMADNESS_ADMINEMAIL" value="foo@bar.com" />
     </envs>
     <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
@@ -31,7 +31,7 @@
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TAGS_FILTER" VALUE="" />
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_NAME_FILTER" VALUE="" />
-    <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_ARGS" VALUE="--color -r features" />
+    <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_ARGS" VALUE="--color --require features" />
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="true" />
     <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="VERBOSE_OPTION" VALUE="true" />

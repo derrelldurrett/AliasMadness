@@ -23,8 +23,7 @@ AliasMadness::Application.configure do
   #   :location => '/usr/sbin/sendmail',
   #   :arguments => '-i -t'
   # }
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       # Outgoing Mail (SMTP) Server: smtp.gmail.com
@@ -32,9 +31,9 @@ AliasMadness::Application.configure do
       # Port for TLS/STARTTLS: 587
       :address              => "smtp.gmail.com",
       :port                 => 587,
-      :domain               => 'young-cove-8956.herokuapp.com',
-      :user_name            => 'aliaghandour@gmail.com',
-      :password             => '1337amg!!!',
+      :domain               => 'localhost.com',
+      :user_name            => ENV['ALIASMADNESS_SERVEREMAIL'],
+      :password             => ENV['ALIASMADNESS_EMAILPASSWORD'],
       :authentication       => 'plain',
       :enable_starttls_auto => true  }
 
@@ -49,13 +48,18 @@ AliasMadness::Application.configure do
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
+  # config.active_record.auto_explain_threshold_in_seconds = 1.0
+  config.active_record.silence_auto_explain
 
   # Do not compress assets
-  config.assets.compress = false
+  # config.assets.compress = false
+  # Or maybe do.
+  config.assets.compress = true
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  # Or not.
+  # config.assets.debug = false
 
   config.eager_load = false
 end
