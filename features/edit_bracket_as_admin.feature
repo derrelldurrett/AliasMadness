@@ -1,4 +1,4 @@
-Feature: Edit bracket
+Feature: Edit bracket as admin
   In order to enter the teams in the bracket
   As the admin
   I want to enter teams into the bracket and have players see that bracket
@@ -22,9 +22,3 @@ Feature: Edit bracket
     Then The teams should have the new names
     And I should see the new names on the 'Edit Bracket' page
 
-  @javascript
-  Scenario: Choosing a winner for a game
-    Given 'An invited player' visiting the 'Edit Bracket' page with all teams entered
-    When An invited player enters the winners for the games
-    Then The games should display correctly
-    And The database should reflect the game choices

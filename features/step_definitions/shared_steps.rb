@@ -11,7 +11,7 @@ Given /\A'([^']+)' who is logged in\z/ do |login|
         Given The database is seeded
       }
       login_as_admin
-    when /(?i:invited player)/
+    when /(?i:(\binvited player))/
       login = FactoryGirl.create(:player)
       login_as_player login
   end
