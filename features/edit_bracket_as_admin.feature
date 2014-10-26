@@ -22,3 +22,8 @@ Feature: Edit bracket as admin
     Then The teams should have the new names
     And I should see the new names on the 'Edit Bracket' page
 
+  @javascript @wip
+  Scenario: Choosing the winning teams
+    Given 'An admin' visiting the 'Edit Bracket' page with all player's games entered
+    When I change each game
+    Then 'The invited players' scores should be calculated
