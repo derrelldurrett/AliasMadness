@@ -25,8 +25,7 @@ When %q(I change the names of the teams) do
 end
 
 Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)'\z/) do |new_item, link, old_item|
-#  click_link link
-  puts 'clicking '+link
+  # We know we're on the right page if the 'within' works...
   within(construct_team_css_node_name(lookup_label_by_old_name old_item)) do
     expect(find(INPUT_TEAM_CSS).value).to have_content new_item
   end
@@ -57,7 +56,15 @@ end
 
 Given(/^The teams have already been entered$/) do
   team_data.each do |t|
-    team=Team.find_by_name(t[:old_name])
+    team= Team.find_by_name(t[:old_name])
+    if team.nil?
+      team= Team.find_by_name(t[:new_name])
+      next unless team.nil?
+      puts %Q(Team not found under old (#{t[:old_name]}) or new name (#{t[:new_name]}))
+      Team.all.each do |t|
+        puts 'Team: '+t.name+' ('+t.id+')'
+      end
+    end
     result= team.update_attribute :name, t[:new_name]
     redo unless result
   end

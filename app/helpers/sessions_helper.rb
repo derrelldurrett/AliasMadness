@@ -1,4 +1,6 @@
 module SessionsHelper
+  require 'errors/not_authorized'
+
   delegate :url_helpers, to: 'Rails.application.routes'
   def session_authenticate(user)
     id = params[:id]
@@ -55,6 +57,11 @@ module SessionsHelper
       store_location
       redirect_to :back, notice: "Please sign in."
     end
+  end
+
+  # If the user is not authorized, just throw the exception.
+  def check_authorization
+    raise User::NotAuthorized unless current_user.admin?
   end
 
 end

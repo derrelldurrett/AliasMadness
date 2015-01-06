@@ -12,11 +12,15 @@ module TransformTeamData
     LABEL-1
   end
 
+  def team_data_seed
+    SEED-1
+  end
+
   def lookup_label_by_old_name(name)
     if @label_by_old_name.nil?
       init_label_by_old_name
     end
-    puts "name: #{name} => label: "+ @label_by_old_name[name]
+    # puts "name: #{name} => label: "+ @label_by_old_name[name]
     @label_by_old_name[name]
   end
 
@@ -24,7 +28,7 @@ module TransformTeamData
     if @label_by_new_name.nil?
       init_label_by_new_name
     end
-    puts "name: #{name} => label: "+ @label_by_new_name[name]
+    # puts "name: #{name} => label: "+ @label_by_new_name[name]
     @label_by_new_name[name]
   end
 
@@ -33,19 +37,23 @@ module TransformTeamData
     @team_data
   end
 
-  private
-
-  OLD_NAME,LABEL,NEW_NAME = 1,2,3
   def init_team_data
     @team_data=Array.new
     TEAM_DATA.each_line do |t|
       next if t.strip.empty?
       d=t.split '|'
-      @team_data<<{old_name: d[OLD_NAME].strip, label: d[LABEL].strip, new_name: d[NEW_NAME].strip}
+      @team_data<< {
+          old_name: d[OLD_NAME].strip,
+          label: d[LABEL].strip,
+          new_name: d[NEW_NAME].strip,
+          seed: d[SEED].strip
+      }
     end
   end
 
+  private
 
+  OLD_NAME, LABEL, NEW_NAME, SEED = 1, 2, 3, 4
   def init_label_by_new_name
     init_team_data
     @label_by_new_name = Hash.new
@@ -63,70 +71,70 @@ module TransformTeamData
   end
 
   TEAM_DATA=%q(
-    | Team 61  | 127   | Colorado              |
-    | Team 5   | 126   | North Carolina        |
-    | Team 37  | 125   | Utah                  |
-    | Team 26  | 124   | George Mason          |
-    | Team 57  | 123   | Colorado State        |
-    | Team 12  | 122   | New Mexico            |
-    | Team 42  | 121   | New Mexico State      |
-    | Team 24  | 120   | Weber State           |
-    | Team 52  | 119   | Kentucky              |
-    | Team 13  | 118   | Illinois              |
-    | Team 66  | 117   | Indiana               |
-    | Team 17  | 116   | Oregon                |
-    | Team 33  | 115   | Washington            |
-    | Team 29  | 114   | Arizona               |
-    | Team 65  | 113   | UCLA                  |
-    | Team 3   | 112   | Northern Colorado     |
-    | Team 59  | 111   | Pomona                |
-    | Team 7   | 110   | UConn                 |
-    | Team 38  | 109   | UMass                 |
-    | Team 27  | 108   | Washington State      |
-    | Team 58  | 107   | Arizona State         |
-    | Team 11  | 106   | Nevada                |
-    | Team 43  | 105   | UNLV                  |
-    | Team 22  | 104   | Florida               |
-    | Team 55  | 103   | Duke                  |
-    | Team 14  | 102   | North Carolina State  |
-    | Team 46  | 101   | Ohio State            |
-    | Team 18  | 100   | Penn                  |
-    | Team 35  | 99    | Penn State            |
-    | Team 32  | 98    | Gonzaga               |
-    | Team 64  | 97    | Davidson              |
-    | Team 2   | 96    | Prairie View A&M      |
-    | Team 62  | 95    | Texas                 |
-    | Team 8   | 94    | Missouri              |
-    | Team 39  | 93    | Oklahoma              |
-    | Team 28  | 92    | Texas Tech            |
-    | Team 68  | 91    | Idaho                 |
-    | Team 10  | 90    | Montana               |
-    | Team 41  | 89    | Iowa                  |
-    | Team 23  | 88    | Iowa State            |
-    | Team 53  | 87    | SDSU                  |
-    | Team 16  | 86    | Georgia               |
-    | Team 51  | 85    | UAB                   |
-    | Team 20  | 84    | Louisiana-Lafayette   |
-    | Team 36  | 83    | Louisiana State       |
-    | Team 31  | 82    | Maryland              |
-    | Team 63  | 81    | Menlo                 |
-    | Team 4   | 80    | California            |
-    | Team 60  | 79    | Stanford              |
-    | Team 6   | 78    | Las Positas           |
-    | Team 40  | 77    | San Francisco State   |
-    | Team 25  | 76    | Hayward State         |
-    | Team 56  | 75    | Chico State           |
-    | Team 9   | 74    | UC-Davis              |
-    | Team 44  | 73    | Southern Cal          |
-    | Team 21  | 72    | South Carolina        |
-    | Team 54  | 71    | Elon                  |
-    | Team 15  | 70    | Oregon State          |
-    | Team 49  | 69    | Texas A&M             |
-    | Team 19  | 68    | Eastern New Mexico    |
-    | Team 34  | 67    | Texas-El Paso         |
-    | Team 30  | 66    | Cal State-Northridge  |
-    | Team 67  | 65    | Arkansas              |
-    | Team 1   | 64    | Kansas State          |
+    | Team 61  | 127   | Colorado              | 15
+    | Team 5   | 126   | North Carolina        | 2
+    | Team 37  | 125   | Utah                  | 10
+    | Team 26  | 124   | George Mason          | 7
+    | Team 57  | 123   | Colorado State        | 14
+    | Team 12  | 122   | New Mexico            | 3
+    | Team 42  | 121   | New Mexico State      | 11
+    | Team 24  | 120   | Weber State           | 6
+    | Team 52  | 119   | Kentucky              | 13
+    | Team 13  | 118   | Illinois              | 4
+    | Team 66  | 117   | Indiana               | 12
+    | Team 17  | 116   | Oregon                | 5
+    | Team 33  | 115   | Washington            | 9
+    | Team 29  | 114   | Arizona               | 8
+    | Team 65  | 113   | UCLA                  | 16
+    | Team 3   | 112   | Northern Colorado     | 1
+    | Team 59  | 111   | Pomona                | 15
+    | Team 7   | 110   | UConn                 | 2 
+    | Team 38  | 109   | UMass                 | 10
+    | Team 27  | 108   | Washington State      | 7 
+    | Team 58  | 107   | Arizona State         | 14
+    | Team 11  | 106   | Nevada                | 3 
+    | Team 43  | 105   | UNLV                  | 11
+    | Team 22  | 104   | Florida               | 6 
+    | Team 55  | 103   | Duke                  | 13
+    | Team 14  | 102   | North Carolina State  | 4 
+    | Team 46  | 101   | Ohio State            | 12
+    | Team 18  | 100   | Penn                  | 5 
+    | Team 35  | 99    | Penn State            | 9 
+    | Team 32  | 98    | Gonzaga               | 8 
+    | Team 64  | 97    | Davidson              | 16
+    | Team 2   | 96    | Prairie View A&M      | 1 
+    | Team 62  | 95    | Texas                 | 15
+    | Team 8   | 94    | Missouri              | 2 
+    | Team 39  | 93    | Oklahoma              | 10
+    | Team 28  | 92    | Texas Tech            | 7 
+    | Team 68  | 91    | Idaho                 | 14
+    | Team 10  | 90    | Montana               | 3 
+    | Team 41  | 89    | Iowa                  | 11
+    | Team 23  | 88    | Iowa State            | 6 
+    | Team 53  | 87    | SDSU                  | 13
+    | Team 16  | 86    | Georgia               | 4 
+    | Team 51  | 85    | UAB                   | 12
+    | Team 20  | 84    | Louisiana-Lafayette   | 5 
+    | Team 36  | 83    | Louisiana State       | 9 
+    | Team 31  | 82    | Maryland              | 8 
+    | Team 63  | 81    | Menlo                 | 16
+    | Team 4   | 80    | California            | 1 
+    | Team 60  | 79    | Stanford              | 15
+    | Team 6   | 78    | Las Positas           | 2 
+    | Team 40  | 77    | San Francisco State   | 10
+    | Team 25  | 76    | Hayward State         | 7 
+    | Team 56  | 75    | Chico State           | 14
+    | Team 9   | 74    | UC-Davis              | 3 
+    | Team 44  | 73    | Southern Cal          | 11
+    | Team 21  | 72    | South Carolina        | 6 
+    | Team 54  | 71    | Elon                  | 13
+    | Team 15  | 70    | Oregon State          | 4 
+    | Team 49  | 69    | Texas A&M             | 12
+    | Team 19  | 68    | Eastern New Mexico    | 5 
+    | Team 34  | 67    | Texas-El Paso         | 9 
+    | Team 30  | 66    | Cal State-Northridge  | 8 
+    | Team 67  | 65    | Arkansas              | 16
+    | Team 1   | 64    | Kansas State          | 1 
    )
 end
 

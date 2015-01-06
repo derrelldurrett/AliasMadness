@@ -1,4 +1,0 @@
-<% @game= bracket.lookup_node(node) %>
-<%= content_tag_for(:td, @game, data: {node: node}) do %>
-  <%= render partial: 'games/edit', locals: {form: form, node: node, bracket: bracket }%>
-<% end %>

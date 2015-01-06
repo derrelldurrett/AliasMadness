@@ -1,18 +1,18 @@
-<div class="center hero-unit">
+<div class="center force-center">
   <% provide(:title, 'Invite Player') %>
-  <h2>Invite a new player</h2>
+  <h2 class="center text-center">Invite a new player</h2>
 
   <%= form_for(@user) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
-      <div>
+    <div class="allow-top-margin text-right">
         <%= f.label :name %>
         <%= f.text_field :name %>
       </div>
-      <div>
+    <div class="allow-top-margin text-right">
         <%= f.label :email %>
         <%= f.text_field :email %>
       </div>
-      <div>
+    <div class="center allow-top-margin force-center">
         <%= f.submit 'Invite Player' %>
       </div>
   <% end %>

@@ -1,7 +1,7 @@
 Feature: Edit bracket as admin
   In order to enter the teams in the bracket
   As the admin
-  I want to enter teams into the bracket and have players see that bracket
+  I want to enter teams into the bracket and have players see the results
 
   Scenario: Seeing the bracket
     Given 'An admin' who is logged in
@@ -19,11 +19,14 @@ Feature: Edit bracket as admin
   Scenario: Filling out the initial bracket
     Given 'An admin' visiting the 'Edit Bracket' page
     When I change the names of the teams
+    # add 'And click the button to set the names'
     Then The teams should have the new names
     And I should see the new names on the 'Edit Bracket' page
+    # add 'And the team names should not be editable'
 
   @javascript @wip
   Scenario: Choosing the winning teams
     Given 'An admin' visiting the 'Edit Bracket' page with all player's games entered
-    When I change each game
-    Then 'The invited players' scores should be calculated
+    When I change some games
+    Then the invited players scores should be calculated
+    And the 'Edit Bracket' page should reflect the new standings

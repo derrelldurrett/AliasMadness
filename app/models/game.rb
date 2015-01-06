@@ -32,4 +32,23 @@ class Game < ActiveRecord::Base
   def winners_label
     winner.nil? ? nil : winner.label
   end
+
+  def round_multiplier
+    # *Really* need to make this a property of the game at the time it's created
+    case label.to_i
+      when 1
+        32
+      when 2..3
+        16
+      when 4..7
+        8
+      when 8..15
+        4
+      when 16..31
+        2
+      when 32..63
+        1
+    end
+  end
+
 end

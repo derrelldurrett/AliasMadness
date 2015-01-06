@@ -1,0 +1,8 @@
+<% @game= bracket.lookup_node(node) %>
+<%= content_tag_for(:td, @game, {class: 'game_display'+left_or_right_node(node), data: {node: node}}) do %>
+  <% if @game.locked? %>
+    <%= render partial: 'games/show', locals: {form: form, node: node, bracket: bracket} %>
+  <% else %>
+    <%= render partial: 'games/edit', locals: {form: form, node: node, bracket: bracket} %>
+  <% end %>
+<% end %>

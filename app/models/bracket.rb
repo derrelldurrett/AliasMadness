@@ -1,4 +1,5 @@
 require 'assets/rgl/directed_adjacency_graph'
+require 'assets/errors/bad_programmer_error'
 require 'initialize_bracket/bracket_template'
 require 'helpers/hash_helper'
 require 'helpers/hash_class_helper'
@@ -105,6 +106,10 @@ class Bracket < ActiveRecord::Base
     end
   end
 
+  def games_by_label
+    self.games.order('label').to_a
+  end
+
   def init_lookups
     init_lookup_by_label if lookup_by_label_uninitialized?
     init_ancestors
@@ -127,18 +132,10 @@ class Bracket < ActiveRecord::Base
     @bracket_ancestors.to_json
   end
 
-  private
-  def init_lookups_from_database
-    if lookup_by_label_uninitialized?
-      @lookup_by_label||= Hash.new
-      games.each do |g|
-        @lookup_by_label[g.label]= g
-      end
-      Team.all.each do |t|
-        @lookup_by_label[t.label]= t
-      end
-    end
-    init_ancestors
+  def newest_game_date
+    # TODO: turn this into a SQL statement on the bracket returning the most
+    # recent game
+    (games.sort_by { |g| g.updated_at }).last.updated_at
   end
 
   private
@@ -172,6 +169,19 @@ class Bracket < ActiveRecord::Base
     end
   end
 
+  def init_lookups_from_database
+    if lookup_by_label_uninitialized?
+      @lookup_by_label||= Hash.new
+      games.each do |g|
+        @lookup_by_label[g.label]= g
+      end
+      Team.all.each do |t|
+        @lookup_by_label[t.label]= t
+      end
+    end
+    init_ancestors
+  end
+
   def init_relationships
     game_ids=[]
     games=[]
@@ -185,10 +195,8 @@ class Bracket < ActiveRecord::Base
       end
     end
     if self.id.nil?
-      puts 'adding games to an unsaved bracket'
       self.games= games
     else
-      puts 'adding games to an existing bracket'
       Game.where(id: game_ids).update_all(bracket_id: self.id)
     end
   end

@@ -9,7 +9,7 @@
 </head>
 <body>
 <%= render 'layouts/header' %>
-<div class="span-20">
+<div>
   <% flash.each do |key, value| %>
     <%= content_tag(:div, value, class: "div #{key}") %>
   <% end %>

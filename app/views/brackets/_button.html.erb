@@ -1,0 +1,23 @@
+<% if team_names_locked? %>
+  <% if players_brackets_locked? %>
+    <% if @user.admin? %>
+      <%= button_tag(id: 'update_bracket', type: :button) do
+        'Update Bracket'
+      end %>
+    <% end %>
+  <% else %>
+    <% if @user.admin? %>
+      <%= button_tag(id: 'lock_players_brackets', type: :button) do
+        'Lock Players Brackets'
+      end %>
+    <% else %>
+      <%= button_tag(id: 'submit_games', type: :button) do
+        'Submit Your Bracket'
+      end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= button_tag(id: 'team_entry_done', type: :button) do
+    'Set Team Names'
+  end %>
+<% end %>

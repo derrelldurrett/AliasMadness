@@ -1,1217 +1,1222 @@
 <!-- may need a call to form_authenticity_token if we get rid of form_for -->
-<%= form_for(@bracket, method: :put, remote: true, format: :json, :onclick => "") do |f| %>
-  <table class='bracket' id="bracket" data-bracket="<%= @bracket.to_json_client_string %>"
+<%= form_for(@bracket, method: :put, remote: true, format: :json) do |f| %>
+  <table class='bracket center' id="bracket" data-bracket="<%= @bracket.to_json_client_string %>"
          data-ancestors="<%= @bracket.to_json_ancestor_lookup_string %>">
-  <tr>
-    <th>Round 1</th>
-    <th>Round 2</th>
-    <th colspan="2">Regionals</th>
-    <th colspan="5">Final Four</th>
-    <th colspan="2">Regionals</th>
-    <th>Round 2</th>
-    <th>Round 1</th>
-  </tr>
-  <tr><td colspan="13"></td></tr>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: {form: f, bracket: @bracket, node: '64'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><%= button_tag(id: 'submit_games', type: :button) do
-      'Submit Your Bracket'
-    end   %></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '96'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '32'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '48'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '65'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '97'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '16'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '24'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '66'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '98'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '33'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '49'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '67'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '99'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '8'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '12'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '68'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '100'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '34'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '50'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '69'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '101'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '17'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '25'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '70'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '102'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '35'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '51'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '71'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '103'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '4'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '6'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '72'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '104'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '36'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '52'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '73'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '105'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '18'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '26'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '74'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '106'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '37'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '53'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '75'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '107'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '9'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '13'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '76'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '108'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '38'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '54'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '77'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '2'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '109'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '19'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '27'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '78'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '110'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '39'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '55'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '79'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '111'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '1'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '80'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '112'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '40'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '56'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '81'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '113'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '20'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '28'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '82'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '3'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '114'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '41'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '57'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '83'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '115'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '10'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '14'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '84'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '116'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '42'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '58'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '85'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '117'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '21'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '29'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '86'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '118'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '43'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '59'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '87'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '119'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '5'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '7'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '88'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '120'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '44'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '60'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '89'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '121'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '22'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '30'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '90'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '122'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '45'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '61'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '91'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '123'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '11'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '15'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '92'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '124'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '46'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '62'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '93'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '125'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '23'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '31'}
-    %>
-    <td></td>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '94'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '126'}
-    %>
-  </TR>
-  <TR>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '47'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_game',
-               locals: {form: f, bracket: @bracket, node: '63'}
-    %>
-    <td></td>
-  </TR>
-  <TR>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '95'}
-    %>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <%= render partial: 'brackets/edit_team',
-               locals: { form: f, bracket: @bracket, node: '127'}
-    %>
-  </TR>
+    <tr>
+      <th class='center'>Round 1</th>
+      <th class='center'>Round 2</th>
+      <th class='center' colspan="2">Regionals</th>
+      <th class='center' colspan="5">Final Four</th>
+      <th class='center' colspan="2">Regionals</th>
+      <th class='center'>Round 2</th>
+      <th class='center'>Round 1</th>
+    </tr>
+    <tr>
+      <td colspan="6"></td>
+      <td>
+        <%= render 'brackets/button', locals: {bracket: @bracket, user: @user} %>
+      </td>
+      <td colspan="6"></td>
+    </tr>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '64'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '96'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '32'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '48'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '65'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '97'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '16'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '24'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '66'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '98'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '33'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '49'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '67'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '99'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '8'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '12'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '68'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '100'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '34'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '50'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '69'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '101'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '17'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '25'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '70'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '102'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '35'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '51'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '71'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '103'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '4'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '6'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '72'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '104'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '36'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '52'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '73'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '105'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '18'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '26'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '74'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '106'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '37'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '53'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '75'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '107'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '9'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '13'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '76'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '108'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '38'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '54'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '77'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '2'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '109'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '19'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '27'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '78'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '110'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '39'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '55'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '79'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '111'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '1'}
+      %>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '80'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '112'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '40'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '56'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '81'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '113'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '20'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '28'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '82'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '3'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '114'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '41'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '57'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '83'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '115'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '10'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '14'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '84'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '116'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '42'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '58'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '85'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '117'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '21'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '29'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '86'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '118'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '43'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '59'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '87'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '119'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '5'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '7'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '88'}
+      %>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '120'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '44'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '60'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '89'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '121'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '22'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '30'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '90'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '122'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '45'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '61'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '91'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '123'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '11'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '15'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '92'}
+      %>
+      <td></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '124'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '46'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '62'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '93'}
+      %>
+      <td class='right_connect'></td>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '125'}
+      %>
+    </TR>
+    <TR>
+      <td></td>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '23'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '31'}
+      %>
+      <td class='left_connect'></td>
+      <td></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '94'}
+      %>
+      <td class='right_connect'></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class='left_connect'></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '126'}
+      %>
+    </TR>
+    <TR>
+      <td class='right_connect'></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '47'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/game',
+                 locals: {form: f, bracket: @bracket, node: '63'}
+      %>
+      <td class='left_connect'></td>
+    </TR>
+    <TR>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '95'}
+      %>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <%= render partial: 'brackets/team',
+                 locals: {form: f, bracket: @bracket, node: '127'}
+      %>
+    </TR>
   </TABLE>
 <% end %>

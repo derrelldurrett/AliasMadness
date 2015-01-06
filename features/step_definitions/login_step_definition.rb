@@ -12,15 +12,16 @@ Given %q{an existing database seeded with the Admin's data} do
 end
 
 Then %q{the page should contain the email address in the 'email' field} do
-  page.should have_selector('label')
-  page.should have_content('Email')
+  expect(page).to have_selector('label')
+  expect(page).to have_content('Email')
   # save_and_open_page
   find_field('Email').value.should eq(@email)
 end
 
 Then %q{the 'password' field should be empty} do
-  page.should have_selector('label')
-  page.should have_content('Password')
+  expect(page).to have_selector('label')
+  expect(page).to have_content('Password')
+  save_and_open_page
   find_field('Password').value.should be_nil
 end
 
@@ -33,17 +34,18 @@ end
 
 When %q(I visit the login page, enter the password, and click 'Login') do
   visit @link
+  save_and_open_page
   fill_in 'Password', with: @password
   click_button('Login')
 end
 
 Then %q(I should have a choice between creating Players, creating Brackets, choosing winners for games, or sending a message about the state of the pool, depending on the time at which I visit the page.) do
-  page.should_not have_content('Invalid email/password')
-  page.should have_content('Invite Player')
-  page.should have_content('Edit Bracket')
-  page.should have_content('Send Message')
-  page.should have_content('View Scenarios')
-  page.should have_content('Contact')
+  expect(page).not_to have_content('Invalid email/password')
+  expect(page).to have_content('Invite Player')
+  expect(page).to have_content('Edit Bracket')
+  expect(page).to have_content('Send Message')
+  expect(page).to have_content('View Scenarios')
+  expect(page).to have_content('Contact')
 end
 
 Given %q(an invalid or missing email address) do
@@ -56,5 +58,5 @@ end
 
 Then %q(the returned page should be ‘404’) do
   #save_and_open_page
-  page.should have_title(%q(The page you were looking for doesn't exist (404)))
+  expect(page).to have_title(%q(The page you were looking for doesn't exist (404)))
 end

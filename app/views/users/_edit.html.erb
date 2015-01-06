@@ -1,7 +1,8 @@
-<div class='span-5'>
+<div id='leader_board' class='center'>
+  <span class='header_text'>Leader Board</span>
   <%= render 'index' %>
 </div>
-<div class='span-15'>
+<div id='bracket_display' class='center'>
   <% @bracket = @user.bracket %>
   <%= render :partial => 'brackets/bracket' %>
 </div>

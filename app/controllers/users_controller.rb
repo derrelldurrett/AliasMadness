@@ -1,26 +1,35 @@
+require 'active_record/errors'
 class UsersController < ApplicationController
   include SessionsHelper
-
   def login
     @user = User.find(params[:id])
   end
 
   def new
-    if !signed_in?
+    unless signed_in?
       redirect_to root_path
     end
     @user = User.new
   end
 
   def update
+    reset_session
     @user = User.find(params[:id])
     session_authenticate(@user)
   end
 
   def show
-    puts %Q(display user's bracket for user #{params[:id]})
-    @user = User.find(params[:id])
-    @bracket = @user.bracket
+    if signed_in?
+      begin
+        @user = User.find(params[:id])
+        @bracket = @user.bracket
+        @players = User.where(role: :player).order('current_score desc')
+      rescue ActiveRecord::RecordNotFound => e
+        puts e.message
+        all= User.all
+        all.each { |u| puts 'user: '+u.name+' : '+u.id.to_s }
+      end
+    end
   end
 
   def create
@@ -33,7 +42,7 @@ class UsersController < ApplicationController
       rescue Exception => e
         puts e.message
         User.delete(@user)
-        flash.now[:error] = %Q(Player '#{ params[:user][:name] }' not invited)
+        flash.now[:error] = %Q(#{e.message};\nPlayer '#{ params[:user][:name] }' not invited)
       end
       @user = User.new # clear the previous form data
       render new_user_path

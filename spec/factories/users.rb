@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :user do
     name "MyString"
-    email nil
+    email 'my@emacil.com'
+    current_score 0
   end
 end

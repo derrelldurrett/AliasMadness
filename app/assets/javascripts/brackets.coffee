@@ -12,13 +12,16 @@ sendTeamNameUpdate = (target) ->
   !bracketId? and bracketId= $('table.bracket').data('bracket').id
   $.ajax
     type: 'PUT'
-    url: $(target).closest('form').attr('action')
+    url: '/teams/' + teamId
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
     data:
       'team[name]': newName
-      'team[id]': teamId
+      'bracket[id]': bracketId
       'bracket[node]': node
     success: (data, textStatus, jqXHR) ->
       updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
+      reloadPage target.getWindow()
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
       wipeTextField target
@@ -28,6 +31,24 @@ wipeTextField = (targetNode) ->
 
 showError = (errorThrown,textStatus) ->
   alert errorThrown
+
+reloadPage = (w) ->
+  w.location.reload(true)
+
+fixTeamNames = (e) ->
+  e.preventDefault();
+  target = e.target
+  $.ajax
+    type: 'PUT'
+    url: '/lock_names'
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+    data:
+      'fix_team_names': true
+    success: (data, textStatus, jqXHR) ->
+      reloadPage target.getWindow()
+    error: (jqXHR, textStatus, errorThrown) ->
+      showError errorThrown, textStatus
 
 updateLocalBracket = (input) ->
   n=input.node
@@ -161,12 +182,33 @@ sendGameUpdates = (e) ->
       JSON.stringify({"game_data": sendMe})
     success: (data, textStatus, jqXHR) ->
       clearNewGameChoiceFlags bId
+      reloadPage target.getWindow()
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
   return false
 
+lockPlayersBrackets = (e) ->
+  e.preventDefault();
+  # target= e.target
+  # bId= $('table.bracket').data 'bracket_id'
+  $.ajax
+    contentType: 'application/json'
+    type: 'PUT'
+    url: '/lock_players_brackets'
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+    data: JSON.stringify({"lock_players_brackets": true})
+    success: (data, textStatus, jqXHR) ->
+      reloadPage target.getWindow()
+    error: (jqXHR, textStatus, errorThrown) ->
+      showError errorThrown, textStatus
+
+
 $ ->
   $('input.team_name').on 'change', (e) => nameTeam e.target
   $('select.game_winner').on 'change', (e) => chooseWinner e.target
+  $('button#team_entry_done').on 'click', (e) => fixTeamNames e
   $('button#submit_games').on 'click', (e) => sendGameUpdates e
+  $('button#update_bracket').on 'click', (e) => sendGameUpdates e
+  $('button#lock_players_brackets').on 'click', (e) => lockPlayersBrackets e
   $('table.bracket').one 'focusin', (e) => loadBracket e.target

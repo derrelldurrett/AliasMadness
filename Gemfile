@@ -22,10 +22,11 @@ group :development, :test do
   gem 'rspec'#, '>= 2.14'
   gem 'rspec-rails'
   gem 'guard-rspec'
-  gem 'factory_girl'
   gem 'factory_girl_rails'
-  gem 'faker', '1.0.1'
+  gem 'faker'
   gem 'bootstrap-generators'
+  # gem 'debase'
+  # gem 'ruby-debug-ide', '>=0.4.22'
 end
 
 group :test do
@@ -57,7 +58,7 @@ group :assets do
   gem 'sass-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-   gem 'therubyracer', :platforms => :ruby
+  gem 'therubyracer', :platforms => :ruby
 
 end
 

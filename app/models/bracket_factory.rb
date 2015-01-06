@@ -13,7 +13,6 @@ class BracketFactory
   def instantiate_bracket(bracket=nil)
     bracket||= Bracket.create # need the id!
     bracket.bracket_data||= serialized_bracket.copy
-    puts 'initializing the bracket'
     bracket.init_lookups
     bracket.save!
     bracket

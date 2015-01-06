@@ -1,0 +1,8 @@
+<% @team= bracket.lookup_node(node) %>
+<%= content_tag_for(:td, @team, {size: 6, class: 'force-font team_display'+left_or_right_node(node), data: {node: node}}) do %>
+  <% if team_names_locked? %>
+    <%= render partial: 'teams/show', locals: {node: node} %>
+  <% else %>
+    <%= render partial: 'teams/edit', locals: {form: form, node: node} %>
+  <% end %>
+<% end %>

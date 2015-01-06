@@ -33,7 +33,9 @@ a img {border:none;}
 :focus {outline:0;}
 
 /* typography.css */
-html {font-size:100.01%;}
+html {
+    font-size: 100%;
+}
 body {font-size:75%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;}
 h1, h2, h3, h4, h5, h6 {font-weight:normal;color:#111;}
 h1 {font-size:3em;line-height:1;margin-bottom:0.5em;}
@@ -66,11 +68,19 @@ ol {list-style-type:decimal;}
 dl {margin:0 0 1.5em 0;}
 dl dt {font-weight:bold;}
 dd {margin-left:1.5em;}
-table {margin-bottom:1.4em;width:100%;}
-th {font-weight:bold;}
+
+table {
+    margin-bottom: 1.4em;
+}
+
+th {
+    font-weight: bold;
+    text-align: center
+}
 thead th {background:#c3d9ff;}
-th, td, caption {padding:4px 10px 4px 5px;}
-tbody tr:nth-child(even) td, tbody tr.even td {background:#e5ecf9;}
+
+/* th, td, caption {padding:4px 10px 4px 5px;}
+tbody tr:nth-child(even) td, tbody tr.even td {background:#e5ecf9;} */
 tfoot {font-style:italic;}
 caption {background:#eee;}
 .small {font-size:.8em;margin-bottom:1.875em;line-height:1.875em;}
@@ -86,21 +96,6 @@ caption {background:#eee;}
 .top {margin-top:0;padding-top:0;}
 .bottom {margin-bottom:0;padding-bottom:0;}
 
-/* forms.css */
-label {font-weight:bold;}
-fieldset {padding:0 1.4em 1.4em 1.4em;margin:0 0 1.5em 0;border:1px solid #ccc;}
-legend {font-weight:bold;font-size:1.2em;margin-top:-0.2em;margin-bottom:1em;}
-fieldset, #IE8#HACK {padding-top:1.4em;}
-legend, #IE8#HACK {margin-top:0;margin-bottom:0;}
-input[type=text], input[type=password], input.text, input.title, textarea {background-color:#fff;border:1px solid #bbb;}
-input[type=text]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus {border-color:#666;}
-select {background-color:#fff;border-width:1px;border-style:solid;}
-input[type=text], input[type=password], input.text, input.title, textarea, select {margin:0.5em 0;}
-input.text, input.title {width:300px;padding:5px;}
-input.title {font-size:1.5em;}
-textarea {width:390px;height:250px;padding:5px;}
-form.inline {line-height:3px;}
-form.inline p {margin-bottom:0px;}
 .error, .alert, .notice, .success, .info {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;}
 .error, .alert {background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
 .notice {background:#fff6bf;color:#514721;border-color:#ffd324;}
@@ -111,139 +106,94 @@ form.inline p {margin-bottom:0px;}
 .success a {color:#264409;}
 .info a {color:#205791;}
 
-/* grid.css */
-.container {width:1439px;margin:0 auto;}
-.showgrid /*{background:url(src/grid.png);}*/
-.column, .span-1, .span-2, .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9, .span-10, .span-11, .span-12, .span-13, .span-14, .span-15, .span-16, .span-17, .span-18, .span-19, .span-20 {float:left;margin-right:1px;}
-.last {margin-right:0;}
-.span-1 {width:71px;}
-.span-2 {width:143px;}
-.span-3 {width:215px;}
-.span-4 {width:287px;}
-.span-5 {width:359px;}
-.span-6 {width:431px;}
-.span-7 {width:503px;}
-.span-8 {width:575px;}
-.span-9 {width:647px;}
-.span-10 {width:719px;}
-.span-11 {width:791px;}
-.span-12 {width:863px;}
-.span-13 {width:935px;}
-.span-14 {width:1007px;}
-.span-15 {width:1079px;}
-.span-16 {width:1151px;}
-.span-17 {width:1223px;}
-.span-18 {width:1295px;}
-.span-19 {width:1367px;}
-.span-20 {width:1439px;margin-right:0;}
-input.span-1, textarea.span-1, input.span-2, textarea.span-2, input.span-3, textarea.span-3, input.span-4, textarea.span-4, input.span-5, textarea.span-5, input.span-6, textarea.span-6, input.span-7, textarea.span-7, input.span-8, textarea.span-8, input.span-9, textarea.span-9, input.span-10, textarea.span-10, input.span-11, textarea.span-11, input.span-12, textarea.span-12, input.span-13, textarea.span-13, input.span-14, textarea.span-14, input.span-15, textarea.span-15, input.span-16, textarea.span-16, input.span-17, textarea.span-17, input.span-18, textarea.span-18, input.span-19, textarea.span-19, input.span-20, textarea.span-20 {border-left-width:0px;border-right-width:0px;padding-left:0px;padding-right:0px;}
-input.span-1, textarea.span-1 {width:59px;}
-input.span-2, textarea.span-2 {width:131px;}
-input.span-3, textarea.span-3 {width:203px;}
-input.span-4, textarea.span-4 {width:275px;}
-input.span-5, textarea.span-5 {width:347px;}
-input.span-6, textarea.span-6 {width:419px;}
-input.span-7, textarea.span-7 {width:491px;}
-input.span-8, textarea.span-8 {width:563px;}
-input.span-9, textarea.span-9 {width:635px;}
-input.span-10, textarea.span-10 {width:707px;}
-input.span-11, textarea.span-11 {width:779px;}
-input.span-12, textarea.span-12 {width:851px;}
-input.span-13, textarea.span-13 {width:923px;}
-input.span-14, textarea.span-14 {width:995px;}
-input.span-15, textarea.span-15 {width:1067px;}
-input.span-16, textarea.span-16 {width:1139px;}
-input.span-17, textarea.span-17 {width:1211px;}
-input.span-18, textarea.span-18 {width:1283px;}
-input.span-19, textarea.span-19 {width:1355px;}
-input.span-20, textarea.span-20 {width:1427px;}
-.append-1 {padding-right:72px;}
-.append-2 {padding-right:144px;}
-.append-3 {padding-right:216px;}
-.append-4 {padding-right:288px;}
-.append-5 {padding-right:360px;}
-.append-6 {padding-right:432px;}
-.append-7 {padding-right:504px;}
-.append-8 {padding-right:576px;}
-.append-9 {padding-right:648px;}
-.append-10 {padding-right:720px;}
-.append-11 {padding-right:792px;}
-.append-12 {padding-right:864px;}
-.append-13 {padding-right:936px;}
-.append-14 {padding-right:1008px;}
-.append-15 {padding-right:1080px;}
-.append-16 {padding-right:1152px;}
-.append-17 {padding-right:1224px;}
-.append-18 {padding-right:1296px;}
-.append-19 {padding-right:1368px;}
-.prepend-1 {padding-left:72px;}
-.prepend-2 {padding-left:144px;}
-.prepend-3 {padding-left:216px;}
-.prepend-4 {padding-left:288px;}
-.prepend-5 {padding-left:360px;}
-.prepend-6 {padding-left:432px;}
-.prepend-7 {padding-left:504px;}
-.prepend-8 {padding-left:576px;}
-.prepend-9 {padding-left:648px;}
-.prepend-10 {padding-left:720px;}
-.prepend-11 {padding-left:792px;}
-.prepend-12 {padding-left:864px;}
-.prepend-13 {padding-left:936px;}
-.prepend-14 {padding-left:1008px;}
-.prepend-15 {padding-left:1080px;}
-.prepend-16 {padding-left:1152px;}
-.prepend-17 {padding-left:1224px;}
-.prepend-18 {padding-left:1296px;}
-.prepend-19 {padding-left:1368px;}
-.border {padding-right:0px;margin-right:0px;border-right:1px solid #ddd;}
-.colborder {padding-right:36px;margin-right:36px;border-right:1px solid #ddd;}
-.pull-1 {margin-left:-72px;}
-.pull-2 {margin-left:-144px;}
-.pull-3 {margin-left:-216px;}
-.pull-4 {margin-left:-288px;}
-.pull-5 {margin-left:-360px;}
-.pull-6 {margin-left:-432px;}
-.pull-7 {margin-left:-504px;}
-.pull-8 {margin-left:-576px;}
-.pull-9 {margin-left:-648px;}
-.pull-10 {margin-left:-720px;}
-.pull-11 {margin-left:-792px;}
-.pull-12 {margin-left:-864px;}
-.pull-13 {margin-left:-936px;}
-.pull-14 {margin-left:-1008px;}
-.pull-15 {margin-left:-1080px;}
-.pull-16 {margin-left:-1152px;}
-.pull-17 {margin-left:-1224px;}
-.pull-18 {margin-left:-1296px;}
-.pull-19 {margin-left:-1368px;}
-.pull-20 {margin-left:-1440px;}
-.pull-1, .pull-2, .pull-3, .pull-4, .pull-5, .pull-6, .pull-7, .pull-8, .pull-9, .pull-10, .pull-11, .pull-12, .pull-13, .pull-14, .pull-15, .pull-16, .pull-17, .pull-18, .pull-19, .pull-20 {float:left;position:relative;}
-.push-1 {margin:0 -72px 1.5em 72px;}
-.push-2 {margin:0 -144px 1.5em 144px;}
-.push-3 {margin:0 -216px 1.5em 216px;}
-.push-4 {margin:0 -288px 1.5em 288px;}
-.push-5 {margin:0 -360px 1.5em 360px;}
-.push-6 {margin:0 -432px 1.5em 432px;}
-.push-7 {margin:0 -504px 1.5em 504px;}
-.push-8 {margin:0 -576px 1.5em 576px;}
-.push-9 {margin:0 -648px 1.5em 648px;}
-.push-10 {margin:0 -720px 1.5em 720px;}
-.push-11 {margin:0 -792px 1.5em 792px;}
-.push-12 {margin:0 -864px 1.5em 864px;}
-.push-13 {margin:0 -936px 1.5em 936px;}
-.push-14 {margin:0 -1008px 1.5em 1008px;}
-.push-15 {margin:0 -1080px 1.5em 1080px;}
-.push-16 {margin:0 -1152px 1.5em 1152px;}
-.push-17 {margin:0 -1224px 1.5em 1224px;}
-.push-18 {margin:0 -1296px 1.5em 1296px;}
-.push-19 {margin:0 -1368px 1.5em 1368px;}
-.push-20 {margin:0 -1440px 1.5em 1440px;}
-.push-1, .push-2, .push-3, .push-4, .push-5, .push-6, .push-7, .push-8, .push-9, .push-10, .push-11, .push-12, .push-13, .push-14, .push-15, .push-16, .push-17, .push-18, .push-19, .push-20 {float:left;position:relative;}
-div.prepend-top, .prepend-top {margin-top:1.5em;}
-div.append-bottom, .append-bottom {margin-bottom:1.5em;}
-.box {padding:1.5em;margin-bottom:1.5em;background:#e5eCf9;}
-hr {background:#ddd;color:#ddd;clear:both;float:none;width:100%;height:1px;margin:0 0 1.45em;border:none;}
-hr.space {background:#fff;color:#fff;visibility:hidden;}
-.clearfix:after, .container:after {content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
-.clearfix, .container {display:block;}
-.clear {clear:both;}
+.center {
+    /* div table tr td th select input */
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    margin: auto auto 10px;
+}
+
+.force-center {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header_text {
+    font-weight: bold;
+    font-size: larger
+}
+
+#leader_board {
+    position: relative;
+    float: left;
+    padding-right: 3px;
+    width: 8%
+}
+
+#bracket_display {
+    position: relative;
+    width: 91.5%;
+    margin-left: auto;
+}
+
+td.player_summary {
+    border-right: 2px solid;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: right
+}
+
+div.allow-top-margin {
+    margin-top: 20px
+}
+
+.force-font {
+    font-size: 80%;
+}
+
+td.team_display {
+    border-bottom: 2px solid;
+    width: 7%
+}
+
+td.game_display {
+    border-bottom: 2px solid;
+    width: 6%
+}
+
+td.left_connect {
+    border-left: 2px solid
+}
+
+td.right_connect {
+    border-right: 2px solid
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center
+}
+
+.grey_winner_state {
+    background-color: #dddddd;
+    color: #444444
+}
+
+.green_winner_state {
+    background: #e6efc2;
+    color: #264409;
+    border-color: #c6d880;
+}
+
+.red_winner_state {
+    background: #fbe3e4;
+    color: #8a1f11;
+    border-color: #fbc2c4;
+}

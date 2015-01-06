@@ -7,13 +7,13 @@ class Team < ActiveRecord::Base
   extend HashClassHelper
   include JSONClientHelper
   extend JSONClientClassHelper
-  attr_accessible :label, :name, :seed
+  attr_accessible :label, :name, :seed, :eliminated
   has_many :games, inverse_of: :teams
   validates :name, uniqueness: true
   validates :seed, numericality: {only_integer: true}
 
   self.hash_vars= %i(name seed id)
-  self.json_client_ids= [:id, :label, :name, :seed]
+  self.json_client_ids= [:id, :label, :name, :seed, :eliminated]
 
   # Team's clone is itself (Teams are unique, uncopyable)
   def clone

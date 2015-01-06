@@ -1,9 +1,12 @@
-<div class='span-20'>
-  <div class='span-5'>
-    <%= render 'index' %>
-  </div>
-  <div class='span-15'>
+<div id='leader_board'> <!-- class='span-2'-->
+  <p class='header_text center text-right'>Leader Board</p>
+  <%= render 'index' %>
+</div>
+<div id='bracket_display'> <!-- class='span-13' -->
+  <% if @user.admin? or team_names_locked? %>
     <% @bracket = @user.bracket %>
     <%= render :partial => 'brackets/bracket' %>
-  </div>
+  <% else %>
+    <h2 class="center">Coming Soon!</h2> <!-- Coming Soon! -->
+  <% end %>
 </div>
