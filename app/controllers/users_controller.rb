@@ -1,6 +1,9 @@
-require 'active_record/errors'
 class UsersController < ApplicationController
+  require 'active_record/errors'
+
   include SessionsHelper
+  before_filter :check_authorization, only: [:create]
+
   def login
     @user = User.find(params[:id])
   end
@@ -13,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    reset_session
+    #reset_session
     @user = User.find(params[:id])
     session_authenticate(@user)
   end

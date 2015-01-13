@@ -9,7 +9,6 @@ end
 def login(email, password)
   link = login_path(email: email)
   visit link
-  save_and_open_page
   fill_in 'Password', with: password
   click_button('Login')
 end
@@ -27,6 +26,10 @@ def login_as_player(player)
   password= player.remember_for_email
   @logged_in_player= @user= player
   login(email, password)
+end
+
+def logged_in_player
+  @logged_in_player
 end
 
 # go look at the TDD talk (by @moonmaster9000 on Twitter)
@@ -49,6 +52,16 @@ end
 
 def construct_team_css_node_name(label)
   %Q(td.team[data-node="#{label}"])
+end
+
+INPUT_TEAM_CSS = 'input.team_name'
+
+def choose_team_css(is_locked=false, outer_css)
+  if is_locked
+    outer_css
+  else
+    INPUT_TEAM_CSS
+  end
 end
 
 def build_game_css(label)
@@ -116,13 +129,24 @@ def team_data_by_label(label)
   @team_data_by_label[label]
 end
 
+def enter_players_bracket_choices_and_save_bracket(player)
+  bracket= Bracket.find_by_user_id player.id
+  choose_games_for_bracket bracket
+  save_mock_bracket player
+end
+
+def create_the_players
+  N_PLAYERS.times do
+    player = FactoryGirl.create(:player)
+    add_to_players player
+  end
+end
+
 def players_games_entered
   N_PLAYERS.times do
     player = FactoryGirl.create(:player)
     add_to_players player
-    bracket= Bracket.find_by_user_id player.id
-    choose_games_for_bracket bracket
-    save_mock_bracket player
+    enter_players_bracket_choices_and_save_bracket(player)
     verify_players_games player.id
   end
 end
@@ -213,8 +237,8 @@ def verify_displayed_standings(standings)
   end
 end
 
-def attempt_to_change_a_team_name_as_a_player(new_name, wrong_name)
-  node_name = construct_team_css_node_name lookup_label_by_new_name(new_name)
+def attempt_to_change_a_team_name_as_a_player(name, wrong_name)
+  node_name = construct_team_css_node_name lookup_label_by_new_name(name)
   within(node_name) do
     fill_and_click_script =
         %Q(
@@ -224,4 +248,8 @@ def attempt_to_change_a_team_name_as_a_player(new_name, wrong_name)
     page.driver.execute_script(fill_and_click_script)
   end
   expect(page).not_to have_content(wrong_name)
+end
+
+def lock_team_names
+  Team.update_all name_locked: :true
 end

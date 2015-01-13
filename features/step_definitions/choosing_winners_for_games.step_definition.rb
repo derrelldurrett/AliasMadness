@@ -6,6 +6,16 @@ Given %q('An invited player' logs in with all teams entered) do
            )
 end
 
+Given %q('An invited player' logs in with all teams entered and players' games chosen) do
+  steps %q(
+           Given The database is seeded
+           Given The teams have already been entered
+           Given The players have been invited
+           Given The players have entered their winning teams
+           Given One of the players logs in
+           )
+end
+
 Given(/\A'([^']+)' visiting the '([^']+)' page with all player's games entered\z/) do |who, page_name|
   puts who+' will visit '+page_name
   case who
@@ -14,7 +24,25 @@ Given(/\A'([^']+)' visiting the '([^']+)' page with all player's games entered\z
         Given '#{who}' visiting the '#{page_name}' page with all teams entered
       )
       players_games_entered
+    when %q(An invited player)
+      steps %q(
+               Given 'An invited player' logs in with all teams entered and players' games chosen
+               )
   end
+end
+
+Given %q(The players have been invited) do
+  create_the_players
+end
+
+Given %q(The players have entered their winning teams) do
+  get_players.each do |p|
+    enter_players_bracket_choices_and_save_bracket(player)
+  end
+end
+
+Given %q(One of the players logs in) do
+  login_as_player get_players.first
 end
 
 When /\A'([^']+)' enters the winner for game '([^']+)'\z/ do |who,label|
@@ -62,11 +90,11 @@ When %q(I view my bracket) do
   visit(current_path) # as long as Players have only one page....
 end
 
-Then %q(I should not be able to change the team name) do
-  attempt_to_change_a_team_name_as_a_player('Colorado', 'CSU-Pueblo')
+Then(/\AI should not be able to change '([^']+)' to '([^']+)'\z/) do |team_name, non_participating_team|
+  attempt_to_change_a_team_name_as_a_player(team_name, non_participating_team)
 end
 
-When %q(I change some games) do
+When %q(An admin updates the bracket) do
   pick_game_winners_as_admin(ADMINS_CHANGED_LABELS)
 end
 
@@ -83,4 +111,8 @@ Then %q(the 'Edit Bracket' page should reflect the new standings) do
   click_link 'Edit Bracket'
   sleep 3
   verify_displayed_standings compute_expected_standings
+end
+
+Then %q('An invited player' should see the correct choices in green and the incorrect choices in red) do
+
 end

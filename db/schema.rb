@@ -13,49 +13,49 @@
 
 ActiveRecord::Schema.define(:version => 20150103233336) do
 
-  create_table 'brackets', :force => true do |t|
-    t.integer 'user_id'
-    t.text 'bracket_data'
-    t.text 'lookup_by_label'
-    t.datetime 'created_at', :null => false
-    t.datetime 'updated_at', :null => false
+  create_table "brackets", :force => true do |t|
+    t.integer "user_id"
+    t.text "bracket_data"
+    t.text "lookup_by_label"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table 'games', :force => true do |t|
-    t.integer 'team_id'
-    t.integer 'bracket_id'
-    t.string 'label'
-    t.datetime 'created_at', :null => false
-    t.datetime 'updated_at', :null => false
-    t.boolean 'locked', :default => false
+  create_table "games", :force => true do |t|
+    t.integer "team_id"
+    t.integer "bracket_id"
+    t.string "label"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.boolean "locked", :default => false
   end
 
-  add_index 'games', ['bracket_id'], :name => 'index_games_on_bracket_id'
-  add_index 'games', ['team_id'], :name => 'index_games_on_team_id'
+  add_index "games", ["bracket_id"], :name => "index_games_on_bracket_id"
+  add_index "games", ["team_id"], :name => "index_games_on_team_id"
 
-  create_table 'teams', :force => true do |t|
-    t.string 'name'
-    t.integer 'seed'
-    t.string 'label'
-    t.datetime 'created_at', :null => false
-    t.datetime 'updated_at', :null => false
-    t.boolean 'name_locked', :default => false
-    t.boolean 'eliminated', :default => false
+  create_table "teams", :force => true do |t|
+    t.string "name"
+    t.integer "seed"
+    t.string "label"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.boolean "name_locked", :default => false
+    t.boolean "eliminated", :default => false
   end
 
-  create_table 'users', :force => true do |t|
-    t.string 'name'
-    t.datetime 'created_at', :null => false
-    t.datetime 'updated_at', :null => false
-    t.string 'password'
-    t.string 'password_digest'
-    t.string 'role'
-    t.string 'remember_token'
-    t.string 'email'
-    t.integer 'current_score', :default => 0
-    t.boolean 'bracket_locked', :default => false
+  create_table "users", :force => true do |t|
+    t.string "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string "password"
+    t.string "password_digest"
+    t.string "role"
+    t.string "remember_token"
+    t.string "email"
+    t.integer "current_score", :default => 0
+    t.boolean "bracket_locked", :default => false
   end
 
-  add_index 'users', ['remember_token'], :name => 'index_users_on_remember_token'
+  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
 
 end

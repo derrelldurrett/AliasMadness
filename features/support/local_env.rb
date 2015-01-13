@@ -2,14 +2,11 @@ require 'rubygems'
 
 ENV['RAILS_ENV'] ||= 'test'
 
+require 'cucumber/rails'
 require 'capybara/rails'
 require 'email_spec/cucumber'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
-# require 'capybara/session'
-# require 'capybara/poltergeist'
-# require 'capybara/celerity'
-# require 'capybara/culerity'
 chosen_capybara_driver = :selenium # :culerity # :webkit # :poltergeist
 Capybara.javascript_driver = chosen_capybara_driver
 Capybara.default_selector = :css
@@ -31,21 +28,15 @@ require 'database_cleaner'
 require 'database_cleaner/cucumber'
 require 'rspec/rails'
 begin
-  # DatabaseCleaner.strategy = :transaction
-  DatabaseCleaner.clean_with!(:truncation)
-rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-end
-
-Before('@javascript') do # @no-txn,@selenium,@culerity,@celerity,
-  # { :except => [:widgets] } may not do what you expect here
-  # as Cucumber::Rails::Database.javascript_strategy overrides
-  # this setting.
   DatabaseCleaner.strategy = :truncation
-  Capybara.default_wait_time = 30
+  DatabaseCleaner.clean_with!(:truncation)
+  Capybara.default_wait_time = 15
   RSpec.configure do |config|
     config.use_transactional_fixtures = false
+    config.use_transactional_examples = false
   end
+rescue NameError
+  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
 
 Before('~@javascript') do #'~@no-txn', '~@selenium', '~@culerity', '~@celerity',
@@ -54,23 +45,13 @@ Before('~@javascript') do #'~@no-txn', '~@selenium', '~@culerity', '~@celerity',
 end
 #
 
-# DatabaseCleaner.strategy = :truncation
-# begin
-#   require 'database_cleaner'
-#   require 'database_cleaner/cucumber'
-#   DatabaseCleaner[:active_record].strategy = :truncation
-# rescue NameError
-#   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+# Before do
+#   DatabaseCleaner.start
 # end
-#
 
-Before do
-  DatabaseCleaner.start
-end
-
-After do |scenario|
-  DatabaseCleaner.clean
-end
+# After do |scenario|
+#   DatabaseCleaner.clean
+# end
 
 #
 # From https://github.com/cucumber/cucumber-rails/blob/master/History.md
@@ -92,14 +73,6 @@ ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 require 'rack/utils'
 Capybara.app = Rack::ShowExceptions.new(AliasMadness::Application)
 
-# Before do
-#   if Capybara.current_driver == chosen_capybara_driver
-#     require 'headless'
-#
-#     headless = Headless.new
-#     headless.start
-#   end
-# end
 
 require 'json/pure/parser'
 module JSON
@@ -111,7 +84,25 @@ module JSON
   end
 end
 
-# Capybara.register_driver :culerity do |app|
-#   Capybara::Driver::Culerity.new(app)
-# end
-# Culerity.jruby_invocation = File.expand_path("~/.rvm/bin/celerity_jruby")
+Before do
+  DatabaseCleaner.start
+  DatabaseCleaner.clean_with(:truncation)
+  RSpec.configure do |config|
+    config.use_transactional_fixtures = false
+    config.use_transactional_examples = false
+  end
+end
+
+Before('@javascript') do # @no-txn,@selenium,@culerity,@celerity,
+  # { :except => [:widgets] } may not do what you expect here
+  # as Cucumber::Rails::Database.javascript_strategy overrides
+  # this setting.
+  DatabaseCleaner.strategy = :truncation
+  Capybara.default_wait_time = 30
+end
+
+Around do |scenario, block|
+  DatabaseCleaner.cleaning(&block)
+  puts 'CLEANED!'
+end
+

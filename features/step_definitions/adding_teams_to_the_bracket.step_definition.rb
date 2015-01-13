@@ -4,15 +4,16 @@ end
 
 NODE_64_CSS = 'td.team[data-node="64"]'
 NODE_97_CSS = 'td.team[data-node="97"]'
-INPUT_TEAM_CSS = 'input.team_name'
+
+
 Then %q(I should see the initial bracket) do
   team_1_node = find(NODE_64_CSS)
   within(team_1_node) do
-    find(INPUT_TEAM_CSS).value.should have_content 'Team 1'
+    find(choose_team_css).value.should have_content 'Team 1'
   end
   team_64_node = find(NODE_97_CSS)
   within(team_64_node) do
-    find(INPUT_TEAM_CSS).value.should have_content 'Team 64'
+    find(choose_team_css).value.should have_content 'Team 64'
   end
 end
 
@@ -26,8 +27,14 @@ end
 
 Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)'\z/) do |new_item, link, old_item|
   # We know we're on the right page if the 'within' works...
-  within(construct_team_css_node_name(lookup_label_by_old_name old_item)) do
-    expect(find(INPUT_TEAM_CSS).value).to have_content new_item
+  expect(find(construct_team_css_node_name(lookup_label_by_old_name old_item))).to have_content new_item
+end
+NONEXISTENT_TEAM='CSU-Pueblo'
+Then %q(The team names should not be editable) do
+  team_data.each do |t|
+    steps %Q{
+      Then I should not be able to change '#{t[:new_name]}' to '#{NONEXISTENT_TEAM}'
+      }
   end
 end
 
@@ -45,7 +52,7 @@ Then %q(The teams should have the new names) do
   end
 end
 
-Then /\AI should see the new names on the '([^']+)' page\z/ do |page_name|
+Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name|
   visit path_to(page_name)
   team_data.each do |t|
     steps %Q{
@@ -68,5 +75,6 @@ Given(/^The teams have already been entered$/) do
     result= team.update_attribute :name, t[:new_name]
     redo unless result
   end
+  lock_team_names
   sleep 1
 end

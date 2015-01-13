@@ -29,12 +29,17 @@ end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
   puts 'I will visit '+link
-  click_link link
+  visit path_to(link)
 end
 
 When /\AI visit the '([^']+)' page\z/ do |page_name|
   puts 'I will visit '+page_name+' page'
   visit path_to(page_name)
+end
+
+When %q(click the button to set the names) do
+  click_button 'Set Team Names'
+  sleep 15
 end
 
 Given /\A'([^']+)' visiting the '([^']+)' page with all teams entered\z/ do |who,where|

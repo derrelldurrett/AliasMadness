@@ -12,8 +12,8 @@ Feature: Edit bracket as player
     Then The games should display correctly
     And The database should reflect the game choices
 
-  @javascript @wip
+  @javascript
   Scenario: I should not be able to change the names of the teams
     Given 'An invited player' logs in with all teams entered
     When I view my bracket
-    Then I should not be able to change the team name
+    Then I should not be able to change 'Colorado' to 'CSU-Pueblo'

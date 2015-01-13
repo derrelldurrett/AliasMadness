@@ -57,6 +57,8 @@ class User < ActiveRecord::Base
   private
 
   def create_initial_bracket
+    # puts 'creating initial bracket'
+    # puts caller
     self.bracket = BracketFactory.instance.create_bracket if self.bracket.nil?
   end
 
@@ -64,7 +66,7 @@ class User < ActiveRecord::Base
     if self.bracket.user.nil?
       self.bracket.user= self
       self.bracket.save!
-      puts "saving bracket for user #{self.name} with #{self.bracket.games.length} games.  Id: #{self.bracket.id}"
+      # puts "saving bracket for user #{self.name} with #{self.bracket.games.length} games.  Id: #{self.bracket.id}"
     end
   end
 
@@ -77,7 +79,6 @@ class User < ActiveRecord::Base
                   SecureRandom.base64(24) #create a  32-character-length password
     end
   end
-
 
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64

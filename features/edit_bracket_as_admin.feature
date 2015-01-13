@@ -19,14 +19,15 @@ Feature: Edit bracket as admin
   Scenario: Filling out the initial bracket
     Given 'An admin' visiting the 'Edit Bracket' page
     When I change the names of the teams
-    # add 'And click the button to set the names'
+    And click the button to set the names
     Then The teams should have the new names
-    And I should see the new names on the 'Edit Bracket' page
-    # add 'And the team names should not be editable'
+    And An admin should see the new names on the 'Edit Bracket' page
+    And The team names should not be editable
 
-  @javascript @wip
+  @javascript
   Scenario: Choosing the winning teams
     Given 'An admin' visiting the 'Edit Bracket' page with all player's games entered
-    When I change some games
+    When An admin updates the bracket
     Then the invited players scores should be calculated
     And the 'Edit Bracket' page should reflect the new standings
+

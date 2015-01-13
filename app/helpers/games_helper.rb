@@ -21,18 +21,19 @@ module GamesHelper
   end
 
   def color_winner(game, node, bracket)
-    winner_state= 'winner_state'
-    color= ' grey'
+    color= 'grey'
     unless current_user.admin?
+      if game.winner.eliminated?
+        color='red'
+      end
       w = Admin.get.bracket.lookup_node(node).winner # maybe make this a route-driven lookup? For security purposes?
       unless w.nil?
         if game.winner== w
-          color= ' green'
-        elsif game.winner.eliminated?
-          color=' red'
+          puts %Q()
+          color= 'green'
         end
       end
     end
-    [color, winner_state].join('_')
+    ' '+[color, 'winner_state'].join('_') # need a space in front
   end
 end

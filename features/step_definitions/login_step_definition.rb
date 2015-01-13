@@ -21,7 +21,6 @@ end
 Then %q{the 'password' field should be empty} do
   expect(page).to have_selector('label')
   expect(page).to have_content('Password')
-  save_and_open_page
   find_field('Password').value.should be_nil
 end
 
@@ -34,7 +33,6 @@ end
 
 When %q(I visit the login page, enter the password, and click 'Login') do
   visit @link
-  save_and_open_page
   fill_in 'Password', with: @password
   click_button('Login')
 end

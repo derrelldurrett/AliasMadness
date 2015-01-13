@@ -1,5 +1,5 @@
 module SessionsHelper
-  require 'errors/not_authorized'
+  require 'not_authorized'
 
   delegate :url_helpers, to: 'Rails.application.routes'
   def session_authenticate(user)
