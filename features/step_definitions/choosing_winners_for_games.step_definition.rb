@@ -21,9 +21,12 @@ Given(/\A'([^']+)' visiting the '([^']+)' page with all player's games entered\z
   case who
     when %q(An admin)
       steps %Q(
-        Given '#{who}' visiting the '#{page_name}' page with all teams entered
-      )
-      players_games_entered
+               Given The database is seeded
+               Given The teams have already been entered
+               Given The players have been invited
+               Given The players have entered their winning teams
+               Given 'An Admin' visiting the 'Edit Bracket' page
+               )
     when %q(An invited player)
       steps %q(
                Given 'An invited player' logs in with all teams entered and players' games chosen
@@ -36,7 +39,7 @@ Given %q(The players have been invited) do
 end
 
 Given %q(The players have entered their winning teams) do
-  get_players.each do |p|
+  get_players.each do |player|
     enter_players_bracket_choices_and_save_bracket(player)
   end
 end
@@ -46,17 +49,18 @@ Given %q(One of the players logs in) do
 end
 
 When /\A'([^']+)' enters the winner for game '([^']+)'\z/ do |who,label|
-  case who
-    when %q(An admin)
-      game_labeled= game_by_label label.to_s
-      enter_game_winner game_labeled
-    else
-      game_labeled= game_by_label label.to_s
-      enter_game_winner game_labeled
-  end
+  # case who
+  #   when %q(An admin)
+  game_labeled= game_by_label label.to_s
+  enter_game_winner game_labeled
+  #   else
+  #     game_labeled= game_by_label label.to_s
+  #     enter_game_winner game_labeled
+  # end
 end
 
 Then /\AThe game labeled '([^']+)' should display correctly\z/ do |label|
+  # FIXME incomplete-- doesn't test the labeled game for the correct selection
   label = label.to_s
   game_labeled= game_by_label label
   descendant_label= get_descendant_label(label)
@@ -72,7 +76,10 @@ When %q(An invited player enters the winners for the games) do
     steps %Q(When 'An invited player' enters the winner for game '#{label.to_s}')
     sleep 4
   end
-  click_button('submit_games')
+  click_button('Submit Your Bracket')
+  sleep 10
+  visit path_to('Edit Bracket')
+  sleep 5
 end
 
 Then %q(The games should display correctly) do
@@ -83,11 +90,12 @@ Then %q(The games should display correctly) do
 end
 
 Then %q(The database should reflect the game choices) do
-  verify_players_games @logged_in_player.id
+  verify_players_games logged_in_player.id
 end
 
 When %q(I view my bracket) do
   visit(current_path) # as long as Players have only one page....
+  sleep 4
 end
 
 Then(/\AI should not be able to change '([^']+)' to '([^']+)'\z/) do |team_name, non_participating_team|
@@ -95,6 +103,7 @@ Then(/\AI should not be able to change '([^']+)' to '([^']+)'\z/) do |team_name,
 end
 
 When %q(An admin updates the bracket) do
+  lock_players_brackets
   pick_game_winners_as_admin(ADMINS_CHANGED_LABELS)
 end
 
@@ -107,12 +116,32 @@ Then %q(the invited players scores should be calculated) do
   end
 end
 
-Then %q(the 'Edit Bracket' page should reflect the new standings) do
-  click_link 'Edit Bracket'
+Then /\Athe '([^']+)' page should reflect the new standings\z/ do |page_name|
+  visit path_to(page_name)
   sleep 3
   verify_displayed_standings compute_expected_standings
 end
 
 Then %q('An invited player' should see the correct choices in green and the incorrect choices in red) do
-
+  puts %Q(checking user #{@user.name})
+  # save_and_open_page
+  reference_bracket=games_by_label(Admin.get.bracket)
+  players_bracket= games_by_label(@user.bracket)
+  ADMINS_CHANGED_LABELS.each do |l|
+    label = l.to_s
+    within(build_game_css(label)) do
+      r_game= reference_bracket[label]
+      p_game= players_bracket[label]
+      expect(r_game.winner).not_to be_nil
+      if p_game.winner==r_game.winner
+        puts %Q(expect #{label} to have green)
+        page.has_css?('select.green_winner_state')
+        expect(find('select.green_winner_state').value).to eql(p_game.winner.label)
+      else
+        puts %Q(expect #{label} to have red)
+        page.has_css?('select.red_winner_state')
+        expect(find('select.red_winner_state').value).not_to eql(r_game.winner.label)
+      end
+    end
+  end
 end

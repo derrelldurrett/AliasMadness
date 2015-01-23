@@ -40,7 +40,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '32'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '32'}
       %>
       <td></td>
       <td></td>
@@ -52,7 +52,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '48'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '48'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -79,7 +79,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '16'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '16'}
       %>
       <td></td>
       <td></td>
@@ -89,7 +89,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '24'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '24'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -116,7 +116,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '33'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '33'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -128,7 +128,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '49'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '49'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -156,7 +156,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '8'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '8'}
       %>
       <td></td>
       <td></td>
@@ -164,7 +164,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '12'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '12'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -192,7 +192,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '34'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '34'}
       %>
       <td class='right_connect'></td>
       <td class='right_connect'></td>
@@ -204,7 +204,7 @@
       <td class='left_connect'></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '50'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '50'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -231,7 +231,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '17'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '17'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -241,7 +241,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '25'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '25'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -268,7 +268,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '35'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '35'}
       %>
       <td></td>
       <td class='right_connect'></td>
@@ -280,7 +280,7 @@
       <td class='left_connect'></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '51'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '51'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -309,13 +309,13 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '4'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '4'}
       %>
       <td></td>
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '6'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '6'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -344,7 +344,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '36'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '36'}
       %>
       <td></td>
       <td class='right_connect'></td>
@@ -356,7 +356,7 @@
       <td class='left_connect'></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '52'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '52'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -383,7 +383,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '18'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '18'}
       %>
       <td class='right_connect'></td>
       <td class='right_connect'></td>
@@ -393,7 +393,7 @@
       <td class='left_connect'></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '26'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '26'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -420,7 +420,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '37'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '37'}
       %>
       <td class='right_connect'></td>
       <td class='right_connect'></td>
@@ -432,7 +432,7 @@
       <td class='left_connect'></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '53'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '53'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -460,7 +460,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '9'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '9'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -468,7 +468,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '13'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '13'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -496,7 +496,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '38'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '38'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -508,7 +508,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '54'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '54'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -521,7 +521,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '2'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '2'}
       %>
       <td></td>
       <td></td>
@@ -537,7 +537,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '19'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '19'}
       %>
       <td></td>
       <td class='right_connect'></td>
@@ -547,7 +547,7 @@
       <td class='left_connect'></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '27'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '27'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -574,7 +574,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '39'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '39'}
       %>
       <td></td>
       <td></td>
@@ -586,7 +586,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '55'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '55'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -617,7 +617,7 @@
       <td class='right_connect'></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '1'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '1'}
       %>
       <td></td>
       <td class='left_connect'></td>
@@ -649,7 +649,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '40'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '40'}
       %>
       <td></td>
       <td></td>
@@ -661,7 +661,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '56'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '56'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -688,7 +688,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '20'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '20'}
       %>
       <td></td>
       <td class='right_connect'></td>
@@ -698,7 +698,7 @@
       <td class='left_connect'></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '28'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '28'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -714,7 +714,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '3'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '3'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -727,7 +727,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '41'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '41'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -739,7 +739,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '57'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '57'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -767,7 +767,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '10'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '10'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -775,7 +775,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '14'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '14'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -803,7 +803,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '42'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '42'}
       %>
       <td class='right_connect'></td>
       <td class='right_connect'></td>
@@ -815,7 +815,7 @@
       <td class='left_connect'></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '58'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '58'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -842,7 +842,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '21'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '21'}
       %>
       <td class='right_connect'></td>
       <td class='right_connect'></td>
@@ -852,7 +852,7 @@
       <td class='left_connect'></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '29'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '29'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -879,7 +879,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '43'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '43'}
       %>
       <td></td>
       <td class='right_connect'></td>
@@ -891,7 +891,7 @@
       <td class='left_connect'></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '59'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '59'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -920,13 +920,13 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '5'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '5'}
       %>
       <td></td>
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '7'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '7'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -955,7 +955,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '44'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '44'}
       %>
       <td></td>
       <td class='right_connect'></td>
@@ -967,7 +967,7 @@
       <td class='left_connect'></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '60'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '60'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -994,7 +994,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '22'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '22'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -1004,7 +1004,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '30'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '30'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -1031,7 +1031,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '45'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '45'}
       %>
       <td class='right_connect'></td>
       <td class='right_connect'></td>
@@ -1043,7 +1043,7 @@
       <td class='left_connect'></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '61'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '61'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -1071,7 +1071,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '11'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '11'}
       %>
       <td></td>
       <td></td>
@@ -1079,7 +1079,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '15'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '15'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -1107,7 +1107,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '46'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '46'}
       %>
       <td class='right_connect'></td>
       <td></td>
@@ -1119,7 +1119,7 @@
       <td></td>
       <td class='left_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '62'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '62'}
       %>
       <td class='left_connect'></td>
     </TR>
@@ -1146,7 +1146,7 @@
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '23'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '23'}
       %>
       <td></td>
       <td></td>
@@ -1156,7 +1156,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '31'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '31'}
       %>
       <td class='left_connect'></td>
       <td></td>
@@ -1183,7 +1183,7 @@
     <TR>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '47'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '47'}
       %>
       <td></td>
       <td></td>
@@ -1195,7 +1195,7 @@
       <td></td>
       <td></td>
       <%= render partial: 'brackets/game',
-                 locals: {form: f, bracket: @bracket, node: '63'}
+                 locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, node: '63'}
       %>
       <td class='left_connect'></td>
     </TR>

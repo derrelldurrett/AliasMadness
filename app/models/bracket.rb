@@ -42,18 +42,19 @@ class Bracket < ActiveRecord::Base
   end
 
   def lookup_game(l)
-    begin
-      init_lookups if lookup_by_label_uninitialized?
-      r = lookup_by_label.fetch l.to_s
-      unless r.is_a? Game
-        raise KeyError
-      end
-      r
-    rescue KeyError
-      nil
-    rescue => other_error
-      raise BadProgrammerError(other_error)
-    end
+    # begin
+    # init_lookups if lookup_by_label_uninitialized?
+    # r = lookup_by_label.fetch l.to_s
+    # unless r.is_a? Game
+    #   raise KeyError
+    # end
+    # r
+    g= Game.where(bracket_id: self.id, label: l).first
+    # rescue KeyError
+    #   nil
+    # rescue => other_error
+    #   raise BadProgrammerError(other_error)
+    # end
   end
 
   def lookup_team(l)
@@ -172,7 +173,7 @@ class Bracket < ActiveRecord::Base
   def init_lookups_from_database
     if lookup_by_label_uninitialized?
       @lookup_by_label||= Hash.new
-      games.each do |g|
+      self.games.each do |g|
         @lookup_by_label[g.label]= g
       end
       Team.all.each do |t|

@@ -1,5 +1,4 @@
 module GamesHelper
-  include SessionsHelper
   def game_or_team_options_for_select(bracket,game)
     # produce a list of lists: [[object,display_value],...]
     result = []
@@ -20,16 +19,15 @@ module GamesHelper
     game.winner.nil? ? 'Choose winner...' : game.winner.name
   end
 
-  def color_winner(game, node, bracket)
+  def color_winner(game, node, bracket_locked)
     color= 'grey'
-    unless current_user.admin?
+    if bracket_locked
       if game.winner.eliminated?
         color='red'
       end
-      w = Admin.get.bracket.lookup_node(node).winner # maybe make this a route-driven lookup? For security purposes?
+      w = Admin.get.bracket.lookup_game(node).winner # maybe make this a route-driven lookup? For security purposes?
       unless w.nil?
         if game.winner== w
-          puts %Q()
           color= 'green'
         end
       end

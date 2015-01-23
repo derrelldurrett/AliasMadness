@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
       redirect_to(root_path) and return
     end
     if current_user? @user
-      redirect_to user_path id: @user.id
+      redirect_to(user_path(id: @user.id), status: 302) and return
     end
     redirect_to(login_users_path id: @user.id)
   end

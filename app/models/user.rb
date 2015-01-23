@@ -54,6 +54,10 @@ class User < ActiveRecord::Base
     my_score
   end
 
+  def self.find_by_remember_token(token)
+    User.find_all_by_remember_token(token).first
+  end
+
   private
 
   def create_initial_bracket

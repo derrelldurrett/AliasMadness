@@ -76,6 +76,12 @@ class BracketsController < ApplicationController
   end
 
   def lock_players_brackets
+    # fixme so we make this one giant update of all games simultaneously
+    User.where({role: :player}).each do |p|
+      b= p.bracket
+      b.games.update_all(locked: true)
+      b.update_lookups
+    end
     User.where({role: :player}).update_all(bracket_locked: true)
   end
 

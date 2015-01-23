@@ -15,10 +15,11 @@ if !ENV['TEAM_NAMES_SET'].nil? or !ENV['SEED_PLAYERS'].nil? or !ENV['SEED_GAMES'
 end
 
 def seed_admin
-  admin = Admin.get
-  unless admin.nil?
-    User.delete_all
-  end
+  # admin = Admin.get
+  # Don't understand how this helps
+  # if admin.nil?
+  #   User.delete_all
+  # end
   admin = User.new do |u|
     u.name = ENV['ALIASMADNESS_ADMIN']
     u.password = ENV['ALIASMADNESS_PASSWORD']
@@ -125,6 +126,7 @@ end
 def seed_result
   bracket= Admin.get.bracket
   choose_winners_for_brackets_games bracket, 25, true
+  @players.each { |p| p.score }
 end
 
 seed_admin unless ENV['SEED_ADMIN'].nil?

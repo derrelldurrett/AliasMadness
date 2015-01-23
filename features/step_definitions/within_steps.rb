@@ -1,3 +1,17 @@
+def seed_database
+  require_relative(%q(../../db/seeds))
+  reset_database
+  seed_admin
+  store_team_data
+end
+
+def reset_database
+  User.all.each { |e| e.delete }
+  Bracket.all.each { |e| e.delete }
+  Game.all.each { |e| e.delete }
+  Team.all.each { |e| e.delete }
+end
+
 ADMINS_CHANGED_LABELS = 63.downto(31)
 
 def invite_player(name, email)
@@ -54,16 +68,6 @@ def construct_team_css_node_name(label)
   %Q(td.team[data-node="#{label}"])
 end
 
-INPUT_TEAM_CSS = 'input.team_name'
-
-def choose_team_css(is_locked=false, outer_css)
-  if is_locked
-    outer_css
-  else
-    INPUT_TEAM_CSS
-  end
-end
-
 def build_game_css(label)
   %Q(td.game[data-node="#{label}"])
 end
@@ -106,10 +110,11 @@ def enter_game_winner(game)
   td_node_name= build_game_css(game[:label])
   within(td_node_name) do
     choose_winner_script = %Q(
-      $('#{td_node_name} #{GAME_WINNER_CSS}').val('#{game[:winners_label]}');
-      $('#{td_node_name} #{GAME_WINNER_CSS}').focus().trigger('change');
-      )
-    page.driver.execute_script(choose_winner_script)
+          $('#{td_node_name} #{GAME_WINNER_CSS}').val('#{game[:winners_label]}');
+          $('#{td_node_name} #{GAME_WINNER_CSS}').focus().trigger('change');
+          )
+    puts "Script to execute:\n"+choose_winner_script.strip
+    page.driver.execute_script(choose_winner_script.strip)
   end
 end
 
@@ -117,6 +122,7 @@ def verify_players_games(id)
   bracket= Bracket.find_by_user_id id
   players_games= bracket.games.sort_by { |g| g.label.to_i }
   players_games.reverse_each do |p|
+    p.reload
     expect(p.winner).not_to be_nil
     expect(p.winner.name).to eq(game_by_label(p.label)[:winner][:new_name])
   end
@@ -164,6 +170,20 @@ def choose_games_for_bracket(bracket, labels=63.downto(1), reset_game_data=true)
     g= bracket_games_by_label[label.to_s]
     winning_team = team_data_by_label(game_by_label(label)[:winners_label])
     g.update_attributes!({winner: winning_team})
+    g.reload
+    mark_losing_team_eliminated g, bracket
+  end
+end
+
+def mark_losing_team_eliminated(g, b)
+  ancestors= b.lookup_ancestors(g)
+  ancestors.each do |a|
+    a.reload
+    a_team= a.is_a?(Team) ? a : a.winner
+    unless a_team.label==g.winner.label
+      a_team.update_attributes!({eliminated: true})
+      break
+    end
   end
 end
 
@@ -175,8 +195,7 @@ end
 
 def pick_game_winners_as_admin(labels, reset_game_data=true)
   admin = Admin.get
-  admin_bracket= admin.bracket
-  choose_games_for_bracket admin_bracket, labels, reset_game_data
+  choose_games_for_bracket admin.bracket, labels, reset_game_data
   save_mock_bracket admin
 end
 
@@ -228,9 +247,10 @@ def round_multiplier(label)
 end
 
 def verify_displayed_standings(standings)
-  leader_board = page.all('#leader_board tr')
-  expect(leader_board).not_to be_empty
-  leader_board.each_with_index do |tr, index|
+  leader_board_row = page.all('#leader_board tr')
+  # save_and_open_page
+  expect(leader_board_row).not_to be_empty
+  leader_board_row.each_with_index do |tr, index|
     expect(tr).to have_selector('.player_summary')
     expect(tr).to have_content(standings[index][0])
     expect(tr).to have_content(standings[index][1])
@@ -252,4 +272,12 @@ end
 
 def lock_team_names
   Team.update_all name_locked: :true
+end
+
+def lock_players_brackets
+  User.where({role: :player}).each do |p|
+    b= p.bracket
+    b.games.update_all(locked: true)
+  end
+  User.where({role: :player}).update_all(bracket_locked: true)
 end

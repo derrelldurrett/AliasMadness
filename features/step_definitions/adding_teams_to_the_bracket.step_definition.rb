@@ -9,11 +9,11 @@ NODE_97_CSS = 'td.team[data-node="97"]'
 Then %q(I should see the initial bracket) do
   team_1_node = find(NODE_64_CSS)
   within(team_1_node) do
-    find(choose_team_css).value.should have_content 'Team 1'
+    find(INPUT_TEAM_CSS).value.should have_content 'Team 1'
   end
   team_64_node = find(NODE_97_CSS)
   within(team_64_node) do
-    find(choose_team_css).value.should have_content 'Team 64'
+    find(INPUT_TEAM_CSS).value.should have_content 'Team 64'
   end
 end
 
@@ -25,10 +25,22 @@ When %q(I change the names of the teams) do
   enter_team_names_as_admin
 end
 
-Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)'\z/) do |new_item, link, old_item|
-  # We know we're on the right page if the 'within' works...
-  expect(find(construct_team_css_node_name(lookup_label_by_old_name old_item))).to have_content new_item
+
+INPUT_TEAM_CSS = 'input.team_name'
+Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)', (\w+)\z/) do |new_item, link, old_item, lock_state|
+  visit(path_to link)
+  is_locked= lock_state=='locked'
+  team_css=construct_team_css_node_name(lookup_label_by_old_name(old_item))
+  if is_locked
+    expect(find(team_css)).to have_content new_item
+  else
+    within(team_css) do
+      # save_and_open_page
+      expect(find(INPUT_TEAM_CSS).value).to have_content new_item
+    end
+  end
 end
+
 NONEXISTENT_TEAM='CSU-Pueblo'
 Then %q(The team names should not be editable) do
   team_data.each do |t|
@@ -56,7 +68,7 @@ Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name
   visit path_to(page_name)
   team_data.each do |t|
     steps %Q{
-      Then I should see '#{t[:new_name]}' on the '#{page_name}' page in place of '#{t[:old_name]}'
+      Then I should see '#{t[:new_name]}' on the '#{page_name}' page in place of '#{t[:old_name]}', locked
       }
   end
 end

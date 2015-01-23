@@ -1,15 +1,10 @@
 Given %q(The database is seeded) do
-  require_relative(%q(../../db/seeds))
-  seed_admin
-  store_team_data
+  seed_database
 end
 
 Given /\A'([^']+)' who is logged in\z/ do |login|
   case login
     when /(?i:admin)/
-      steps %q{
-        Given The database is seeded
-      }
       login_as_admin
     when /(?i:(\binvited player))/
       login = FactoryGirl.create(:player)
@@ -39,7 +34,9 @@ end
 
 When %q(click the button to set the names) do
   click_button 'Set Team Names'
-  sleep 15
+  sleep 5
+  visit path_to('Edit Bracket')
+  sleep 5
 end
 
 Given /\A'([^']+)' visiting the '([^']+)' page with all teams entered\z/ do |who,where|

@@ -9,6 +9,10 @@
     <envs>
       <env name="TEAM_NAMES_SET" value="true" />
       <env name="SEED_PLAYERS" value="true" />
+      <env name="SEED_ADMIN" value="true" />
+      <env name="ALIASMADNESS_PASSWORD" value="foobaer" />
+      <env name="ALIASMADNESS_ADMINEMAIL" value="foo@bar.com" />
+      <env name="ALIASMADNESS_ADMIN" value="admin" />
     </envs>
     <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
     <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
@@ -26,6 +30,8 @@
     <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
     <RunnerSettings RunnerId="RubyRunner" />
     <ConfigurationWrapper RunnerId="RubyRunner" />
-    <method />
+    <method>
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="db:reset: AliasMadness" run_configuration_type="RakeRunConfigurationType" />
+    </method>
   </configuration>
 </component>
