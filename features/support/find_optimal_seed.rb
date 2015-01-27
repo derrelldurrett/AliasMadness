@@ -1,0 +1,2 @@
+class FindOptimalSeed
+end
