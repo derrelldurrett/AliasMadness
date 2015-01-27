@@ -1,0 +1,2 @@
+class BadProgrammerError < StandardError
+end

@@ -17,7 +17,7 @@ AliasMadness::Application.configure do
   #config.action_mailer.raise_delivery_errors = false
   config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.delivery_method = :sendmail
   # Defaults to:
   # config.action_mailer.sendmail_settings = {
   #   :location => '/usr/sbin/sendmail',
@@ -31,7 +31,7 @@ AliasMadness::Application.configure do
       # Port for TLS/STARTTLS: 587
       :address              => "smtp.gmail.com",
       :port                 => 587,
-      :domain               => 'localhost.com',
+      :domain => ENV['ALIASMADNESS_APPLICATION_ROOT'],
       :user_name            => ENV['ALIASMADNESS_SERVEREMAIL'],
       :password             => ENV['ALIASMADNESS_EMAILPASSWORD'],
       :authentication       => 'plain',
@@ -52,9 +52,9 @@ AliasMadness::Application.configure do
   config.active_record.silence_auto_explain
 
   # Do not compress assets
-  # config.assets.compress = false
+  config.assets.compress = false
   # Or maybe do.
-  config.assets.compress = true
+  # config.assets.compress = true
 
   # Expands the lines which load the assets
   config.assets.debug = true

@@ -29,6 +29,10 @@ group :development, :test do
   # gem 'ruby-debug-ide', '>=0.4.22'
 end
 
+group :production, :development do
+  gem 'unicorn'
+end
+
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'

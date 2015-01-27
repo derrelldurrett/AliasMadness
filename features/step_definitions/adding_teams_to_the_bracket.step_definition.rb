@@ -27,8 +27,9 @@ end
 
 
 INPUT_TEAM_CSS = 'input.team_name'
-Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)', (\w+)\z/) do |new_item, link, old_item, lock_state|
-  visit(path_to link)
+Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)', (\w+)(,\s.+)?\z/) do |new_item, link, old_item, lock_state, reload_page|
+  will_reload= reload_page=='without reloading'
+  visit(path_to link) if will_reload
   is_locked= lock_state=='locked'
   team_css=construct_team_css_node_name(lookup_label_by_old_name(old_item))
   if is_locked
@@ -68,7 +69,7 @@ Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name
   visit path_to(page_name)
   team_data.each do |t|
     steps %Q{
-      Then I should see '#{t[:new_name]}' on the '#{page_name}' page in place of '#{t[:old_name]}', locked
+      Then I should see '#{t[:new_name]}' on the '#{page_name}' page in place of '#{t[:old_name]}', locked, without reloading
       }
   end
 end

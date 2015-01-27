@@ -14,5 +14,8 @@
 /log/*.log
 /tmp
 
-/.idea
+/.idea/*
 .env
+
+# Obviously ignore emacs backup files.
+*~

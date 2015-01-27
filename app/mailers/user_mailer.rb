@@ -1,7 +1,6 @@
 class UserMailer < ActionMailer::Base
-#  default from: %q(ibualia@yahoo.com)
-  default reply_to: %q(ibualia@yahoo.com)
-  #default from: Admin.get.email
+  default reply_to: ENV['ALIASMADNESS_ADMINEMAIL']
+  default from: ENV['ALIASMADNESS_ADMINEMAIL']
 
   def welcome_email(u)
     @user = u
@@ -15,7 +14,7 @@ class UserMailer < ActionMailer::Base
 
   def construct_user_response_url(u)
     # first pass doesn't bother with encryption
-    'http://localhost:3000/login?'+
+    ENV['ALIASMADNESS_HOST']+'/login?'+
         build_params(u).to_query
   end
 

@@ -1,3 +1,3 @@
-This app is meant to control a “MarchMadness” style tournament, though the details of the underlying tournament are not relevant. It provides for an administrative user (an Admin, which is a singleton) who invites the participants through an email. The participants (Players) create a Bracket, which when compared to the Result managed by the Admin, produces a ranked score among the participants, among many other features.
+This app is meant to control a “MarchMadness” style tournament, though the details of the underlying tournament are not relevant. It provides for an administrative user (an Admin, which is a singleton) who invites the participants through an email. The participants (Players) create a Bracket, which when compared to the Result managed by the Admin, produces a ranked score among the participants, among many other planned features.
 
-The scoring system, the type of bracket being predicted by the players, and several other details are customizable.
+The scoring system, the type of bracket being predicted by the players, and several other details will eventually be customizable.

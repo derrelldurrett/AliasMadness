@@ -1,2 +1,2 @@
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+This application implements a simple 64-team single elimination bracket (with some support for customizing the underlying bracket, as long as it acts as a directed adjacency graph). The scoring model in this app is unusual: it rewards correctly choosing upsets, particularly in the early rounds. A way to modularize the scoring is the first planned step after this iteration is completed. A near-term improvement would also be a way to build the html view of a given bracket from its description. This is certainly possible, but it may not be obvious how to calculate that set of relationships a priori.
+

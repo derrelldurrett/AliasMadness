@@ -10,8 +10,8 @@
  */
 /*
 *= require_self
+*= require reset
 *= require_directory ./layout
 *= require nav_bar
-* //require bracket
 */
 
