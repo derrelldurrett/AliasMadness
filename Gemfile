@@ -25,8 +25,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'bootstrap-generators'
-  # gem 'debase'
-  # gem 'ruby-debug-ide', '>=0.4.22'
 end
 
 group :production, :development do
@@ -38,17 +36,9 @@ group :test do
   gem 'capybara-screenshot'
   gem 'shoulda'#, '>3.1.1'
   gem 'cucumber-rails', :require => false
-  # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   gem 'email_spec'
-  # gem 'jasmine'
-  # gem 'capybara-webkit'
-  # gem 'headless'
   gem 'selenium-webdriver'
-  # gem 'selenium-client'
-  # gem 'poltergeist'
-  # gem 'capybara-culerity'
-  # gem 'culerity'
   gem 'launchy'
   gem 'rb-inotify'#, '0.8.8' # linux
   gem 'libnotify'#, '0.5.9' # linux
@@ -68,4 +58,4 @@ end
 
 gem 'jquery-rails'
 
-ruby '2.0.0'
+ruby '2.1.1'

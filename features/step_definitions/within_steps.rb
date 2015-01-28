@@ -113,7 +113,7 @@ def enter_game_winner(game)
           $('#{td_node_name} #{GAME_WINNER_CSS}').val('#{game[:winners_label]}');
           $('#{td_node_name} #{GAME_WINNER_CSS}').focus().trigger('change');
           )
-    puts "Script to execute:\n"+choose_winner_script.strip
+    # puts "Script to execute:\n"+choose_winner_script.strip
     page.driver.execute_script(choose_winner_script.strip)
   end
 end

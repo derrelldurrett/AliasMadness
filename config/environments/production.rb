@@ -9,13 +9,11 @@ AliasMadness::Application.configure do
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
-  # Show full error reports and disable caching
+  # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
-  # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = true
-
+  # mailer settings from
   config.action_mailer.default_url_options = {:host => ENV['ALIASMADNESS_APPLICATION_ROOT']}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
@@ -32,7 +30,7 @@ AliasMadness::Application.configure do
   }
 
   # Print deprecation notices to the Rails logger
-  config.active_support.deprecation = :log
+  config.active_support.deprecation = :notify
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
@@ -44,11 +42,6 @@ AliasMadness::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   #config.active_record.auto_explain_threshold_in_seconds = 1.0
   config.active_record.silence_auto_explain
-
-  # Do not compress assets
-  # config.assets.compress = false
-  # Or maybe do.
-  config.assets.compress = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -62,31 +55,6 @@ AliasMadness::Application.configure do
   config.assets.debug = false
 
   config.eager_load = false
-end
-
-
-AliasMadness::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
-
-  # Code is not reloaded between requests
-  config.cache_classes = true
-
-  # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
-
-  # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
-
-  # Compress JavaScripts and CSS
-  config.assets.compress = true
-
-  # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
-
-  # Generate digests for assets URLs
-  config.assets.digest = true
-
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
@@ -125,11 +93,4 @@ AliasMadness::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
-  # Send deprecation notices to registered listeners
-  config.active_support.deprecation = :notify
-
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  # config.active_record.auto_explain_threshold_in_seconds = 0.5
-  config.eager_load = true
 end
