@@ -7,6 +7,8 @@ class UserMailer < ActionMailer::Base
     @url = construct_user_response_url(u)
     name_in_email = %Q(#{@user.name} <#{@user.email}>)
     mail(from: Admin.get.email, to: name_in_email, subject: %Q(Welcome, #{@user.name}, to Alia's Madness!))
+    puts 'user nil' if u.nil?
+    puts '@url nil' if @url.nil?
     puts 'user: '+u.email+' token: '+@url
   end
 
@@ -14,6 +16,7 @@ class UserMailer < ActionMailer::Base
 
   def construct_user_response_url(u)
     # first pass doesn't bother with encryption
+    puts 'ALIASMADNESS_HOST nil? '+ENV['ALIASMADNESS_HOST'].nil?
     ENV['ALIASMADNESS_HOST']+'/login?'+
         build_params(u).to_query
   end
