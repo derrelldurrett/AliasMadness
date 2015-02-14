@@ -21,7 +21,7 @@ sendTeamNameUpdate = (target) ->
       'bracket[node]': node
     success: (data, textStatus, jqXHR) ->
       updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
-      reloadPage target.getWindow()
+      reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
       wipeTextField target
@@ -46,7 +46,7 @@ fixTeamNames = (e) ->
     data:
       'fix_team_names': true
     success: (data, textStatus, jqXHR) ->
-      reloadPage target.getWindow()
+      reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
 
@@ -139,11 +139,12 @@ loadBracketData = ->
   # Using jQuery.one() means we *must* clear the data-bracket attribute
   # before continuing.
   data = $('table.bracket').data 'bracket'
-  bracketId= data.id
-  clearNewGameChoiceFlags(bracketId)
-  localStore(bracketId, node) for node in data.nodes
-  $('table.bracket').data 'bracket', ''
-  $('table.bracket').data 'bracket_id', bracketId
+  if data?
+    bracketId = data.id
+    clearNewGameChoiceFlags(bracketId)
+    localStore(bracketId, node) for node in data.nodes
+    $('table.bracket').data 'bracket', null
+    $('table.bracket').data 'bracket_id', bracketId
   return
 
 loadBracketAncestors = ->
@@ -182,15 +183,13 @@ sendGameUpdates = (e) ->
       JSON.stringify({"game_data": sendMe})
     success: (data, textStatus, jqXHR) ->
       clearNewGameChoiceFlags bId
-      reloadPage target.getWindow()
+      reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
   return false
 
 lockPlayersBrackets = (e) ->
   e.preventDefault();
-  # target= e.target
-  # bId= $('table.bracket').data 'bracket_id'
   $.ajax
     contentType: 'application/json'
     type: 'PUT'
@@ -199,7 +198,7 @@ lockPlayersBrackets = (e) ->
       xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
     data: JSON.stringify({"lock_players_brackets": true})
     success: (data, textStatus, jqXHR) ->
-      reloadPage target.getWindow()
+      reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
 

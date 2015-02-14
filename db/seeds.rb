@@ -10,7 +10,7 @@ def World(stuff)
 end
 
 if !ENV['TEAM_NAMES_SET'].nil? or !ENV['SEED_PLAYERS'].nil? or !ENV['SEED_GAMES'].nil?
-  require 'features/support/transform_team_data'
+  require_relative '../features/support/transform_team_data'
   include TransformTeamData
 end
 
@@ -42,13 +42,16 @@ def seed_teams
 end
 
 def build_new_player(player_file)
+  p= SecureRandom.base64(24)
   player = User.new do |u|
     u.name= Faker::Name.name
     u.email= Faker::Internet.email(u.name)
     u.role= :player
+    u.password= p
+    u.password_confirmation= p
   end
   player.save!
-  player_file.write %Q(#{player.email} -- #{player.remember_for_email}\n)
+  player_file.write %Q(#{player.email} -- #{p}\n)
   player
 end
 
@@ -82,6 +85,8 @@ def seed_players_games
   end
   Game.where('team_id is not null').update_all(locked: :true)
   User.where(role: :player).update_all(bracket_locked: :true)
+  b= Admin.get.bracket
+  User.all { |u| u.score b }
 end
 
 

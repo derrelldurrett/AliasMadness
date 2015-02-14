@@ -16,6 +16,17 @@ Given %q('An invited player' logs in with all teams entered and players' games c
            )
 end
 
+Given %q('An invited player' should see the bracket in progress) do
+  steps %q(
+           Given The database is seeded
+           Given The teams have already been entered
+           Given The players have been invited
+           Given The players have entered their winning teams
+           Given The Admin has updated some games the first time
+           Given 'An invited player' visiting the 'Edit Bracket' page
+          )
+end
+
 Given(/\A'([^']+)' visiting the '([^']+)' page with all player's games entered\z/) do |who, page_name|
   puts who+' will visit '+page_name
   case who
@@ -102,46 +113,47 @@ Then(/\AI should not be able to change '([^']+)' to '([^']+)'\z/) do |team_name,
   attempt_to_change_a_team_name_as_a_player(team_name, non_participating_team)
 end
 
-When %q(An admin updates the bracket) do
-  lock_players_brackets
-  pick_game_winners_as_admin(ADMINS_CHANGED_LABELS)
+When /\AThe Admin has updated some games the (\w+) time\z/ do |which_time|
+  if which_time=='first'
+    puts 'locking players brackets'
+    lock_players_brackets
+  end
+  pick_game_winners_as_admin(ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]])
 end
 
 Then %q(the invited players scores should be calculated) do
-  reference_bracket= Admin.get.bracket
-  get_players.each do |p|
-    p= User.find p.id
-    p_score = p.score reference_bracket
-    expect(p_score).not_to be_nil
-  end
+  update_players_scores Admin.get.bracket
 end
 
-Then /\Athe '([^']+)' page should reflect the new standings\z/ do |page_name|
+Then /\Athe '([^']+)' page should reflect the (\w+) standings\z/ do |page_name, which_time|
   visit path_to(page_name)
   sleep 3
-  verify_displayed_standings compute_expected_standings
+  verify_displayed_standings compute_expected_standings which_time
 end
 
-Then %q('An invited player' should see the correct choices in green and the incorrect choices in red) do
+Then %q('An invited player' should see the correct choices in green and the incorrect choices in red the $nth time) do |nth|
   puts %Q(checking user #{@user.name})
-  # save_and_open_page
-  reference_bracket=games_by_label(Admin.get.bracket)
+  reference_bracket= games_by_label(Admin.get.bracket)
   players_bracket= games_by_label(@user.bracket)
-  ADMINS_CHANGED_LABELS.each do |l|
+  ADMINS_LABEL_BLOCK[WHICH_TIME[nth.to_sym]].each do |l|
     label = l.to_s
+    # save_and_open_page %Q(page_#{label}.html)
     within(build_game_css(label)) do
       r_game= reference_bracket[label]
       p_game= players_bracket[label]
       expect(r_game.winner).not_to be_nil
       if p_game.winner==r_game.winner
         puts %Q(expect #{label} to have green)
-        page.has_css?('select.green_winner_state')
-        expect(find('select.green_winner_state').value).to eql(p_game.winner.label)
+        page.has_css?('td.green_winner_state')
+        save_and_open_page page_with_label_and_color(label, 'green')
+        expect(find('td.green_winner_state').value).to eql(p_game.winner.label)
       else
         puts %Q(expect #{label} to have red)
-        page.has_css?('select.red_winner_state')
-        expect(find('select.red_winner_state').value).not_to eql(r_game.winner.label)
+        page.has_css?('td.red_winner_state')
+        save_and_open_page page_with_label_and_color(label, 'red')
+        expect(find('td.red_winner_state').value).not_to eql(r_game.winner.label)
       end
     end
   end
 end
+

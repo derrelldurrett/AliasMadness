@@ -4,9 +4,9 @@ require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(assets:  %w(development test)))
+  # Bundler.require(*Rails.groups(assets:  %w(development test)))
   # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+  Bundler.require(:default, :assets, Rails.env)
 end
 
 module AliasMadness
@@ -71,5 +71,9 @@ module AliasMadness
     config.generators do |g|
       g.factory_girl dir: 'features/support/factories'
     end
+
+    # Postmark
+    config.action_mailer.delivery_method = :postmark
+    config.action_mailer.postmark_settings = {api_token: ENV['POSTMARK_API_TOKEN']}
   end
 end

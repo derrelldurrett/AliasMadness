@@ -1,12 +1,20 @@
 module UsersHelper
 
   def update_player_scores
-    players= User.where(role: :player)
-    if players.length > 1
+    players= get_players
+    if players.length >= 1
       reference= Admin.get.bracket
-      players.order('current_score desc').sort_by! { |p| p.score reference }
+      players.sort_by! do |p|
+        p.bracket.score reference
+        p.reload
+      end
     end
-    @players= User.where(role: :player)
+    @players= players
   end
+
+  def get_players
+    User.where(role: :player)
+  end
+
 
 end

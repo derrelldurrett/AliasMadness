@@ -26,12 +26,15 @@ class UsersController < ApplicationController
       begin
         @user = User.find(params[:id])
         @bracket = @user.bracket
-        @players = User.where(role: :player).order('current_score desc')
+        @players = User.ordered_by_current_score
       rescue ActiveRecord::RecordNotFound => e
         puts e.message
         all= User.all
         all.each { |u| puts 'user: '+u.name+' : '+u.id.to_s }
       end
+    else
+      flash.now[:error]= 'user not signed in'
+      @players=[]
     end
   end
 
@@ -39,8 +42,9 @@ class UsersController < ApplicationController
     if signed_in?
       begin
         params[:user][:role]='player'
+        set_player_login params
         @user = User.create!(params[:user])
-        UserMailer.welcome_email(@user).deliver unless @user.admin?
+        UserMailer.welcome_email(@user, @remember_for_email).deliver
         flash.now[:success] = %Q(User '#{ params[:user][:name] }' created.)
       rescue Exception => e
         puts e.message
@@ -54,8 +58,15 @@ class UsersController < ApplicationController
     end
   end
 
-  # private
+  private
   # def user_params
   #   params.require(:user).permit(:name, :password, :password_confirmation, :email, :role)
   # end
+
+  def set_player_login(params)
+    params[:user][:password] =
+        params[:user][:password_confirmation] =
+            @remember_for_email =
+                SecureRandom.base64(24) #create a  32-character-length password
+  end
 end

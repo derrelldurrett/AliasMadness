@@ -15,8 +15,8 @@ class BracketsController < ApplicationController
         respond_with false, {status: 400}
       end
     else
-      flash[:error]= 'Request FAILED!'
-      respond_with false, {status: 400}
+      flash[:notice]= 'Nothing to do.'
+      respond_with true, {status: 200}
     end
   end
 
@@ -63,7 +63,7 @@ class BracketsController < ApplicationController
           ancestors= b.lookup_ancestors(b.lookup_game game_label)
           ancestors.each do |a|
             a_team= ancestor_team a
-            unless a_team.label==winner_label
+            unless !a_team.nil? and a_team.label==winner_label
               a_team.update_attributes!({eliminated: true})
               break
             end
@@ -80,12 +80,10 @@ class BracketsController < ApplicationController
     User.where({role: :player}).each do |p|
       b= p.bracket
       b.games.update_all(locked: true)
-      b.update_lookups
+      b.reload
     end
     User.where({role: :player}).update_all(bracket_locked: true)
   end
-
-  private
 
   def ancestor_team(ancestor)
     ancestor.is_a?(Team) ? ancestor : ancestor.winner

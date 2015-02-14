@@ -9,6 +9,7 @@ gem 'active_attr'
 gem 'sprockets'
 gem 'pg'
 gem 'coffee-rails'
+gem 'postmark-rails'
 gem 'uglifier'#, '>= 1.0.3'
 # gem 'i18n'
 # Bundle edge Rails instead:
@@ -58,4 +59,4 @@ end
 
 gem 'jquery-rails'
 
-ruby '2.1.1'
+ruby '2.1.5'

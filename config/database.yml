@@ -9,6 +9,7 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: aliasmadness_development
   pool: 5
   username: ibualia
@@ -37,6 +38,7 @@ test: &test
   adapter: postgresql
   encoding: unicode
   database: aliasmadness_test
+  host: localhost
   pool: 5
   username: ibualia
   password: 1337
@@ -45,6 +47,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: aliasmadness_production
+  host: localhost
   pool: 5
   username: ibualia
   password: 1337

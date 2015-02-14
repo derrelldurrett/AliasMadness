@@ -30,7 +30,7 @@ Feature: Edit bracket as admin
   @javascript
   Scenario: Choosing the winning teams
     Given 'An admin' visiting the 'Edit Bracket' page with all player's games entered
-    When An admin updates the bracket
+    When The Admin has updated some games the first time
     Then the invited players scores should be calculated
-    And the 'Edit Bracket' page should reflect the new standings
+    And the 'Edit Bracket' page should reflect the first standings
 

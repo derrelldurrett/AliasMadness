@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150103233336) do
+ActiveRecord::Schema.define(:version => 20150210234555) do
 
   create_table "brackets", :force => true do |t|
     t.integer "user_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20150103233336) do
     t.text "lookup_by_label"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer "current_score", :default => 0
   end
 
   create_table "games", :force => true do |t|
@@ -52,7 +53,6 @@ ActiveRecord::Schema.define(:version => 20150103233336) do
     t.string "role"
     t.string "remember_token"
     t.string "email"
-    t.integer "current_score", :default => 0
     t.boolean "bracket_locked", :default => false
   end
 

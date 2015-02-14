@@ -12,7 +12,9 @@ def reset_database
   Team.all.each { |e| e.delete }
 end
 
-ADMINS_CHANGED_LABELS = 63.downto(31)
+WHICH_TIME={first: 0, second: 1}
+ADMINS_LABEL_BLOCK=[63.downto(45), 44.downto(26)]
+
 
 def invite_player(name, email)
   fill_in 'Name', with: name
@@ -37,7 +39,7 @@ end
 
 def login_as_player(player)
   email= player.email
-  password= player.remember_for_email
+  password= $MY_FAKE_PASSWORD
   @logged_in_player= @user= player
   login(email, password)
 end
@@ -197,6 +199,7 @@ def pick_game_winners_as_admin(labels, reset_game_data=true)
   admin = Admin.get
   choose_games_for_bracket admin.bracket, labels, reset_game_data
   save_mock_bracket admin
+  update_players_scores admin.bracket
 end
 
 def add_to_players(player)
@@ -208,13 +211,13 @@ def get_players
   @players
 end
 
-def compute_expected_standings
+def compute_expected_standings(which_time)
   admin_games= @mock_brackets_by_player['admin']
   standings= Hash.new
   @mock_brackets_by_player.each do |p, p_data|
     next if p== 'admin'
     p_data[:score]= 0
-    ADMINS_CHANGED_LABELS.each do |l|
+    ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]].each do |l|
       if p_data[:games][l][:winners_label]== admin_games[:games][l][:winners_label]
         p_data[:score]+= admin_games[:games][l][:winner][:seed].to_i*round_multiplier(l)
       end
@@ -278,6 +281,27 @@ def lock_players_brackets
   User.where({role: :player}).each do |p|
     b= p.bracket
     b.games.update_all(locked: true)
+    b.reload
   end
   User.where({role: :player}).update_all(bracket_locked: true)
 end
+
+def page_with_label_and_color(label, color)
+  ret= ['game', label.to_s, color].join('_')
+  ret.concat '.html'
+  ENV['RAILS_ROOT']+'/'+ret
+end
+
+def check_players_scores
+  reference_bracket= Admin.get.bracket
+  update_players_scores reference_bracket
+  User.where(role: :player).each do |p|
+    expect(p.current_score).not_to be_nil
+  end
+end
+
+def update_players_scores(bracket)
+  User.where(role: :player).each { |u| u.bracket.score bracket }
+end
+
+

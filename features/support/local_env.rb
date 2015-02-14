@@ -11,7 +11,7 @@ chosen_capybara_driver = :selenium # :culerity # :webkit # :poltergeist
 Capybara.javascript_driver = chosen_capybara_driver
 Capybara.default_selector = :css
 Capybara.default_wait_time = 15
-Selenium::WebDriver::Firefox::Binary.path='/home/rev-dr-d3/INSTALLS/firefox/firefox'
+Selenium::WebDriver::Firefox::Binary.path='/home/derrell/INSTALLS/firefox/firefox'
 ActionController::Base.allow_rescue = false
 
 

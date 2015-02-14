@@ -1,5 +1,5 @@
 module SessionsHelper
-  require 'not_authorized'
+  require_relative '../errors/not_authorized'
 
   delegate :url_helpers, to: 'Rails.application.routes'
   def session_authenticate(user)
@@ -8,7 +8,7 @@ module SessionsHelper
       sign_in user
       redirect_back_or user
     else
-      flash[:error] = 'Invalid email/password combination'
+      flash[:error] = 'Invalid email/password combination: '+params[:user][:password].to_s
       sign_out
       redirect_to login_users_path(id: id)
     end

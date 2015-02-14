@@ -4,6 +4,8 @@ FactoryGirl.define do
   factory :user do
     name "MyString"
     email 'my@emacil.com'
-    current_score 0
+    p= SecureRandom.base64(24)
+    password p
+    password_confirmation p
   end
 end

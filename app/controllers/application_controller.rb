@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  require 'not_authorized'
+  require_relative '../errors/not_authorized'
 
   protect_from_forgery
   rescue_from User::NotAuthorized, with: :user_not_authorized
