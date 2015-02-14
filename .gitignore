@@ -11,11 +11,13 @@
 /log/*.log
 /tmp
 
-/.idea/.*
+/.idea
 .env
 
 # Obviously ignore emacs backup files.
 *~
 
+.heroku_init.sh
+public/assets
 
-.idea/AliasMadness.iml
+.heroku_test_init.sh
