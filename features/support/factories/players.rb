@@ -7,5 +7,4 @@ FactoryGirl.define do
     password_confirmation $my_fake_password
     role :player
   end
-
 end

@@ -23,19 +23,19 @@ AliasMadness::Application.configure do
   #   :location => '/usr/sbin/sendmail',
   #   :arguments => '-i -t'
   # }
-  config.action_mailer.perform_deliveries = false
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-      # Outgoing Mail (SMTP) Server: smtp.gmail.com
-      # Use Authentication: Yes
-      # Port for TLS/STARTTLS: 587
-      :address              => "smtp.gmail.com",
-      :port                 => 587,
-      :domain => ENV['ALIASMADNESS_APPLICATION_ROOT'],
-      :user_name            => ENV['ALIASMADNESS_SERVEREMAIL'],
-      :password             => ENV['ALIASMADNESS_EMAILPASSWORD'],
-      :authentication       => 'plain',
-      :enable_starttls_auto => true  }
+  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #     # Outgoing Mail (SMTP) Server: smtp.gmail.com
+  #     # Use Authentication: Yes
+  #     # Port for TLS/STARTTLS: 587
+  #     :address              => "smtp.gmail.com",
+  #     :port                 => 587,
+  #     :domain => ENV['ALIASMADNESS_APPLICATION_ROOT'],
+  #     :user_name            => ENV['ALIASMADNESS_SERVEREMAIL'],
+  #     :password             => ENV['ALIASMADNESS_EMAILPASSWORD'],
+  #     :authentication       => 'plain',
+  #     :enable_starttls_auto => true  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

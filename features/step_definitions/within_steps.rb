@@ -39,7 +39,7 @@ end
 
 def login_as_player(player)
   email= player.email
-  password= $MY_FAKE_PASSWORD
+  password= $my_fake_password
   @logged_in_player= @user= player
   login(email, password)
 end
@@ -70,9 +70,11 @@ def construct_team_css_node_name(label)
   %Q(td.team[data-node="#{label}"])
 end
 
-def build_game_css(label)
-  %Q(td.game[data-node="#{label}"])
+def build_game_css(label, winner_state=nil)
+  winner_state= (winner_state.nil? ? 'grey' : winner_state) + '_winner_state'
+  %Q(td.#{winner_state}.game[data-node="#{label}"])
 end
+
 
 def path_to(page_name)
   case page_name
@@ -143,17 +145,23 @@ def enter_players_bracket_choices_and_save_bracket(player)
   save_mock_bracket player
 end
 
+def create_a_player
+  player = FactoryGirl.create(:player)
+  add_to_players player
+  player
+end
+
 def create_the_players
   N_PLAYERS.times do
-    player = FactoryGirl.create(:player)
-    add_to_players player
+    create_a_player
   end
 end
 
 def players_games_entered
-  N_PLAYERS.times do
-    player = FactoryGirl.create(:player)
-    add_to_players player
+  if (get_players.nil? or get_players.empty?)
+    create_the_players
+  end
+  get_players.each do |player|
     enter_players_bracket_choices_and_save_bracket(player)
     verify_players_games player.id
   end
@@ -191,7 +199,10 @@ end
 
 def hash_by_label(labeled_entities)
   ret= Hash.new
-  labeled_entities.each { |e| ret[e.label]= e }
+  labeled_entities.each do |e|
+    e.reload
+    ret[e.label]= e
+  end
   ret
 end
 
@@ -278,6 +289,7 @@ def lock_team_names
 end
 
 def lock_players_brackets
+  puts 'locking players brackets!'
   User.where({role: :player}).each do |p|
     b= p.bracket
     b.games.update_all(locked: true)

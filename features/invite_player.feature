@@ -5,6 +5,7 @@ Feature: Invite player
   by entering their email address
   and have the app send them a message with the details.
 
+  @wip
   Scenario: Inviting Players
     Given The database is seeded
     And 'An admin' who is logged in
