@@ -71,7 +71,7 @@ When /\A'([^']+)' enters the winner for game '([^']+)'\z/ do |who, label|
   # end
 end
 
-Then /\AThe game labeled '([^']+)' should display correctly\z/ do |label|
+Then %q(The game labeled '$label' should display correctly) do |label|
   # FIXME incomplete-- doesn't test the labeled game for the correct selection
   label = label.to_s
   game_labeled= game_by_label label
@@ -136,8 +136,6 @@ Then /\Athe '([^']+)' page should reflect the (\w+) standings\z/ do |page_name, 
 end
 
 Then %q('An invited player' should see the correct choices in green and the incorrect choices in red the $nth time) do |nth|
-  puts %Q(checking user #{logged_in_player.name} : #{logged_in_player.id})
-  puts %Q(current_path: #{current_path})
   visit current_path
   reference_bracket= games_by_label(Admin.get.bracket)
   players_bracket= games_by_label(logged_in_player.bracket)
@@ -150,11 +148,10 @@ Then %q('An invited player' should see the correct choices in green and the inco
     # save_and_open_page page_with_label_and_color(label, winner_state)
     expected_css= build_game_css(label, winner_state)
     page.has_css?(expected_css)
-    puts %Q(expect #{label} to have #{winner_state})
     if winner_state=='green'
-      expect(find(expected_css)).to have_content(p_game.winner.name, exact: true)
+      expect(find(expected_css)).to have_text(exact_text_match(p_game.winner.name))
     else
-      expect(find(expected_css)).not_to have_content(r_game.winner.name, exact: true)
+      expect(find(expected_css)).not_to have_text(exact_text_match(r_game.winner.name))
     end
   end
 end
