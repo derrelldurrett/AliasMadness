@@ -316,4 +316,6 @@ def update_players_scores(bracket)
   User.where(role: :player).each { |u| u.bracket.score bracket }
 end
 
-
+def exact_text_match(text)
+  /\A#{Regexp.escape(text)}\z/
+end

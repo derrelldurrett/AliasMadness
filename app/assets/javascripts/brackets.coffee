@@ -21,7 +21,6 @@ sendTeamNameUpdate = (target) ->
       'bracket[node]': node
     success: (data, textStatus, jqXHR) ->
       updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
-      reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
       wipeTextField target

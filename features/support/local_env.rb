@@ -11,6 +11,10 @@ chosen_capybara_driver = :selenium # :culerity # :webkit # :poltergeist
 Capybara.javascript_driver = chosen_capybara_driver
 Capybara.default_selector = :css
 Capybara.default_wait_time = 15
+Capybara.exact= true
+Capybara.configure do |config|
+  config.match = :prefer_exact
+end
 Selenium::WebDriver::Firefox::Binary.path='/home/derrell/INSTALLS/firefox/firefox'
 ActionController::Base.allow_rescue = false
 
@@ -31,11 +35,12 @@ require 'rspec/rails'
 # begin
 # DatabaseCleaner.strategy = :truncation
 # DatabaseCleaner.clean_with!(:truncation)
-  Capybara.default_wait_time = 15
-  RSpec.configure do |config|
-    config.use_transactional_fixtures = false
-    config.use_transactional_examples = false
-  end
+
+Capybara.default_wait_time = 15
+RSpec.configure do |config|
+  config.use_transactional_fixtures = false
+  config.use_transactional_examples = false
+end
 # rescue NameError
 #   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 # end
