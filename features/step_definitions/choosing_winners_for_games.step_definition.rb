@@ -94,6 +94,10 @@ When %q(An invited player enters the winners for the games) do
   sleep 5
 end
 
+When %q(An invited player's winners for the games have all been entered) do
+  enter_players_bracket_choices_and_save_bracket(get_players.first)
+end
+
 Then %q(The games should display correctly) do
   63.downto(2).each do |label| # stop at 2 because 1 has no descendant!
     steps %Q(Then The game labeled '#{label.to_s}' should display correctly)
@@ -156,3 +160,7 @@ Then %q('An invited player' should see the correct choices in green and the inco
   end
 end
 
+Then %q(An admin should see the player's entry in the leader board turn green) do
+  steps %q(Given 'An Admin' visiting the 'Edit Bracket' page)
+  verify_player_is_green_state get_players.first
+end

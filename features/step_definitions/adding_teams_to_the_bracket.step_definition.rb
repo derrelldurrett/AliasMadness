@@ -74,7 +74,7 @@ Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name
   end
 end
 
-Given(/^The teams have already been entered$/) do
+Given %q(The teams have already been entered) do
   team_data.each do |t|
     team= Team.find_by_name(t[:old_name])
     if team.nil?

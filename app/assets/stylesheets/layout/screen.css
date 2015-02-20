@@ -151,6 +151,11 @@ td.player_summary {
     text-align: right
 }
 
+td.bracket_complete {
+    background: #e6efc2;
+    color: #264409;
+}
+
 div.allow-top-margin {
     margin-top: 20px
 }

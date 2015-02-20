@@ -319,3 +319,9 @@ end
 def exact_text_match(text)
   /\A#{Regexp.escape(text)}\z/
 end
+
+def verify_player_is_green_state(player)
+  save_and_open_page
+
+  expect(page).to have_selector('td.bracket_complete', text: player.name)
+end

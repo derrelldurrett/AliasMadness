@@ -1,5 +1,5 @@
 <tr>
-  <td class="player_summary">
-    <%= user.name+" == "+user.current_score.to_s %>
-  </td>
+  <%= content_tag :td, class: 'player_summary'+bracket_complete_class(user, @user.admin?) do %>
+    <%= user.name+' == '+user.current_score.to_s %>
+  <% end %>
 </tr>

@@ -47,6 +47,3 @@ Given /\A'([^']+)' visiting the '([^']+)' page with all teams entered\z/ do |who
       )
   sleep 12
 end
-
-
-
