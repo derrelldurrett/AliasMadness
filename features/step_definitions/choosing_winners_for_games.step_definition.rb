@@ -75,6 +75,9 @@ Then %q(The game labeled '$label' should display correctly) do |label|
   # FIXME incomplete-- doesn't test the labeled game for the correct selection
   label = label.to_s
   game_labeled= game_by_label label
+  within(build_game_css label) do
+    page.has_select?(GAME_WINNER_CSS, {selected: game_labeled[:winner][:new_name]})
+  end
   descendant_label= get_descendant_label(label)
   within(build_game_css descendant_label) do
     puts 'Checking '+label #+%q('s descendant, )+descendant_label.to_s+
@@ -163,4 +166,23 @@ end
 Then %q(An admin should see the player's entry in the leader board turn green) do
   steps %q(Given 'An Admin' visiting the 'Edit Bracket' page)
   verify_player_is_green_state get_players.first
+end
+
+When %q(I change a game's winner) do
+  # 1) select a game that's not game 1
+  # 2) change the winner
+  @players_bracket= logged_in_player.bracket
+  games= games_by_label(@players_bracket)
+  ancestor_of_label_to_check= '35'
+  ancestor_of_game_to_check= games[ancestor_of_label_to_check]
+  @label_to_check= get_descendant_label(ancestor_of_label_to_check)
+  @previous_winner= change_winner(ancestor_of_game_to_check)
+end
+
+Then %q(The subsequent games should display 'Choose winner...') do
+  until @label_to_check.nil? do
+    puts 'checking game reset for '+@label_to_check.to_s
+    winner_reset?(@label_to_check)
+    @label_to_check= get_descendant_label(@label_to_check)
+  end
 end

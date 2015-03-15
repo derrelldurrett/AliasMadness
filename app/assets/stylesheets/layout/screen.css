@@ -206,3 +206,10 @@ td.right_connect {
     color: #8a1f11;
     border-color: #fbc2c4;
 }
+
+.not-done {
+    background: #E87600;
+    color: #000000;
+    border-color: #E85200;
+}
+

@@ -3,7 +3,7 @@ Feature: Admin is notified of completed brackets
   As an admin
   I want to see the player's box in the leader board change color when their bracket is complete
 
-  @javascript @wip
+  @javascript
   Scenario: Admin has entered the teams, and the players have begun to enter their choices
     Given The database is seeded
     And The players have been invited

@@ -4,5 +4,7 @@
  -->
 <%= select_tag 'winner',
                game_or_team_options_for_select(bracket,@game),
-               {prompt: choose_winner_or(@game), node: node, class: 'game_winner force-font', id: 'game_'+node}
+               {
+                   #prompt: choose_winner_or(@game),
+                   node: node, class: 'game_winner force-font', id: 'game_'+node}
 %>

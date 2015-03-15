@@ -1,7 +1,12 @@
-admin sees prompt/changed prompt when all players have entered their games
-admin composes messages in app
+fix game selection so all following games are wiped
+fix display of games so the "Choose winner" selection always remains
+admin sees prompt/changed prompt when all players have entered their games:
+        almost done-- currently shows players that have finished brackets as green in list
 admin can see/show possible futures scenarios for wins/losses
 click on a player in the left column, display bracket
 right-click on a player in the left column to directly compare future chances
 heckle-forum for players
+
+done:
+  admin composes/sends messages to players in app
 

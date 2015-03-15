@@ -22,9 +22,9 @@ end
 Then %q(I should have a new player in the database) do
   player_name='derrell'
   User.find_by_name(player_name).should_not be_nil
-  u=User.find_by_name(player_name)
+  u= User.find_by_name(player_name)
   u.role.should_not be_nil
-  u=User.find_by_role('player')
+  u= User.find_by_role('player')
   u.should_not be_nil
   expect(u.name).to eq(player_name)
   expect(u.role).to eq(:player)

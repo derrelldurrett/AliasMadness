@@ -1,7 +1,9 @@
 # Place all the behaviors and hooks related to the matching controller here.
 #= require_self
 #= require store-master/store
+chooseWinnerString = 'Choose winner...'
 nameTeam = (target) ->
+  clearMessages()
   sendTeamNameUpdate(t) for t in $(target)
 
 sendTeamNameUpdate = (target) ->
@@ -22,14 +24,16 @@ sendTeamNameUpdate = (target) ->
     success: (data, textStatus, jqXHR) ->
       updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
     error: (jqXHR, textStatus, errorThrown) ->
-      showError errorThrown, textStatus
+      showError jqXHR, textStatus, errorThrown
       wipeTextField target
 
 wipeTextField = (targetNode) ->
   targetNode.value= ''
 
-showError = (errorThrown,textStatus) ->
-  alert errorThrown
+showError = (jqXHR, textStatus, errorThrown) ->
+#  $('div#messages').empty()
+  alert('error-- see console log');
+  window.open("", "MsgWindow", "width=200, height=100").document.write(jqXHR.responseText);
 
 reloadPage = (w) ->
   w.location.reload(true)
@@ -47,25 +51,42 @@ fixTeamNames = (e) ->
     success: (data, textStatus, jqXHR) ->
       reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
-      showError errorThrown, textStatus
+      showError jqXHR, textStatus, errorThrown
+
+
+acceptWinner = (w) ->
+  w? and w isnt chooseWinnerString
+
+setWinnerInLocalStore = (bId, n, input) ->
+  winner = null
+  winners_label = null
+  if input? and acceptWinner input.winners_label
+    winner = input.winner
+    winners_label = input.winners_label
+  Store.set(buildLocalStoreLabel(bId, n, 'winner'), winner)
+  Store.set(buildLocalStoreLabel(bId, n, 'winners_label'), winners_label)
+  Store.set(buildLocalStoreLabel(bId, n, 'is_new'), true)
 
 updateLocalBracket = (input) ->
-  n=input.node
-  bId=input.bracket_id
+  n = input.node
+  bId = input.bracket_id
   if input.name?
     Store.set(buildLocalStoreLabel(bId,n,'name'), input.name)
   else if input.winner?
-    Store.set(buildLocalStoreLabel(bId,n,'winner'), input.winner)
-    Store.set(buildLocalStoreLabel(bId,n,'winners_label'), input.winners_label)
-    Store.set(buildLocalStoreLabel(bId,n,'is_new'), yes)
-  # input.node contains the node being updated, so have to lookup descendant
-  # to know which to update consequently
-  d = getDescendant n
-  if d?
+    setWinnerInLocalStore(bId, n, input)
+    # input.node contains the node being updated, so have to lookup descendant
+    # to know which to update consequently
+    updateDescendants(bId, getDescendant n)
+  return
+
+updateDescendants = (bId, d) ->
+  while d?
     $gameNode= $('select#game_'+d)
     $gameNode.empty()
     $gameNode.append($.parseHTML(buildSelectOptionsFor bId, d))
-  return
+    setWinnerInLocalStore(bId, d, null)
+    d = getDescendant d
+
 
 getAncestors = (n) ->
   a= Store.get 'a_'+n
@@ -74,7 +95,7 @@ getAncestors = (n) ->
 
 getDescendant = (n) ->
   d= Store.get 'd_'+n
-  d? or d= ''
+  #  d? or d= ''
   d
 
 buildSelectOptionsFor= (bracketId, node) ->
@@ -100,16 +121,27 @@ getBracketEntry= (bId,n) ->
   [name,e]
 
 chooseWinner = (target) ->
+  clearMessages()
   updateOptions(t) for t in $(target)
   return
+
+clearMessages = ->
+  $('div#messages').empty()
 
 updateOptions = (target) ->
   node = $(target).attr 'node'
   winnerLabel= $(target).find(':selected').val() # an integer, the label of the winning team
   bId= $('table.bracket').data 'bracket_id'
-  winner= $(target).find(':selected').text() # Store.get(buildLocalStoreLabel(bId,winnerLabel,'name'))
-  updateLocalBracket({node: node, winner: winner, bracket_id: bId,winners_label: winnerLabel})
+  winner = $(target).find(':selected').text()
+  resetWinnerIfChooseWinnerString(winner, winnerLabel)
+  updateLocalBracket({node: node, winner: winner, bracket_id: bId, winners_label: winnerLabel})
   return
+
+resetWinnerIfChooseWinnerString = (winner, winnerLabel) ->
+  if winner is chooseWinnerString or winnerLabel is chooseWinnerString
+    winner = null
+    winnerLabel = null
+
 
 localStore = (i,n) ->
   pairs = buildLocalStorePairs i,n
@@ -151,10 +183,12 @@ loadBracketAncestors = ->
   storeAncestorData(n,a) for n,a of ancestors
   return
 
-gameData= (g,bId) ->
+hasNewGameData = (g, bId) ->
   if attrExists(bId,g,'is_new')
     w= Store.get buildLocalStoreLabel(bId,g,'winner')
     l= Store.get buildLocalStoreLabel(bId,g,'winners_label')
+    w = null if w is chooseWinnerString
+    l = null if l is chooseWinnerString
     [g,w,l]
   else
     null
@@ -168,11 +202,11 @@ attrExists= (bId,g,attr) ->
 clearNewGameChoiceFlags= (bId) ->
   expireAttr(bId,g,'is_new') for g in [63..1] when attrExists(bId,g,'is_new')
 
-sendGameUpdates = (e) ->
+sendGameUpdates = (e, expectDone = false) ->
   e.preventDefault();
   target= e.target
   bId= $('table.bracket').data 'bracket_id'
-  sendMe= (gameDataCached for g in [63..1] when (gameDataCached= gameData(g,bId))?)
+  sendMe = (gameDataCached for g in [63..1] when (gameDataCached = hasNewGameData(g, bId))?)
   # gotta "" the game_data key, otherwise JSON parsing barfs on the server
   $.ajax
     contentType: 'application/json'
@@ -183,9 +217,26 @@ sendGameUpdates = (e) ->
     success: (data, textStatus, jqXHR) ->
       clearNewGameChoiceFlags bId
       reloadPage window
+      highlightUnchosenGames(bId) if expectDone
     error: (jqXHR, textStatus, errorThrown) ->
-      showError errorThrown, textStatus
+      showError jqXHR, textStatus, errorThrown
   return false
+
+highlightUnchosenGames = (bId) ->
+  highlightGame(g) for g in [63..1] when (gameDataCached = hasNoWinnerGameData(g, bId)?)
+
+hasNoWinnerGameData = (g, bId) ->
+  w = Store.get buildLocalStoreLabel(bId, g, 'winner')
+  l = Store.get buildLocalStoreLabel(bId, g, 'winners_label')
+  if winnerNotSet(w) and winnerNotSet(l)
+    return g
+  return
+
+winnerNotSet = (w) ->
+  !w? or w is '' or w is chooseWinnerString
+
+highlightGame = (g) ->
+  $("td.game[data-node=\"#{g}\"] select#game_#{g}").addClass('not-done')
 
 lockPlayersBrackets = (e) ->
   e.preventDefault();
@@ -199,14 +250,14 @@ lockPlayersBrackets = (e) ->
     success: (data, textStatus, jqXHR) ->
       reloadPage window
     error: (jqXHR, textStatus, errorThrown) ->
-      showError errorThrown, textStatus
+      showError jqXHR, textStatus, errorThrown
 
 
 $ ->
   $('input.team_name').on 'change', (e) => nameTeam e.target
   $('select.game_winner').on 'change', (e) => chooseWinner e.target
   $('button#team_entry_done').on 'click', (e) => fixTeamNames e
-  $('button#submit_games').on 'click', (e) => sendGameUpdates e
-  $('button#update_bracket').on 'click', (e) => sendGameUpdates e
+  $('button#submit_games').on 'click', (e) => sendGameUpdates e, true
+  $('button#update_bracket').on 'click', (e) => sendGameUpdates e, false
   $('button#lock_players_brackets').on 'click', (e) => lockPlayersBrackets e
   $('table.bracket').one 'focusin', (e) => loadBracket e.target

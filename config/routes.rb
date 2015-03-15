@@ -10,16 +10,15 @@ AliasMadness::Application.routes.draw do
 
   resources :brackets, only: [:update, :show]
   resources :teams, only: [:update]
-  # resources :games
-  # match 'admin/login', to: 'admin#login'
-  # resources :admin do
-  #   member do
-  #     get :show
-  #   end
-  # end
 
   match 'lock_names', to: 'teams#lock_names'
   match 'lock_players_brackets', to: 'brackets#lock_brackets'
+
+  namespace :admin do
+    # Directs /admin/products/* to Admin::ProductsController
+    # (app/controllers/admin/products_controller.rb)
+    resources :messages, only: [:create, :new]
+  end
 
 
   # The priority is based upon order of creation:

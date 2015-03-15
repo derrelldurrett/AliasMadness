@@ -7,8 +7,16 @@ class BracketsController < ApplicationController
   def update
     unless params[:game_data].nil?
       if game_data_processed? params[:game_data], params[:id]
-        update_player_scores if current_user.admin? # only if admin...
-        flash[:success]= 'Games saved!'
+        if current_user.admin? # only if admin...
+          update_player_scores
+          flash[:success]= 'Games saved!'
+        else
+          if all_games_chosen? params[:id]
+            flash[:success]= 'Games saved!'
+          else
+            flash[:notice]= %Q(You have #{@games_remaining.length} games left to select.)
+          end
+        end
         respond_with true, {status: 204}
       else
         flash[:error]= 'Games NOT SAVED!'
@@ -20,8 +28,13 @@ class BracketsController < ApplicationController
     end
   end
 
+  def all_games_chosen?(i)
+    @games_remaining= Game.where(bracket_id: i, team_id: nil)
+    @games_remaining.empty?
+  end
+
   def show
-    @bracket = Bracket.find(params[:id])
+    redirect_to user_path @current_user.id
   end
 
   def lock_brackets
@@ -43,36 +56,44 @@ class BracketsController < ApplicationController
 
   def game_data_processed?(data, bracket_id)
     ret= true
-    games_by_label= hash_by_label (Game.find_all_by_bracket_id bracket_id)
-    data.each do |d|
-      (game_label,winner_name,winner_label)= d
-      game= games_by_label.fetch game_label.to_s
-      if winner_label.nil? or winner_label=='' or winner_name.nil? or winner_name==''
-        team=nil
-      else
-        team= Team.find_by_label winner_label
-        if team.name != winner_name
-          ret= false
-          flash.now[:error] =
-              %Q(label/name mismatch! Expected winner #{winner_name}, got #{team.name})
-          break
-        end
-        # if admin's bracket, mark losing team eliminated
-        if current_user.admin?
-          b= Admin.get.bracket
-          ancestors= b.lookup_ancestors(b.lookup_game game_label)
-          ancestors.each do |a|
-            a_team= ancestor_team a
-            unless !a_team.nil? and a_team.label==winner_label
-              a_team.update_attributes!({eliminated: true})
-              break
-            end
+    Game.transaction do
+      games_by_label= hash_by_label (Game.find_all_by_bracket_id bracket_id)
+      data.each do |d|
+        (game_label, winner_name, winner_label)= d
+        game= games_by_label.fetch game_label.to_s
+        # game.reload
+        if winner_label.nil? or winner_label.empty? or winner_label=='Choose winner...' or winner_name.nil? or winner_name.empty?
+          team=nil
+          game.winner.update_attributes!({eliminated: false}) unless game.winner.nil?
+        else
+          team= Team.find_by_label winner_label
+          if team.name != winner_name # sanity check
+            ret= false
+            flash.now[:error] =
+                %Q(lwinneabel/name mismatch! Expected winner #{winner_name}, got #{team.name})
+            break
+          end
+          # if admin's bracket, mark losing team eliminated
+          if current_user.admin?
+            eliminate_loser(game_label, winner_label)
           end
         end
+        game.update_attributes!({winner: team})
       end
-      game.update_attributes!({winner: team})
     end
     ret
+  end
+
+  def eliminate_loser(game_label, winner_label)
+    b= Admin.get.bracket
+    ancestors= b.lookup_ancestors(b.lookup_game game_label)
+    ancestors.each do |a|
+      a_team= ancestor_team a
+      unless !a_team.nil? and a_team.label==winner_label
+        a_team.update_attributes!({eliminated: true})
+        break
+      end
+    end
   end
 
   def lock_players_brackets

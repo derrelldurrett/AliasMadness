@@ -1,4 +1,5 @@
 class UserMailer < ActionMailer::Base
+  include MailHelper
   default reply_to: ENV['ALIASMADNESS_ADMINEMAIL']
   default from: ENV['ALIASMADNESS_SERVEREMAIL']
 
@@ -6,7 +7,7 @@ class UserMailer < ActionMailer::Base
     u.reload
     @user = u
     @url = construct_user_response_url(u)
-    name_in_email = %Q(#{@user.name} <#{@user.email}>)
+    name_in_email= construct_player_email_to_field(@user)
     @r= r
     mail(from: ENV['ALIASMADNESS_SERVEREMAIL'], to: name_in_email, subject: %Q(Welcome, #{@user.name}, to Alia's Madness!))
   end

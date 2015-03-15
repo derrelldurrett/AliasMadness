@@ -20,6 +20,12 @@ end
 
 Then %q{the 'password' field should be empty} do
   expect(page).to have_selector('label')
+  @password = 'foobaer'
+  @link = login_path(email: @email)
+end
+
+When %q(I visit the login page, enter the password, and click 'Login') do
+  visit @link
   expect(page).to have_content('Password')
   find_field('Password').value.should be_nil
 end
@@ -27,12 +33,6 @@ end
 Given %q(The Admin's email address and password) do
   admin = Admin.get
   @email = admin.email
-  @password = 'foobaer'
-  @link = login_path(email: @email)
-end
-
-When %q(I visit the login page, enter the password, and click 'Login') do
-  visit @link
   fill_in 'Password', with: @password
   click_button('Login')
 end

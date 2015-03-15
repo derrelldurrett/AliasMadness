@@ -83,6 +83,8 @@ def path_to(page_name)
     when /Edit Bracket/i
       puts 'Visiting '+page_name+' for user '+@user.id.to_s
       user_path(id: @user.id)
+    when /Send Message/i
+      new_admin_message_path
     else
       raise %Q{Can't find path_to entry for #{page_name}!}
   end
@@ -110,13 +112,17 @@ end
 
 GAME_WINNER_CSS='select.game_winner'
 
+def build_winner_script(game, td_node_name, winner=game[:winners_label])
+  %Q(
+          $('#{td_node_name} #{GAME_WINNER_CSS}').val('#{winner}');
+          $('#{td_node_name} #{GAME_WINNER_CSS}').focus().trigger('change');
+          )
+end
+
 def enter_game_winner(game)
   td_node_name= build_game_css(game[:label])
   within(td_node_name) do
-    choose_winner_script = %Q(
-          $('#{td_node_name} #{GAME_WINNER_CSS}').val('#{game[:winners_label]}');
-          $('#{td_node_name} #{GAME_WINNER_CSS}').focus().trigger('change');
-          )
+    choose_winner_script = build_winner_script(game, td_node_name)
     # puts "Script to execute:\n"+choose_winner_script.strip
     page.driver.execute_script(choose_winner_script.strip)
   end
@@ -158,7 +164,7 @@ def create_the_players
 end
 
 def players_games_entered
-  if (get_players.nil? or get_players.empty?)
+  if get_players.nil? or get_players.empty?
     create_the_players
   end
   get_players.each do |player|
@@ -222,6 +228,8 @@ def get_players
   @players
 end
 
+STANDINGS_PLAYER=0
+STANDINGS_SCORE=1
 def compute_expected_standings(which_time)
   admin_games= @mock_brackets_by_player['admin']
   standings= Hash.new
@@ -266,8 +274,8 @@ def verify_displayed_standings(standings)
   expect(leader_board_row).not_to be_empty
   leader_board_row.each_with_index do |tr, index|
     expect(tr).to have_selector('.player_summary')
-    expect(tr).to have_content(standings[index][0])
-    expect(tr).to have_content(standings[index][1])
+    expect(tr).to have_content(standings[index][STANDINGS_PLAYER])
+    expect(tr).to have_content(standings[index][STANDINGS_SCORE])
   end
 end
 
@@ -321,7 +329,47 @@ def exact_text_match(text)
 end
 
 def verify_player_is_green_state(player)
-  save_and_open_page
-
   expect(page).to have_selector('td.bracket_complete', text: player.name)
+end
+
+def change_winner(game)
+  ancestors= @players_bracket.lookup_ancestors(game)
+  ancestors.each do |a|
+    a.reload
+    a_team= a.is_a?(Team) ? a : a.winner
+    if game.winner!=a_team
+      td_node_name= build_game_css(game[:label])
+      within(td_node_name) do
+        choose_winner_script = build_winner_script(game, td_node_name, a_team.label)
+        # puts "Script to execute:\n"+choose_winner_script.strip
+        page.driver.execute_script(choose_winner_script.strip)
+        sleep 10
+      end
+    end
+  end
+
+end
+
+def winner_reset?(label)
+  # use within? build the td string....
+  db_game= @players_bracket.lookup_game label
+  ancestors= @players_bracket.lookup_ancestors(db_game)
+  within(build_css_for_game_select(label)) do
+    save_and_open_page
+    build_css_for_game_select = build_css_for_game_select(label)
+    puts 'checking for css '+build_css_for_game_select
+    ancestors.each do |g|
+      g.reload
+      winner= g.is_a?(Team) ? g : g.winner
+      unless winner.nil?
+        expect(page).to have_selector(%Q(option[value="#{winner.label}"]))
+      end
+    end
+    expect(page).not_to have_selector(%q(option[selected="selected"]))
+  end
+  pending
+end
+
+def build_css_for_game_select(label)
+  %Q(#game_#{label})
 end
