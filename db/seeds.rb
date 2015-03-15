@@ -15,11 +15,6 @@ if !ENV['TEAM_NAMES_SET'].nil? or !ENV['SEED_PLAYERS'].nil? or !ENV['SEED_GAMES'
 end
 
 def seed_admin
-  # admin = Admin.get
-  # Don't understand how this helps
-  # if admin.nil?
-  #   User.delete_all
-  # end
   admin = User.new do |u|
     u.name = ENV['ALIASMADNESS_ADMIN']
     u.password = ENV['ALIASMADNESS_PASSWORD']
