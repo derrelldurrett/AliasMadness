@@ -4,7 +4,7 @@ class MessageMailer < ActionMailer::Base
 
   def message_mail(args)
     @subject= args[:subject]
-    @message= args[:message].gsub(/\n/, '<br>').html_safe if args[:message].html_safe?
+    @message= CGI::escapeHTML(args[:message]).gsub(/\n/, '<br>').html_safe
     get_players.each_slice(20) do |p_slice|
       mail(from: ENV['ALIASMADNESS_SERVEREMAIL'], to: build_players_email_list(p_slice), subject: @subject)
     end
