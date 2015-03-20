@@ -70,7 +70,7 @@ class BracketsController < ApplicationController
           if team.name != winner_name # sanity check
             ret= false
             flash.now[:error] =
-                %Q(lwinneabel/name mismatch! Expected winner #{winner_name}, got #{team.name})
+                %Q(label/name mismatch! Expected winner #{winner_name}, got #{team.name})
             break
           end
           # if admin's bracket, mark losing team eliminated
@@ -89,7 +89,7 @@ class BracketsController < ApplicationController
     ancestors= b.lookup_ancestors(b.lookup_game game_label)
     ancestors.each do |a|
       a_team= ancestor_team a
-      if !a_team.nil? and a_team.label==winner_label
+      if !a_team.nil? and a_team.label!=winner_label
         a_team.update_attributes!({eliminated: true})
         break
       end
