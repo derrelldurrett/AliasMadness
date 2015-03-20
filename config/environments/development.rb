@@ -43,5 +43,19 @@ AliasMadness::Application.configure do
   # config.assets.debug = false
 
   config.eager_load = false
+
+  # some lograge stuff
+  # https://github.com/roidrage/lograge
+  # don't understand why you reject params that include
+  # controller and action when they're plainly shit I screw up.
+  config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    params = event.payload[:params].reject do |k|
+      ['controller', 'action'].include? k
+    end
+    params[:time]= event.time
+    {"params" => params}
+  end
+
 end
 

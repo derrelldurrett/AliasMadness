@@ -17,6 +17,7 @@ gem 'uglifier'#, '>= 1.0.3'
 
 group :production do
   gem 'rails_12factor'
+  gem 'lograge'
 end
 
 group :development, :test do
@@ -30,6 +31,7 @@ end
 
 group :production, :development do
   gem 'unicorn'
+  #gem 'lograge'
 end
 
 group :test do
