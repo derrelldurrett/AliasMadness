@@ -37,17 +37,17 @@ class Game < ActiveRecord::Base
     # *Really* need to make this a property of the game at the time it's created
     case label.to_i
       when 1
-        32
+        64
       when 2..3
-        16
+        32
       when 4..7
-        8
+        16
       when 8..15
-        4
+        8
       when 16..31
-        2
+        4
       when 32..63
-        1
+        2
     end
   end
 

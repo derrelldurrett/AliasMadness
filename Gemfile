@@ -31,7 +31,7 @@ end
 
 group :production, :development do
   gem 'unicorn'
-  gem 'lograge'
+  #gem 'lograge'
 end
 
 group :test do
