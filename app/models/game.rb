@@ -33,6 +33,7 @@ class Game < ActiveRecord::Base
     winner.nil? ? nil : winner.label
   end
 
+                # refactor this to be a callback from the Score module?
   def round_multiplier
     # *Really* need to make this a property of the game at the time it's created
     case label.to_i
