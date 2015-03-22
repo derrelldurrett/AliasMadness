@@ -25,12 +25,7 @@ module UsersHelper
     complete_class
   end
 
-
   def clickable(user)
     User.where({id: user.id}).where(bracket_locked: true) ? 'clickable' : ''
-  end
-
-  def players_brackets_locked?
-    User.where({role: :player}).where(bracket_locked: false).length > 0
   end
 end

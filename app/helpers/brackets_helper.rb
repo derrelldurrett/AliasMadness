@@ -1,9 +1,4 @@
 module BracketsHelper
-  def players_brackets_locked?
-    players_with_locked_brackets= User.where({bracket_locked: 'true', role: :player}).all
-    players= User.where({role: :player}).all
-    players.length == players_with_locked_brackets.length
-  end
 
   def left_or_right_node(node)
     node_string=''
