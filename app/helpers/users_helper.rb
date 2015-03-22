@@ -20,10 +20,17 @@ module UsersHelper
     complete_class= ''
     if is_for_admin
       games_nil=player.bracket.games.any? { |g| g.winner.nil? }
-      unless games_nil
-        complete_class=' bracket_complete'
-      end
+      complete_class=' bracket_complete' unless games_nil or !players_brackets_locked?
     end
     complete_class
+  end
+
+
+  def clickable(user)
+    User.where({id: user.id}).where(bracket_locked: true) ? 'clickable' : ''
+  end
+
+  def players_brackets_locked?
+    User.where({role: :player}).where(bracket_locked: false).length > 0
   end
 end

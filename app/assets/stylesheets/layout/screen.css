@@ -213,5 +213,8 @@ td.right_connect {
     border-color: #E85200;
 }
 
-#clickable {
+.clickable {
+    background: #CCE6FF;
+    color: #0066cc;
+    border: #0061BD;
 }
