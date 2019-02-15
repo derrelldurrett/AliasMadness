@@ -1,4 +1,4 @@
-class ChangeTeamLabelToString < ActiveRecord::Migration
+class ChangeTeamLabelToString < ActiveRecord::Migration[5.0]
   def up
     change_column :teams, :label, :string
   end

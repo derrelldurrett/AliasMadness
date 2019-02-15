@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -9,53 +8,55 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150103233336) do
+ActiveRecord::Schema.define(version: 20150103233336) do
 
-  create_table "brackets", :force => true do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "brackets", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.text "bracket_data"
     t.text "lookup_by_label"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_brackets_on_user_id"
   end
 
-  create_table "games", :force => true do |t|
+  create_table "games", id: :serial, force: :cascade do |t|
     t.integer "team_id"
     t.integer "bracket_id"
     t.string "label"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.boolean "locked", :default => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "locked", default: false
+    t.index ["bracket_id"], name: "index_games_on_bracket_id"
+    t.index ["team_id"], name: "index_games_on_team_id"
   end
 
-  add_index "games", ["bracket_id"], :name => "index_games_on_bracket_id"
-  add_index "games", ["team_id"], :name => "index_games_on_team_id"
-
-  create_table "teams", :force => true do |t|
+  create_table "teams", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "seed"
     t.string "label"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.boolean "name_locked", :default => false
-    t.boolean "eliminated", :default => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "name_locked", default: false
+    t.boolean "eliminated", default: false
   end
 
-  create_table "users", :force => true do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "password"
     t.string "password_digest"
     t.string "role"
     t.string "remember_token"
     t.string "email"
-    t.integer "current_score", :default => 0
-    t.boolean "bracket_locked", :default => false
+    t.integer "current_score", default: 0
+    t.boolean "bracket_locked", default: false
+    t.index ["remember_token"], name: "index_users_on_remember_token"
   end
-
-  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
 
 end

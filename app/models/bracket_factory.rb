@@ -7,14 +7,14 @@ class BracketFactory
   attr_accessor :serialized_bracket
 
   def create_bracket
-    instantiate_bracket
+    bracket = instantiate_bracket Bracket.create
+    bracket.save!
+    bracket
   end
 
-  def instantiate_bracket(bracket=nil)
-    bracket||= Bracket.create # need the id!
+  def instantiate_bracket(bracket)
     bracket.bracket_data||= serialized_bracket.copy
     bracket.init_lookups
-    bracket.save!
     bracket
   end
 

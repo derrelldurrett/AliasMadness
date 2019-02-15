@@ -1,12 +1,19 @@
+require_relative '../../lib/assets/debug_logger'
 class BracketsController < ApplicationController
   include SessionsHelper
   include UsersHelper
-  before_filter :check_authorization, only: [:lock_brackets]
+  include DebugLogger
+  before_action :check_authorization, only: [:lock_brackets]
   respond_to :html, :json
 
   def update
-    unless params[:game_data].nil?
-      if game_data_processed? params[:game_data], params[:id]
+    id = params[:id]
+    params = resource_params
+    if params[:game_data].nil?
+      flash[:error]= 'Request FAILED!'
+      respond_with false, {status: 400}
+    else
+      if game_data_processed? params[:game_data], id
         update_player_scores if current_user.admin? # only if admin...
         flash[:success]= 'Games saved!'
         respond_with true, {status: 204}
@@ -14,9 +21,6 @@ class BracketsController < ApplicationController
         flash[:error]= 'Games NOT SAVED!'
         respond_with false, {status: 400}
       end
-    else
-      flash[:error]= 'Request FAILED!'
-      respond_with false, {status: 400}
     end
   end
 
@@ -25,29 +29,24 @@ class BracketsController < ApplicationController
   end
 
   def lock_brackets
-    unless params[:lock_players_brackets].nil?
+    if params[:lock_players_brackets].nil?
+      flash[:error]= 'Players Brackets NOT LOCKED!'
+    else
       lock_players_brackets
       flash[:success]= 'Players Brackets LOCKED!'
-      respond_to do |format|
-        format.json { render :json => current_user }
-      end
-    else
-      flash[:error]= 'Players Brackets NOT LOCKED!'
-      respond_to do |format|
-        format.json { render :json => current_user }
-      end
     end
+    respond_to { |format| format.json { render :json => current_user } }
   end
 
   private
 
   def game_data_processed?(data, bracket_id)
     ret= true
-    games_by_label= hash_by_label (Game.find_all_by_bracket_id bracket_id)
+    games_by_label= hash_by_label Game.where(bracket_id: bracket_id)
     data.each do |d|
       (game_label,winner_name,winner_label)= d
       game= games_by_label.fetch game_label.to_s
-      if winner_label.nil? or winner_label=='' or winner_name.nil? or winner_name==''
+      if winner_label.nil? or winner_label == '' or winner_name.nil? or winner_name ==     ''
         team=nil
       else
         team= Team.find_by_label winner_label
@@ -71,9 +70,12 @@ class BracketsController < ApplicationController
         end
       end
       game.update_attributes!({winner: team})
+      noop
     end
     ret
   end
+
+  def noop; end
 
   def lock_players_brackets
     # fixme so we make this one giant update of all games simultaneously
@@ -86,6 +88,10 @@ class BracketsController < ApplicationController
   end
 
   private
+
+  def resource_params
+    params.require(:bracket).permit!
+  end
 
   def ancestor_team(ancestor)
     ancestor.is_a?(Team) ? ancestor : ancestor.winner

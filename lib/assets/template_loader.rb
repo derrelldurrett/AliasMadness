@@ -1,8 +1,8 @@
 class TemplateLoader
   require 'assets/rgl/directed_adjacency_graph'
-  require_relative 'errors/template_format_error'
-  require_relative '../../app/models/team'
-  require_relative '../../app/models/game'
+  require 'assets/errors/template_format_error'
+  require 'team'
+  require 'game'
   include Singleton
   attr_reader :bracket_structure_data,
               :spec_comp_regex,

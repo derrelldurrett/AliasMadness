@@ -1,16 +1,14 @@
 module SessionsHelper
-  require 'not_authorized'
-
   delegate :url_helpers, to: 'Rails.application.routes'
   def session_authenticate(user)
     id = params[:id]
-    if user && user.authenticate(params[:user][:password])
+    if user && user.authenticate(params.require(:user).permit(:email,:password)[:password])
       sign_in user
       redirect_back_or user
     else
       flash[:error] = 'Invalid email/password combination'
       sign_out
-      redirect_to login_users_path(id: id)
+      redirect_to user_login_path(user_id: id)
     end
   end
 
@@ -33,7 +31,7 @@ module SessionsHelper
   end
 
   def current_user
-    @current_user ||= User.find_by_remember_token(cookies[:remember_token])
+    @current_user ||= User.where(remember_token: cookies[:remember_token]).first
   end
 
   def current_user?(user)
@@ -58,10 +56,4 @@ module SessionsHelper
       redirect_to :back, notice: "Please sign in."
     end
   end
-
-  # If the user is not authorized, just throw the exception.
-  def check_authorization
-    raise User::NotAuthorized unless current_user.admin?
-  end
-
 end

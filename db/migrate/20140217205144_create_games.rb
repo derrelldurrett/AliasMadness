@@ -1,4 +1,4 @@
-class CreateGames < ActiveRecord::Migration
+class CreateGames < ActiveRecord::Migration[5.0]
   def change
     create_table :games do |t|
       t.belongs_to :team
@@ -7,7 +7,7 @@ class CreateGames < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :games, :team_id
-    add_index :games, :bracket_id
+#    add_index :games, :team_id
+#    add_index :games, :bracket_id
   end
 end

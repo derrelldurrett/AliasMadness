@@ -1,4 +1,4 @@
-class CreateBrackets < ActiveRecord::Migration
+class CreateBrackets < ActiveRecord::Migration[5.0]
   def change
     create_table :brackets do |t|
       t.belongs_to :user

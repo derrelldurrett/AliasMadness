@@ -10,7 +10,7 @@ def World(stuff)
 end
 
 if !ENV['TEAM_NAMES_SET'].nil? or !ENV['SEED_PLAYERS'].nil? or !ENV['SEED_GAMES'].nil?
-  require 'features/support/transform_team_data'
+  require_relative '../features/support/transform_team_data'
   include TransformTeamData
 end
 
@@ -25,7 +25,7 @@ def seed_admin
     u.password = ENV['ALIASMADNESS_PASSWORD']
     u.password_confirmation = ENV['ALIASMADNESS_PASSWORD']
     u.email = ENV['ALIASMADNESS_ADMINEMAIL']
-    u.role = 'admin'
+    u.role = :admin
   end
   admin.save!
   puts 'Seeded admin: '+admin.to_s
@@ -54,7 +54,7 @@ end
 
 def choose_winners_for_brackets_games(bracket, down_to=1, label_losers=false)
   puts 'CHOOSING GAME WINNERS'
-  games_by_label= hash_by_label(Game.find_all_by_bracket_id bracket.id)
+  games_by_label= hash_by_label Game.where(bracket_id: bracket.id)
   63.downto(down_to).each do |l|
     g= games_by_label[l.to_s]
     a= bracket.lookup_ancestors g
@@ -82,12 +82,15 @@ def seed_players_games
   end
   Game.where('team_id is not null').update_all(locked: :true)
   User.where(role: :player).update_all(bracket_locked: :true)
+  puts "seeded games"
 end
 
 
 def hash_by_label(labeled_entities)
   ret= Hash.new
-  labeled_entities.each { |e| ret[e.label]= e }
+  labeled_entities.each_with_object(ret) do |g,o|
+    o[g.label]= g
+  end
   ret
 end
 

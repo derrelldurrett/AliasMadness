@@ -2,7 +2,7 @@
   <p class='header_text center text-right'>Leader Board</p>
   <%= render 'index' %>
 </div>
-<div id='bracket_display'> <!-- class='span-13' -->
+<div id='bracket_display'>
   <% if @user.admin? or team_names_locked? %>
     <% @bracket = @user.bracket %>
     <%= render :partial => 'brackets/bracket' %>

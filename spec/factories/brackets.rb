@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :bracket do
     belongs_to ""
     bracket_data "MyText"

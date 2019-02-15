@@ -6,7 +6,7 @@ require 'capybara/rails'
 
 feature "Authentication" do
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   before do
     visit users_path params(email: admin.email)
   end
@@ -33,7 +33,7 @@ feature "Authentication" do
   #  end
   #
   #  describe "with valid information" do
-  #    let(:user) { FactoryGirl.create(:user) }
+  #    let(:user) { FactoryBot.create(:user) }
   #    before { sign_in user }
   #
   #    it { should have_selector('title', text: user.name) }
@@ -55,7 +55,7 @@ feature "Authentication" do
 #  describe "authorization" do
 #
 #    describe "for non-signed-in users" do
-#      let(:user) { FactoryGirl.create(:user) }
+#      let(:user) { FactoryBot.create(:user) }
 #
 #      describe "when attempting to visit a protected page" do
 #        before do
@@ -102,8 +102,8 @@ feature "Authentication" do
 #      end
 #
 #      describe "as wrong user" do
-#        let(:user) { FactoryGirl.create(:user) }
-#        let(:wrong_user) { FactoryGirl.create(:user, email: "wrong@example.com") }
+#        let(:user) { FactoryBot.create(:user) }
+#        let(:wrong_user) { FactoryBot.create(:user, email: "wrong@example.com") }
 #        before { sign_in user }
 #
 #        describe "visiting Users#edit page" do
@@ -146,8 +146,8 @@ feature "Authentication" do
 #      end
 #
 #    describe "as non-admin user" do
-#      let(:user) { FactoryGirl.create(:user) }
-#      let(:non_admin) { FactoryGirl.create(:user) }
+#      let(:user) { FactoryBot.create(:user) }
+#      let(:non_admin) { FactoryBot.create(:user) }
 #
 #      before { sign_in non_admin }
 #

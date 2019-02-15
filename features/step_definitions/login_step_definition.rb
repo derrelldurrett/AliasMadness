@@ -20,21 +20,22 @@ end
 
 Then %q{the 'password' field should be empty} do
   expect(page).to have_selector('label')
-  expect(page).to have_content('Password')
-  find_field('Password').value.should be_nil
-end
-
-Given %q(The Admin's email address and password) do
-  admin = Admin.get
-  @email = admin.email
-  @password = 'foobaer'
+  @password = ENV['ALIASMADNESS_PASSWORD']
   @link = login_path(email: @email)
 end
 
 When %q(I visit the login page, enter the password, and click 'Login') do
   visit @link
-  fill_in 'Password', with: @password
-  click_button('Login')
+  expect(page).to have_content('Password')
+  find_field('Password').value.should be_nil
+  fill_in  'Password', with: @password
+  click_button 'Login'
+end
+
+Given %q(The Admin's email address and password) do
+  admin = Admin.get
+  @email = admin.email
+  @password = ENV['ALIASMADNESS_PASSWORD']
 end
 
 Then %q(I should have a choice between creating Players, creating Brackets, choosing winners for games, or sending a message about the state of the pool, depending on the time at which I visit the page.) do

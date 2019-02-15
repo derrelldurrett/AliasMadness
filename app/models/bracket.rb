@@ -5,7 +5,7 @@ require 'helpers/hash_helper'
 require 'helpers/hash_class_helper'
 require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
-class Bracket < ActiveRecord::Base
+class Bracket < ApplicationRecord
   @@cached_teams= Array.new
   include HashHelper
   extend HashClassHelper
@@ -13,16 +13,16 @@ class Bracket < ActiveRecord::Base
   extend JSONClientClassHelper
   serialize :bracket_data, BracketTemplate
   serialize :lookup_by_label, Hash
-  attr_accessible :bracket_data
-  belongs_to :user
+  attr_accessor :bracket_data
+  belongs_to :user, optional: true
   has_many :games, inverse_of: :bracket
-  after_find :init_lookups_from_database
+  after_find :init_lookups
 
   self.hash_vars= %i(id user)
   self.json_client_ids= [:id, :nodes]
 
   def teams
-    init_cached_teams
+    @@cached_teams.length > 0 or init_cached_teams
     @@cached_teams
   end
 
@@ -139,6 +139,9 @@ class Bracket < ActiveRecord::Base
     (games.sort_by { |g| g.updated_at }).last.updated_at
   end
 
+  def bracket_data
+    @bracket_data||= BracketFactory.instance.serialized_bracket.copy
+  end
   private
 
   attr :lookup_by_label, :bracket_ancestors
@@ -180,7 +183,7 @@ class Bracket < ActiveRecord::Base
         @lookup_by_label[t.label]= t
       end
     end
-    init_ancestors
+    init_ancestors unless bracket_data.nil?
   end
 
   def init_relationships
@@ -210,7 +213,6 @@ class Bracket < ActiveRecord::Base
     end
     r
   end
-
 end
 
 

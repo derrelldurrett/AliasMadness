@@ -74,6 +74,10 @@ table {
 }
 
 th {
+    text-align: center
+}
+
+th {
     font-weight: bold;
     text-align: center
 }
@@ -147,6 +151,11 @@ td.player_summary {
     text-align: right
 }
 
+td.bracket_complete {
+    background: #e6efc2;
+    color: #264409;
+}
+
 div.allow-top-margin {
     margin-top: 20px
 }
@@ -182,8 +191,8 @@ td.right_connect {
 }
 
 .grey_winner_state {
-    background-color: #dddddd;
-    color: #444444
+    background-color: #ffffff;
+    color: #111111
 }
 
 .green_winner_state {
@@ -196,4 +205,16 @@ td.right_connect {
     background: #fbe3e4;
     color: #8a1f11;
     border-color: #fbc2c4;
+}
+
+.not-done {
+    background: #E87600;
+    color: #000000;
+    border-color: #E85200;
+}
+
+.clickable {
+    background: #CCE6FF;
+    color: #0066cc;
+    border: #0061BD;
 }

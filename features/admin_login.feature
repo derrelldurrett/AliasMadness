@@ -18,6 +18,7 @@ Feature: Admin login
   Scenario: Entering the password and clicking 'Login' logs in the Admin
     Given The database is seeded
     And The Admin's email address and password
+    And a link to the login page containing the email
     When I visit the login page, enter the password, and click 'Login'
     Then I should have a choice between creating Players, creating Brackets, choosing winners for games, or sending a message about the state of the pool, depending on the time at which I visit the page.
 

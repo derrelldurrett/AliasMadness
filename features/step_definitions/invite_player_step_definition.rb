@@ -11,7 +11,7 @@ Given /\AA player with name '([^']+)' and email '([^']+)' already exists\z/ do |
 end
 
 When %q(A Player does not exist and I enter a his data) do
-  user = User.find_by_name('derrell')
+  user = User.where(name: 'derrell').first
   unless user.nil?
     id = user.id
     User.delete(id)
@@ -21,13 +21,13 @@ end
 
 Then %q(I should have a new player in the database) do
   player_name='derrell'
-  User.find_by_name(player_name).should_not be_nil
-  u=User.find_by_name(player_name)
+  User.where(name: player_name).should_not be_empty
+  u= User.where(name: player_name).first
   u.role.should_not be_nil
-  u=User.find_by_role('player')
+  u= User.where(role: 'player').first
   u.should_not be_nil
   expect(u.name).to eq(player_name)
-  expect(u.role).to eq(:player)
+  expect(u.role).to eq('player')
 end
 
 Then %q(I should see a message that my Player was created) do

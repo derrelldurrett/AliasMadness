@@ -1,51 +1,57 @@
 require 'spec_helper'
 
-team_string_format = /\A[\w.]+\s\(\d{1,2}\)\z/i
 describe Team do
-  team_specs = {}
-  before do
-    team_specs = { name: 'Colorado', seed: 12, label: '32' }
-    @team = Team.new(team_specs)
-    @team.save!
-  end
-  context 'Team behavior' do
-    subject { @team }
-
-    it { should respond_to(:name, :seed, :label) }
-    it { should_not be_nil }
-    it { should be_valid }
-
-    # describe '#to_s' do
-    #   subject { @team.to_s }
-    #   it { should match team_string_format }
-    # end
-
-    it { should respond_to(:clone) }
-    it { should == @team.clone }
-    it { should eql(@team.clone) }
-    it "has a non-zero hash" do
-      expect(subject.hash).to_not eql(0)
+  team_specs = {name: 'Colorado', seed: 12, label: '32'}
+  team = Team.new
+  team.update!(team_specs)
+  context 'behavior' do
+    it 'responds to .name, .seed, and .label' do
+      expect(team).not_to be_nil
+      expect(team.name).to eql('Colorado')
+      expect(team.seed).to eql(12)
+      expect(team.label).to eql('32')
     end
+  end
+  it 'should be valid' do
+    expect(team).to be_valid
+  end
+  context 'cloning' do
+    clone = team.clone
+    it 'clone should not be nil' do
+      expect(clone).not_to be_nil
+    end
+    it 'should == the clone' do
+      expect(team == clone)
+    end
+    it 'should eql() the clone' do
+      expect(team).to eql(clone)
+    end
+  end
+  context 'hashing' do
     it "has a non-nil hash" do
-      expect(subject.hash).to_not be_nil
+      expect(team.hash).not_to be_nil
+    end
+    it "has a non-zero hash" do
+      expect(team.hash).not_to eql(0)
     end
   end
-
-  context 'Cannot create a second instance of the same Team that is not the same object' do
-    subject { Team.new(team_specs) }
-    it { should_not be_valid }
-  end
-
   context 'Different teams are not equal' do
-    subject { Team.new({name: 'North Carolina', seed: 1, label: '17'}) }
-    it { should be_valid }
-    it { should_not == @team }
+    subject {Team.new({name: 'North Carolina', seed: 1, label: '17'})}
+    it {should be_valid}
+    it {should_not == team}
   end
 
   context 'Retrieved Teams should be able to compute a hash' do
-    subject { Team.find_by_name('Colorado') }
+    subject {Team.where(name: 'Colorado').first}
     it "has a non-nil hash" do
       expect(subject.hash).to_not be_nil
+    end
+  end
+
+  context 'Cannot create two team objects with the same name, seed and label' do
+    subject {Team.new}
+    it 'raises an error to create two of the same team' do
+      expect {subject.update! team_specs}.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 end

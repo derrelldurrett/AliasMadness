@@ -1,19 +1,21 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  # Bundler.require(*Rails.groups(assets:  %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  Bundler.require(:default, :assets, Rails.env)
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module AliasMadness
   @name = %q(Alia's Madness)
   @start_time = DateTime.current
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
+    # Use the responders controller from the responders gem
+    config.app_generators.scaffold_controller :responders_controller
+
+    config.load_defaults 5.1
+    # Settoad the plugins named here, in the order given (default is alphabetical).
+    #     # :all canings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     #config.force_ssl=true
@@ -22,8 +24,7 @@ module AliasMadness
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib/assets/errors) # was .eager_load_paths
 
-    # Only load the plugins named here, in the order given (default is alphabetical).
-    # :all can be used as a placeholder for all plugins not explicitly named.
+    # Only l be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
@@ -37,15 +38,6 @@ module AliasMadness
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
-
-    # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
-
-    # Enable escaping HTML in JSON.
-    config.active_support.escape_html_entities_in_json = true
-
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
@@ -55,21 +47,15 @@ module AliasMadness
     # serializing in the code)
     config.active_record.include_root_in_json = true
 
-    # Enforce whitelist mode for mass assignment.
-    # This will create an empty whitelist of attributes available for mass-assignment for all models
-    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
-    # parameters by using an attr_accessible or attr_protected declaration.
-    config.active_record.whitelist_attributes = true
-
-    # Enable the asset pipeline
-    config.assets.enabled = true
-    config.assets.initialize_on_precompile = false
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    # FactoryGirl
-    config.generators do |g|
-      g.factory_girl dir: 'features/support/factories'
-    end
+  end
+
+  #TODO try to initialize here?
+  def self.init_brackets
+
   end
 end
+
+AliasMadness

@@ -1,5 +1,15 @@
-# Load the rails application
-require File.expand_path('../application', __FILE__)
+# Load the Rails application.
+require_relative 'application'
 
-# Initialize the rails application
-AliasMadness::Application.initialize!
+ActionMailer::Base.smtp_settings = {
+    :user_name => ENV['ALIASMADNESS_SENDGRID_USERNAME'],
+    :password => ENV['ALIASMADNESS_SENDGRID_PASSWORD'],
+    :domain => ENV['ALIASMADNESS_DOMAIN'],
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+}
+
+# Initialize the Rails application.
+Rails.application.initialize!

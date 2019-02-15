@@ -2,14 +2,13 @@ require 'helpers/hash_helper'
 require 'helpers/hash_class_helper'
 require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
-class Game < ActiveRecord::Base
+class Game < ApplicationRecord
   include HashHelper
   extend HashClassHelper
   include JSONClientHelper
   extend JSONClientClassHelper
-  belongs_to :team, inverse_of: :games
-  belongs_to :bracket, inverse_of: :games
-  attr_accessible :label, :winner
+  belongs_to :team, inverse_of: :games, optional: true
+  belongs_to :bracket, inverse_of: :games, optional: true
 
   serialize :team, Team
 
@@ -37,18 +36,19 @@ class Game < ActiveRecord::Base
     # *Really* need to make this a property of the game at the time it's created
     case label.to_i
       when 1
-        32
+        64
       when 2..3
-        16
+        32
       when 4..7
-        8
+        16
       when 8..15
-        4
+        8
       when 16..31
-        2
+        4
       when 32..63
-        1
+        2
+      else
+        raise StandardError, "broken game label: #{label}"
     end
   end
-
 end

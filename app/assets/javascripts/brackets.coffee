@@ -21,7 +21,7 @@ sendTeamNameUpdate = (target) ->
       'bracket[node]': node
     success: (data, textStatus, jqXHR) ->
       updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
-      reloadPage target.getWindow()
+      reloadPage()
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
       wipeTextField target
@@ -32,8 +32,8 @@ wipeTextField = (targetNode) ->
 showError = (errorThrown,textStatus) ->
   alert errorThrown
 
-reloadPage = (w) ->
-  w.location.reload(true)
+reloadPage = () ->
+  window.location.reload true
 
 fixTeamNames = (e) ->
   e.preventDefault();
@@ -46,7 +46,7 @@ fixTeamNames = (e) ->
     data:
       'fix_team_names': true
     success: (data, textStatus, jqXHR) ->
-      reloadPage target.getWindow()
+      reloadPage()
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
 
@@ -179,10 +179,10 @@ sendGameUpdates = (e) ->
     type: 'PUT'
     url: $(target).closest('form').attr('action')
     data:
-      JSON.stringify({"game_data": sendMe})
+      JSON.stringify({"bracket": {"game_data": sendMe}})
     success: (data, textStatus, jqXHR) ->
       clearNewGameChoiceFlags bId
-      reloadPage target.getWindow()
+      reloadPage()
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
   return false
@@ -199,7 +199,7 @@ lockPlayersBrackets = (e) ->
       xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
     data: JSON.stringify({"lock_players_brackets": true})
     success: (data, textStatus, jqXHR) ->
-      reloadPage target.getWindow()
+      reloadPage()
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
 

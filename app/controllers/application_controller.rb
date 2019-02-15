@@ -1,13 +1,12 @@
+require "application_responder"
+
 class ApplicationController < ActionController::Base
-  require 'not_authorized'
+  self.responder = ApplicationResponder
+  respond_to :json
 
-  protect_from_forgery
-  rescue_from User::NotAuthorized, with: :user_not_authorized
+  protect_from_forgery with: :exception
 
-  private
-
-  def user_not_authorized
-    flash[:error] = %q(You don't have access to this section.)
-    redirect_to :back
+  def check_authorization
+    current_user.admin?
   end
 end

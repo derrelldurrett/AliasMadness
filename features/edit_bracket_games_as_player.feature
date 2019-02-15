@@ -17,3 +17,9 @@ Feature: Edit bracket as player
     Given 'An invited player' logs in with all teams entered
     When I view my bracket
     Then I should not be able to change 'Colorado' to 'CSU-Pueblo'
+
+  @javascript @wip
+  Scenario: When I change a game and have chosen subsequent games, the subsequent games should be reset
+    Given 'An invited player' logs in with all teams entered and players' games chosen
+    When I change a game's winner
+    Then The subsequent games should display 'Choose winner...'

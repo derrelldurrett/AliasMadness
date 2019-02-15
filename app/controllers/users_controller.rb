@@ -2,10 +2,10 @@ class UsersController < ApplicationController
   require 'active_record/errors'
 
   include SessionsHelper
-  before_filter :check_authorization, only: [:create]
+  before_action :check_authorization, only: [:create]
 
   def login
-    @user = User.find(params[:id])
+    @user = User.find resource_params(:user_id)
   end
 
   def new
@@ -17,35 +17,36 @@ class UsersController < ApplicationController
 
   def update
     #reset_session
-    @user = User.find(params[:id])
+    @user = User.find resource_params(:id)
+    @user.password= resource_params()[:password]
     session_authenticate(@user)
   end
 
   def show
     if signed_in?
       begin
-        @user = User.find(params[:id])
+        @user = User.find resource_params(:id)
         @bracket = @user.bracket
         @players = User.where(role: :player).order('current_score desc')
       rescue ActiveRecord::RecordNotFound => e
         puts e.message
-        all= User.all
-        all.each { |u| puts 'user: '+u.name+' : '+u.id.to_s }
+        all = User.all
+        all.each {|u| puts 'user: ' + u.name + ' : ' + u.id.to_s}
       end
     end
   end
 
   def create
     if signed_in?
+      params = resource_params
       begin
-        params[:user][:role]='player'
-        @user = User.create!(params[:user])
-        UserMailer.welcome_email(@user).deliver unless @user.admin?
-        flash.now[:success] = %Q(User '#{ params[:user][:name] }' created.)
-      rescue Exception => e
+        @user = create_player params
+        flash.now[:success] = %Q(User '#{ params[:name] }' created.)
+      rescue StandardError => e
         puts e.message
+        e.backtrace.each {|t| puts t }
         User.delete(@user)
-        flash.now[:error] = %Q(#{e.message};\nPlayer '#{ params[:user][:name] }' not invited)
+        flash.now[:error] = %Q(#{e.message};\nPlayer '#{ params[:name] }' not invited)
       end
       @user = User.new # clear the previous form data
       render new_user_path
@@ -54,8 +55,28 @@ class UsersController < ApplicationController
     end
   end
 
-  # private
-  # def user_params
-  #   params.require(:user).permit(:name, :password, :password_confirmation, :email, :role)
-  # end
+  private
+
+  def create_player params
+    params[:role]='player'
+    set_player_login params
+    @user = User.create!(params)
+    UserMailer.welcome_email(@user, @remember_for_email).deliver
+  end
+
+  def set_player_login(params)
+    params[:password] =
+        params[:password_confirmation] =
+            @remember_for_email =
+                  SecureRandom.base64(24) #create a  32-character-length password
+  end
+
+  def resource_params(field = :user)
+    case field
+    when :user
+      params.require(:user).permit(:name, :password, :password_confirmation, :email, :role)
+    else
+      params.require(field)
+    end
+  end
 end

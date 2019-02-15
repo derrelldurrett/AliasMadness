@@ -7,9 +7,8 @@ Given /\A'([^']+)' who is logged in\z/ do |login|
     when /(?i:admin)/
       login_as_admin
     when /(?i:(\binvited player))/
-      login = FactoryGirl.create(:player)
+      login = (get_players.nil? or get_players.empty?) ? create_a_player : get_players.first
       login_as_player login
-      add_to_players login
   end
 end
 
@@ -24,7 +23,7 @@ end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
   puts 'I will visit '+link
-  visit path_to(link)
+  click_link link
 end
 
 When /\AI visit the '([^']+)' page\z/ do |page_name|
@@ -49,5 +48,6 @@ Given /\A'([^']+)' visiting the '([^']+)' page with all teams entered\z/ do |who
   sleep 12
 end
 
-
-
+When /\AClicks '([^']+)'\z/ do |link|
+  click_button link
+end

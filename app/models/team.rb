@@ -2,12 +2,11 @@ require 'helpers/hash_helper'
 require 'helpers/hash_class_helper'
 require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
-class Team < ActiveRecord::Base
+class Team < ApplicationRecord
   include HashHelper
   extend HashClassHelper
   include JSONClientHelper
   extend JSONClientClassHelper
-  attr_accessible :label, :name, :seed, :eliminated
   has_many :games, inverse_of: :teams
   validates :name, uniqueness: true
   validates :seed, numericality: {only_integer: true}
@@ -22,10 +21,14 @@ class Team < ActiveRecord::Base
   alias dup clone
 
   def eql?(other)
-#    other.is_a? Team and puts other.name
     other.is_a? Team and ((object_id==other.object_id) or (name == other.name and
         seed == other.seed))
   end
   alias == eql?
 
+  private
+
+  def allowed_params
+    params.require(:team).permit(%i[label name seed eliminated])
+  end
 end

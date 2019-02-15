@@ -1,7 +1,7 @@
 module BracketsHelper
   def players_brackets_locked?
-    players_with_locked_brackets= User.where({bracket_locked: 'true', role: :player}).all
     players= User.where({role: :player}).all
+    players_with_locked_brackets= players.where(bracket_locked: 'true').all
     players.length == players_with_locked_brackets.length
   end
 

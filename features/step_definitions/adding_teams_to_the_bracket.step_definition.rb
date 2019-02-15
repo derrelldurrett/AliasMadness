@@ -5,7 +5,6 @@ end
 NODE_64_CSS = 'td.team[data-node="64"]'
 NODE_97_CSS = 'td.team[data-node="97"]'
 
-
 Then %q(I should see the initial bracket) do
   team_1_node = find(NODE_64_CSS)
   within(team_1_node) do
@@ -52,7 +51,7 @@ Then %q(The team names should not be editable) do
 end
 
 Then(/\AThe team '([^']+)' should be the '([^']+)' for '([^']+)'\z/) do |new_team_attr_val, team_attr, old_team_attr_val|
-  team = Team.find_by_id look_up_team_id_by_original_data(old_team_attr_val)
+  team = Team.where(id: look_up_team_id_by_original_data(old_team_attr_val)).first
   expect(team).not_to be_nil
   expect(team.send(team_attr)).to eq(new_team_attr_val)
 end
@@ -74,16 +73,17 @@ Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name
   end
 end
 
-Given(/^The teams have already been entered$/) do
+Given %q(The teams have already been entered) do
   team_data.each do |t|
-    team= Team.find_by_name(t[:old_name])
+    team= Team.where(name: t[:old_name]).first
     if team.nil?
-      team= Team.find_by_name(t[:new_name])
+      team= Team.where(name: t[:new_name]).first
       next unless team.nil?
       puts %Q(Team not found under old (#{t[:old_name]}) or new name (#{t[:new_name]}))
       Team.all.each do |t|
         puts 'Team: '+t.name+' ('+t.id+')'
       end
+      next
     end
     result= team.update_attribute :name, t[:new_name]
     redo unless result

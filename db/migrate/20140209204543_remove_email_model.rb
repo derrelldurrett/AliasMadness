@@ -1,4 +1,4 @@
-class RemoveEmailModel < ActiveRecord::Migration
+class RemoveEmailModel < ActiveRecord::Migration[5.0]
   def up
     drop_table :emails
     remove_column :users, :email_id

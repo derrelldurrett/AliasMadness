@@ -1,0 +1,11 @@
+<%= if bracket_locked
+      @game.winner.name
+    else
+      options = {prompt: choose_winner_or(@game),
+                 node: node,
+                 class: 'game_winner force-font',
+                 id: 'game_' + node}
+      select_tag 'winner',
+                 game_or_team_options_for_select(bracket, @game), options
+    end
+%>
