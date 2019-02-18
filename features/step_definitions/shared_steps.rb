@@ -22,6 +22,7 @@ Given /\A'([^']+)' visiting the '([^']+)' page\z/ do |login_name,page_name|
 end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
+  # save_and_open_page
   puts 'I will visit '+link
   click_link link
 end
@@ -38,7 +39,7 @@ When %q(click the button to set the names) do
   sleep 5
 end
 
-Given /\A'([^']+)' visiting the '([^']+)' page with all teams entered\z/ do |who,where|
+Given /\A'([^']+)' visiting the "([^"]+)" page with all teams entered\z/ do |who,where|
   puts who+' will visit '+where
   steps %Q(
       Given The database is seeded

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   require 'active_record/errors'
 
   include SessionsHelper
-  before_action :check_authorization, only: [:create]
+  before_action :check_authorization_admin, only: [:create]
 
   def login
     @user = User.find resource_params(:user_id)
@@ -28,6 +28,7 @@ class UsersController < ApplicationController
         @user = User.find resource_params(:id)
         @bracket = @user.bracket
         @players = User.where(role: :player).order('current_score desc')
+        @disabled = current_user != @user
       rescue ActiveRecord::RecordNotFound => e
         puts e.message
         all = User.all

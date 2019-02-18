@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   include SessionsHelper
   include TeamsHelper
-  before_action :check_authorization
+  before_action :check_authorization_admin
 
   # PUT /teams/1.json
   def update

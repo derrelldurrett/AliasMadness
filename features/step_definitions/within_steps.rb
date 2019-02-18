@@ -279,7 +279,6 @@ end
 
 def verify_displayed_standings(standings)
   leader_board_row = page.all('#leader_board tr')
-  save_and_open_page
   expect(leader_board_row).not_to be_empty
   leader_board_row.each_with_index do |tr, index|
     expect(tr).to have_selector('.player_summary')
@@ -362,23 +361,23 @@ end
 
 def winner_reset?(label)
   # use within? build the td string....
-  db_game = @players_bracket.lookup_game label
-  ancestors = @players_bracket.lookup_ancestors(db_game)
   within(build_css_for_game_select(label)) do
-    build_css_for_game_select = build_css_for_game_select(label)
-    puts 'checking for css ' + build_css_for_game_select
-    ancestors.each do |g|
-      g.reload
-      winner = g.is_a?(Team) ? g : g.winner
-      unless winner.nil?
-        expect(page).to have_selector(%Q(option[value="#{winner.label}"]))
-      end
-    end
     expect(page).not_to have_selector(%q(option[selected="selected"]))
   end
-  pending
 end
 
 def build_css_for_game_select(label)
   %Q(#game_#{label})
+end
+
+module Enumerable
+# monkey patch Enumerable
+  def each_other_id(reject_this)
+    ids = self.each_with_object([]) do |p, o|
+      o << p.id
+    end
+    ids.reject do |p|
+      p == reject_this
+    end
+  end
 end

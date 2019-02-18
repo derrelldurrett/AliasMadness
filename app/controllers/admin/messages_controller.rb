@@ -4,7 +4,7 @@ class Admin
     include UsersHelper
     include MailHelper
 
-    before_action :check_authorization
+    before_action :check_authorization_admin
     MESSAGE_KEYS = [:subject, :message, :to]
     PARAM_KEYS = [:subject, :message]
 

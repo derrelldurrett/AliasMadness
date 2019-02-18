@@ -81,7 +81,7 @@ def seed_players_games
     choose_winners_for_brackets_games bracket
   end
   Game.where('team_id is not null').update_all(locked: :true)
-  User.where(role: :player).update_all(bracket_locked: :true)
+  User.where(role: :player).update_all(bracket_locked: :true) unless ENV['LOCK_BRACKETS'].nil?
   puts "seeded games"
 end
 

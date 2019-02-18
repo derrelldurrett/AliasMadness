@@ -6,6 +6,15 @@ Given "'An invited player' logs in with all teams entered" do
            "
 end
 
+Given "'An invited player' logs in with all teams entered and other players invited" do
+  steps "
+           Given The database is seeded
+           Given The teams have already been entered
+           Given The players have been invited
+           Given 'An invited player' who is logged in
+           "
+end
+
 Given "'An invited player' logs in with all teams entered and players' games chosen" do
   steps '
            Given The database is seeded
@@ -113,8 +122,16 @@ Then 'The database should reflect the game choices' do
   verify_players_games logged_in_player.id
 end
 
-When 'I view my bracket' do
-  visit(current_path) # as long as Players have only one page....
+When /I view "([^"]+)"/ do |which_bracket|
+  case which_bracket
+  when /my/
+    visit current_path # as long as Players have only one page....
+  when /another/
+    @other_id = get_players.each_other_id(@user.id).to_a.sample
+    other = User.find(@other_id)
+    # can't use this for when there's a score without computing it.
+    click_link "#{other.name} == 0"
+  end
   sleep 4
 end
 
@@ -131,7 +148,6 @@ When /\AThe Admin has updated some games the (\w+) time\z/ do |which_time|
     steps "Given The Admin has locked the players' brackets"
   end
   pick_game_winners_as_admin(ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]], false)
-  #visit(current_path)
 end
 
 Then 'the invited players scores should be calculated' do
@@ -150,6 +166,7 @@ Then /\A'An invited player' should see the correct choices in green and the inco
   puts "reload page the #{nth} time."
   page.evaluate_script 'window.location.reload()' # wield a hammaer, apparently.
   players_bracket = games_by_label(logged_in_player.bracket)
+  # save_and_open_page
   ADMINS_LABEL_BLOCK[WHICH_TIME[nth.to_sym]].each do |l|
     label = l.to_s
     r_game = reference_bracket[label]
@@ -159,7 +176,7 @@ Then /\A'An invited player' should see the correct choices in green and the inco
     winner_state = p_game.winner == r_game.winner ? 'green' : 'red'
     puts "#{label}: player: #{p_game.winner.name}, ref: #{r_game.winner.name}"
     expected_css = build_game_css(label, winner_state)
-    page.has_css?(expected_css)
+    expect page.has_css?(expected_css)
     if winner_state == 'green'
       expect(find(expected_css)).to have_text(exact_text_match(p_game.winner.name))
     else
@@ -186,8 +203,17 @@ end
 
 Then "The subsequent games should display 'Choose winner...'" do
   until @label_to_check.nil?
-    puts 'checking game reset for ' + @label_to_check.to_s
+    puts "checking game reset for player #{@user.id} and game #{@label_to_check}"
     winner_reset?(@label_to_check)
     @label_to_check = get_descendant_label(@label_to_check)
+  end
+end
+
+Then 'I should not be able to change its games' do
+  # save_and_open_page
+  td_node_name = build_game_css('63')
+  puts td_node_name
+  within(td_node_name) do
+    expect(page).to have_selector(GAME_WINNER_CSS + '[disabled]')
   end
 end
