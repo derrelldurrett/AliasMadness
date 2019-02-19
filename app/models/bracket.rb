@@ -57,21 +57,6 @@ class Bracket < ApplicationRecord
     # end
   end
 
-  def lookup_team(l)
-    begin
-      init_lookups if lookup_by_label_uninitialized?
-      r = lookup_by_label.fetch l.to_s
-      unless r.is_a? Team
-        raise KeyError
-      end
-      r
-    rescue KeyError
-      nil
-    rescue => other_error
-      raise BadProgrammerError(other_error)
-    end
-  end
-
   def lookup_node(n)
     init_lookups if lookup_by_label_uninitialized?
     lookup_by_label[n.to_s]
@@ -102,13 +87,13 @@ class Bracket < ApplicationRecord
     unless self.class.eql?(o.class)
       return false
     end
-    self.initialization_data.zip(o.initialization_data).all? do |a|
+    initialization_data.zip(o.initialization_data).all? do |a|
       a[0].eql? a[1]
     end
   end
 
   def games_by_label
-    self.games.order('label').to_a
+    games.order('label').to_a
   end
 
   def init_lookups
@@ -136,7 +121,7 @@ class Bracket < ApplicationRecord
   def newest_game_date
     # TODO: turn this into a SQL statement on the bracket returning the most
     # recent game
-    (games.sort_by { |g| g.updated_at }).last.updated_at
+    Game.where(bracket_id: id)
   end
 
   def bracket_data

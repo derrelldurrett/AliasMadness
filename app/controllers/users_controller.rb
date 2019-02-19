@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   require 'active_record/errors'
 
   include SessionsHelper
+  include UsersHelper
   before_action :check_authorization_admin, only: [:create]
 
   def login
@@ -57,20 +58,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def create_player params
-    params[:role]='player'
-    set_player_login params
-    @user = User.create!(params)
-    UserMailer.welcome_email(@user, @remember_for_email).deliver
-  end
-
-  def set_player_login(params)
-    params[:password] =
-        params[:password_confirmation] =
-            @remember_for_email =
-                  SecureRandom.base64(24) #create a  32-character-length password
-  end
 
   def resource_params(field = :user)
     case field

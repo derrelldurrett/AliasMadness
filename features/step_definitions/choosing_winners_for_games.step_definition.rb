@@ -15,14 +15,14 @@ Given "'An invited player' logs in with all teams entered and other players invi
            "
 end
 
-Given "'An invited player' logs in with all teams entered and players' games chosen" do
-  steps '
+Given /\A'([^']+)' logs in with all teams entered and players' games chosen\z/ do |who|
+  steps "
            Given The database is seeded
            Given The teams have already been entered
            Given The players have been invited
            Given The players have entered their winning teams
-           Given One of the players logs in
-           '
+           Given '#{who}' who is logged in
+        "
 end
 
 Given "'An invited player' should see the bracket in progress" do
@@ -45,7 +45,7 @@ Given(/\A'([^']+)' visiting the '([^']+)' page with all players' games entered\z
                Given The teams have already been entered
                Given The players have been invited
                Given The players have entered their winning teams
-               Given 'An Admin' visiting the 'Edit Bracket' page
+               Given 'An Admin' visiting the '#{page_name}' page
                )
   when 'An invited player'
     steps "

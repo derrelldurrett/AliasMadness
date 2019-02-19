@@ -41,3 +41,16 @@ nav {
   right: 0;
   left: auto;
 }
+
+.nav-list-item .popup {
+  display: none;
+}
+
+.nav-list-item:hover .popup {
+  width:$nav-list-width;
+  color: #eeee00;
+  background-color:#444444;
+  display: block;
+  text-align:center;
+  padding:10px;
+}
