@@ -2,3 +2,8 @@ Then 'The players brackets should be locked' do
   brackets = User.where.not(bracket_locked: false)
   expect(brackets).to be_empty
 end
+
+When 'I view scenarios' do
+  click_link 'View Scenarios'
+  expect(page).to have_content('Scenario List')
+end

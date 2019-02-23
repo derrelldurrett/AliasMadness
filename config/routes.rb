@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admin/show'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'static_pages#home'
   get 'login', to: 'sessions#login'
@@ -16,5 +18,6 @@ Rails.application.routes.draw do
     # Directs /admin/products/* to Admin::ProductsController
     # (app/controllers/admin/products_controller.rb)
     resources :messages, only: [:create, :new]
+    get 'scenarios', to: 'admin#scenarios'
   end
 end

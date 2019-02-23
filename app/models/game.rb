@@ -32,6 +32,10 @@ class Game < ApplicationRecord
     winner.nil? ? nil : winner.label
   end
 
+  def ancestors
+    bracket.lookup_ancestors(self)
+  end
+
   def round_multiplier
     # *Really* need to make this a property of the game at the time it's created
     case label.to_i
@@ -49,6 +53,26 @@ class Game < ApplicationRecord
         2
       else
         raise StandardError, "broken game label: #{label}"
+    end
+  end
+
+  def round
+    # *Really* need to make this a property of the game at the time it's created
+    case label.to_i
+    when 1
+      6
+    when 2..3
+      5
+    when 4..7
+      4
+    when 8..15
+      3
+    when 16..31
+      2
+    when 32..63
+      1
+    else
+      raise StandardError, "broken game label: #{label}"
     end
   end
 end

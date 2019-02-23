@@ -129,7 +129,8 @@ end
 def seed_result
   bracket= Admin.get.bracket
   choose_winners_for_brackets_games bracket, 25, true
-  @players.each { |p| p.score }
+  bracket.save
+  @players.each { |p| p.score bracket }
 end
 
 seed_admin unless ENV['SEED_ADMIN'].nil?

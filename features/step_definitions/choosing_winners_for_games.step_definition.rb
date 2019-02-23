@@ -144,8 +144,11 @@ Given "The Admin has locked the players' brackets" do
 end
 
 When /\AThe Admin has updated some games the (\w+) time\z/ do |which_time|
-  if which_time == 'first'
+  case which_time
+  when 'first'
     steps "Given The Admin has locked the players' brackets"
+  when 'third'
+    steps 'Given The pool is in progress'
   end
   pick_game_winners_as_admin(ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]], false)
 end
