@@ -5,7 +5,7 @@ require 'assets/template_loader'
 
 class BracketTemplate < RGL::DirectedAdjacencyGraph
 
-  attr_reader :template_as_nodes, :vertice_dict
+  attr_reader :template_as_nodes, :vertices_dict
   attr :entry_node
 
   def self.saved_template_loader

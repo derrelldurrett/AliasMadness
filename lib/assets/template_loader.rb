@@ -1,8 +1,8 @@
 class TemplateLoader
   require 'assets/rgl/directed_adjacency_graph'
-  require_relative '../../app/model/concerns/errors/template_format_error'
-  require_relative '../../app/models/team'
-  require_relative '../../app/models/game'
+  require 'assets/errors/template_format_error'
+  require 'team'
+  require 'game'
   include Singleton
   attr_reader :bracket_structure_data,
               :spec_comp_regex,
@@ -39,6 +39,7 @@ class TemplateLoader
   end
 
   def build_graph(graph)
+    @label_lookup = {}
     # Edge is two node numbers. Lookup allows us to get from a node
     # number to the Game/Team that it represents
     edge_list = []
@@ -50,11 +51,11 @@ class TemplateLoader
   end
 
   def build_lookups(d, edge_list)
-    new_node = {label: d[:node_num], node: nil}
     if d[:has_a]
-      new_node = {label: d[:node_num], node: nil}
-      edge_list << [new_node, {label: d[:a_node1], node: nil}]
-      edge_list << [new_node, {label: d[:a_node2], node: nil}]
+      label_lookup.key?(d[:node_num]) ||
+        label_lookup.store(d[:node_num], new_game(d[:node_num]))
+      edge_list << [d[:node_num], d[:a_node1]]
+      edge_list << [d[:node_num], d[:a_node2]]
     elsif d[:has_t]
       label_lookup.store d[:node_num], get_team(d)
     else
@@ -65,12 +66,11 @@ class TemplateLoader
   def get_team(d)
     t = Team.where(label: d[:node_num].to_s).first
     if t.nil?
-      t = Team.new({name: d[:team_name],
-                    seed: d[:team_seed].to_i,
-                    label: d[:node_num].to_s})
+      t = Team.new(name: d[:team_name],
+                   seed: d[:team_seed].to_i,
+                   label: d[:node_num].to_s)
       t.save!
     end
-    label_lookup.has_key?(d[:node_num]) || label_lookup.store(d[:node_num], d[:team_name])
     t
   end
 

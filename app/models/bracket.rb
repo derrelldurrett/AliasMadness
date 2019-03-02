@@ -6,7 +6,7 @@ require 'helpers/hash_class_helper'
 require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
 class Bracket < ApplicationRecord
-  @@cached_teams= Array.new
+  @@cached_teams= []
   include HashHelper
   extend HashClassHelper
   include JSONClientHelper
@@ -42,19 +42,8 @@ class Bracket < ApplicationRecord
   end
 
   def lookup_game(l)
-    # begin
-    # init_lookups if lookup_by_label_uninitialized?
-    # r = lookup_by_label.fetch l.to_s
-    # unless r.is_a? Game
-    #   raise KeyError
-    # end
-    # r
+    # This probably can change to not always look at the DB
     g= Game.where(bracket_id: self.id, label: l).first
-    # rescue KeyError
-    #   nil
-    # rescue => other_error
-    #   raise BadProgrammerError(other_error)
-    # end
   end
 
   def lookup_node(n)
@@ -63,18 +52,21 @@ class Bracket < ApplicationRecord
   end
 
   def lookup_ancestors(g)
-    begin
-      init_lookups if @bracket_ancestors.nil?
-      r= Set.new
-      @bracket_ancestors[g.label].each do |a|
-        r << lookup_node(a)
-      end
-      r
-    rescue KeyError
-      nil
-    rescue => other_error
-      raise BadProgrammerError(other_error)
+    bracket_data.vertices_dict.fetch(g.label).map do |l|
+      lookup_node(l)
     end
+    # begin
+    #   init_lookups if @bracket_ancestors.nil?
+    #   r= Set.new
+    #   @bracket_ancestors[g.label].each do |a|
+    #     r << lookup_node(a)
+    #   end
+    #   r
+    # rescue KeyError
+    #   nil
+    # rescue => other_error
+    #   raise BadProgrammerError(other_error)
+    # end
   end
 
   def update_node(content, node)

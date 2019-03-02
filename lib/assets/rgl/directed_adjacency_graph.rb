@@ -4,10 +4,10 @@ require 'rgl/traversal'
 
 # Monkey patch it
 class RGL::DirectedAdjacencyGraph
-  attr_reader :entry_node
+  attr_reader :entry_node, :vertices_dict
 
   def to_s
-    if @vertice_dict.nil?
+    if @vertices_dict.nil?
       'nil'
     else
       edges.to_ary.to_s
