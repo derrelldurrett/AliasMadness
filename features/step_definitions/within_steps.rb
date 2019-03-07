@@ -110,6 +110,7 @@ def enter_team_names_as_admin
 end
 
 GAME_WINNER_CSS = 'select.game_winner'
+GAME_WINNER_CLASS_CSS = '.game_winner'
 
 def build_winner_script(game, td_node_name, winner = game[:winners_label])
   %Q(

@@ -86,13 +86,16 @@ end
 Then /\AThe game labeled '([^']+)' should display correctly\z/ do |label|
   label = label.to_s
   game_labeled = game_by_label label
-  within(build_game_css(label)) do
-    page.has_select?(GAME_WINNER_CSS, selected: game_labeled[:winner][:new_name])
+  game_css = build_game_css(label)
+  within(game_css) do
+    puts "Checking  #{label} (CSS: #{game_css}), expecting participant #{game_labeled[:winner][:new_name]}"
+    expect(page).to have_select("game_#{label}", selected: game_labeled[:winner][:new_name])
   end
-  within(build_game_css(get_descendant_label(label))) do
-    puts 'Checking ' + label + "'s descendant, " + get_descendant_label(label).to_s +
-             ', expecting participant ' + game_labeled[:winner][:new_name]
-    page.has_select?(GAME_WINNER_CSS, with_options: game_labeled[:winner][:new_name])
+  descendant_label = get_descendant_label(label)
+  descendant_game_css = build_game_css(descendant_label)
+  within(descendant_game_css) do
+    puts "Checking  #{label}'s descendant (CSS: #{descendant_game_css}), #{descendant_label}, expecting participant #{game_labeled[:winner][:new_name]}"
+    expect(page).to have_select("game_#{descendant_label}", with_options: [game_labeled[:winner][:new_name]])
   end
 end
 
