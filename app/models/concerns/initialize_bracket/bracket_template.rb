@@ -13,6 +13,7 @@ class BracketTemplate < RGL::DirectedAdjacencyGraph
       InitializeBracketFromTemplate.template_loader.load_template(InitializeBracketFromTemplate.bracket_specification_file)
       @saved_template_loader= InitializeBracketFromTemplate.template_loader
     end
+    puts 'IN BRACKET TEMPLATE!'
     @saved_template_loader
   end
 
