@@ -55,16 +55,22 @@ class TemplateLoader
       edge_list << [d[:node_num], d[:a_node1]]
       edge_list << [d[:node_num], d[:a_node2]]
     elsif d[:has_t]
-      label_lookup.store d[:node_num], get_team(d)
+      get_team(d)
     else
       raise TemplateFormatError "Bad data-- node #{d} has neither a nor t"
     end
   end
 
   def get_team(d)
-    label_lookup.fetch(d[:node_num]) || {name: d[:team_name],
-                                         seed: d[:team_seed].to_i,
-                                         label: d[:node_num].to_s}
+    if label_lookup.include?(d[:node_num])
+      label_lookup.fetch(d[:node_num])
+    else
+      t = {name: d[:team_name],
+           seed: d[:team_seed].to_i,
+           label: d[:node_num].to_s}
+      label_lookup.store(d[:node_num], t)
+      t
+    end
   end
 
   def new_game(node_num)

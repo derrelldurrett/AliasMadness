@@ -82,9 +82,8 @@ class BracketsController < ApplicationController
     User.where({role: :player}).each do |p|
       b= p.bracket
       b.games.update_all(locked: true)
-      b.update_lookups
     end
-    User.where({role: :player}).update_all(is_disabled: true)
+    User.where({role: :player}).update_all(bracket_locked: true)
   end
 
   private

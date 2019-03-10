@@ -102,12 +102,11 @@ end
 When 'An invited player enters the winners for the games' do
   63.downto(1).each do |label|
     steps %(When 'An invited player' enters the winner for game '#{label}')
-    sleep 3
   end
   click_button('Submit Your Bracket')
-  sleep 5
+  sleep 1
   visit path_to('Edit Bracket')
-  sleep 5
+  sleep 1
 end
 
 When "An invited player's winners for the games have all been entered" do
@@ -135,7 +134,7 @@ When /I view "([^"]+)"/ do |which_bracket|
     # can't use this for when there's a score without computing it.
     click_link "#{other.name} == 0"
   end
-  sleep 4
+  sleep 2
 end
 
 Then(/\AI should not be able to change '([^']+)' to '([^']+)'\z/) do |team_name, non_participating_team|
@@ -159,7 +158,7 @@ end
 
 Then /\Athe '([^']+)' page should reflect the (\w+) standings\z/ do |page_name, which_time|
   visit path_to(page_name)
-  sleep 3
+  sleep 2
   verify_displayed_standings compute_expected_standings which_time
 end
 

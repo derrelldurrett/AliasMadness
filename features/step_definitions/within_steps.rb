@@ -1,15 +1,7 @@
 def seed_database
   require_relative(%q(../../db/seeds))
-  reset_database
   seed_admin
   store_team_data
-end
-
-def reset_database
-  User.all.each {|e| e.delete}
-  Bracket.all.each {|e| e.delete}
-  Game.all.each {|e| e.delete}
-  Team.all.each {|e| e.delete}
 end
 
 WHICH_TIME = {first: 0, second: 1}
@@ -104,9 +96,8 @@ end
 def enter_team_names_as_admin
   team_data.each do |t|
     change_a_team_name_as_admin t[:old_name], t[:new_name]
-    sleep 2
   end
-  sleep 5
+  sleep 1
 end
 
 GAME_WINNER_CSS = 'select.game_winner'

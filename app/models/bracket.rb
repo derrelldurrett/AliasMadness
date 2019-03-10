@@ -6,7 +6,7 @@ require 'helpers/hash_class_helper'
 require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
 class Bracket < ApplicationRecord
-  @@cached_teams= Array.new
+  @@cached_teams = Array.new
   include HashHelper
   extend HashClassHelper
   include JSONClientHelper
@@ -18,8 +18,8 @@ class Bracket < ApplicationRecord
   has_many :games, inverse_of: :bracket
   after_find :init_lookups
 
-  self.hash_vars= %i(id user)
-  self.json_client_ids= [:id, :nodes]
+  self.hash_vars = %i(id user)
+  self.json_client_ids = [:id, :nodes]
 
   def teams
     @@cached_teams.length > 0 or init_cached_teams
@@ -49,7 +49,7 @@ class Bracket < ApplicationRecord
     #   raise KeyError
     # end
     # r
-    g= Game.where(bracket_id: self.id, label: l).first
+    g = Game.where(bracket_id: self.id, label: l).first
     # rescue KeyError
     #   nil
     # rescue => other_error
@@ -65,7 +65,7 @@ class Bracket < ApplicationRecord
   def lookup_ancestors(g)
     begin
       init_lookups if @bracket_ancestors.nil?
-      r= Set.new
+      r = Set.new
       @bracket_ancestors[g.label].each do |a|
         r << lookup_node(a)
       end
@@ -79,7 +79,7 @@ class Bracket < ApplicationRecord
 
   def update_node(content, node)
     # old_content= @lookup_by_label[node]
-    @lookup_by_label[node]= content
+    @lookup_by_label[node] = content
     content
   end
 
@@ -125,24 +125,39 @@ class Bracket < ApplicationRecord
   end
 
   def bracket_data
-    @bracket_data||= BracketFactory.instance.serialized_bracket.copy
+    @bracket_data ||= BracketFactory.instance.serialized_bracket.copy
   end
+
   private
 
   attr :lookup_by_label, :bracket_ancestors
 
+  def find_or_init_team(n)
+    t = Team.find_by(label: n[:label])
+    t.nil? and t = Team.create(n)
+    t
+  end
+
+  def find_or_init_game(n)
+    n.is_a?(Game) ? n : init_game(n[:label])
+  end
+
   def init_ancestors
     if @bracket_ancestors.nil? or @bracket_ancestors.empty?
-      @bracket_ancestors = Hash.new { |h, k| h[k]= SortedSet.new }
+      @bracket_ancestors = Hash.new {|h, k| h[k] = SortedSet.new}
       bracket_data.edges.each do |e|
         @bracket_ancestors[e.source] << e.target
       end
     end
   end
 
+  def init_game(label)
+    Game.find_or_create_by(label: label.to_s, bracket_id: self.id)
+  end
+
   def init_lookup_by_label
     if lookup_by_label_uninitialized?
-      @lookup_by_label||= Hash.new
+      @lookup_by_label ||= Hash.new
       if id.nil? or games.empty?
         init_lookups_from_template
       else
@@ -153,38 +168,43 @@ class Bracket < ApplicationRecord
 
   def init_lookups_from_template
     bracket_data.vertices.each do |v|
-      g = bracket_data.label_lookup.fetch v
-      @lookup_by_label[g.label.to_s]= g
+      n = bracket_data.label_lookup.fetch v
+      init_node(n)
     end
   end
 
   def init_lookups_from_database
     if lookup_by_label_uninitialized?
-      @lookup_by_label||= Hash.new
+      @lookup_by_label ||= Hash.new
       self.games.each do |g|
-        @lookup_by_label[g.label]= g
+        @lookup_by_label[g.label] = g
       end
       Team.all.each do |t|
-        @lookup_by_label[t.label]= t
+        @lookup_by_label[t.label] = t
       end
     end
     init_ancestors unless bracket_data.nil?
   end
 
+  def init_node(n)
+    n = n.key?(:name) ? find_or_init_team(n) : find_or_init_game(n)
+    @lookup_by_label[n.label.to_s] = n
+  end
+
   def init_relationships
-    game_ids=[]
-    games=[]
+    game_ids = []
+    games = []
     lookup_by_label.each_value do |v|
       if v.is_a? Game
         if v.id.nil?
           v.save!
         end
-        game_ids<< v.id
-        games<< v
+        game_ids << v.id
+        games << v
       end
     end
     if self.id.nil?
-      self.games= games
+      self.games = games
     else
       Game.where(id: game_ids).update_all(bracket_id: self.id)
     end
@@ -192,9 +212,9 @@ class Bracket < ApplicationRecord
 
   # part of the to_json_client_string pile
   def nodes
-    r= Array.new
+    r = Array.new
     bracket_data.vertices.each do |v|
-      r<< lookup_by_label[v].as_json_client_data
+      r << lookup_by_label[v].as_json_client_data
     end
     r
   end
