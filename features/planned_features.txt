@@ -1,0 +1,6 @@
+admin(auto-delete?) of sad-sack players (those what ain't paid)
+admin can see/show possible futures scenarios for wins/losses
+right-click on a player in the left column to directly compare future chances
+calculate "potential points" remaining for a bracket
+show "potential (or final, as appropriate) point/original potential points"
+heckle-forum for players

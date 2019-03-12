@@ -1,5 +1,4 @@
 require 'assets/rgl/directed_adjacency_graph'
-require 'assets/errors/bad_programmer_error'
 require 'initialize_bracket/bracket_template'
 require 'helpers/hash_helper'
 require 'helpers/hash_class_helper'
