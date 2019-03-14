@@ -1,6 +1,6 @@
 require 'rgl/base'
 require 'rgl/adjacency'
-require 'assets/template_loader'
+require_relative './template_loader'
 require_relative './initialize_bracket_from_template'
 
 class BracketTemplate < RGL::DirectedAdjacencyGraph

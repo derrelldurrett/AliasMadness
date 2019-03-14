@@ -1,4 +1,4 @@
-require %Q(#{Rails.root}/lib/assets/template_loader)
+require_relative './template_loader'
 template_file = %Q(#{Rails.root}/app/models/initialize_bracket/aliasmadness_bracket_template.csv)
 
 module InitializeBracketFromTemplate
