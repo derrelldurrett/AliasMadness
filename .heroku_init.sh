@@ -1,4 +1,4 @@
 #!/bin/sh
-while read -u9 VAR ; do export $VAR; done 9< .env # could go bigger w/fd# but that's not POSIX compliant
-heroku run rake db:create db:migrate db:seed assets:precompile
-
+(while read VAR ; do heroku config:set --app alias-madness-heroku-18 $VAR; done ) < .heroku_env
+heroku pg:reset --app alias-madness-heroku-18 aliasmadness_production
+heroku run --app alias-madness-heroku-18 rake db:migrate db:seed

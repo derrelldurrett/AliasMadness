@@ -16,6 +16,7 @@ class Bracket < ApplicationRecord
   belongs_to :user, optional: true
   has_many :games, inverse_of: :bracket
   after_find :init_lookups
+  after_initialize :init_lookups
 
   self.hash_vars = %i(id user)
   self.json_client_ids = [:id, :nodes]
@@ -218,5 +219,3 @@ class Bracket < ApplicationRecord
     r
   end
 end
-
-

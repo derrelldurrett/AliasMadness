@@ -1,11 +1,10 @@
 require %Q(#{Rails.root}/lib/assets/template_loader)
-template_file = %Q(#{Rails.root}/app/models/concerns/initialize_bracket/aliasmadness_bracket_template.csv)
+template_file = %Q(#{Rails.root}/app/models/initialize_bracket/aliasmadness_bracket_template.csv)
 
 module InitializeBracketFromTemplate
   extend self
   attr_accessor :template_loader,
                 :bracket_specification_file
-  #,                :bracket_template_comparator
 
   def configure(&block)
     config.instance_exec config, &block
