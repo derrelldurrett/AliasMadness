@@ -97,7 +97,7 @@ def enter_team_names_as_admin
   team_data.each do |t|
     change_a_team_name_as_admin t[:old_name], t[:new_name]
   end
-  sleep 1
+  sleep 2
 end
 
 GAME_WINNER_CSS = 'select.game_winner'

@@ -41,24 +41,30 @@ class TemplateLoader
     # Edge is two node numbers. Lookup allows us to get from a node
     # number to the Game/Team that it represents
     edge_list = []
-    @bracket_structure_data.reverse.each do |d|
+    @bracket_structure_data.reverse_each do |d|
       build_lookups(d, edge_list)
     end
-    edge_list.reverse.each {|e| graph.add_edge e[0], e[1]}
+    edge_list.reverse_each {|e| graph.add_edge e[0], e[1]}
     graph
   end
 
+  private
+
   def build_lookups(d, edge_list)
     if d[:has_a]
-      (label_lookup.include?(d[:node_num]) && label_lookup.fetch(d[:node_num])) ||
-          label_lookup.store(d[:node_num], new_game(d[:node_num]))
-      edge_list << [d[:node_num], d[:a_node1]]
-      edge_list << [d[:node_num], d[:a_node2]]
+      build_edge(d, edge_list)
     elsif d[:has_t]
       get_team(d)
     else
       raise TemplateFormatError "Bad data-- node #{d} has neither a nor t"
     end
+  end
+
+  def build_edge(d, edge_list)
+    label_lookup.include?(d[:node_num]) or
+        label_lookup.store(d[:node_num], new_game(d[:node_num]))
+    edge_list << [d[:node_num], d[:a_node1]]
+    edge_list << [d[:node_num], d[:a_node2]]
   end
 
   def get_team(d)

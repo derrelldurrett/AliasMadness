@@ -22,3 +22,6 @@
 
 /.idea/*
 coverage/*
+
+/public/assets/*
+/public/assets/*/**

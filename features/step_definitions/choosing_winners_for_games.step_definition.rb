@@ -127,7 +127,7 @@ end
 When /I view "([^"]+)"/ do |which_bracket|
   case which_bracket
   when /my/
-    visit current_path # as long as Players have only one page....
+    # do nothing, since that's where we are.
   when /another/
     @other_id = get_players.each_other_id(@user.id).to_a.sample
     other = User.find(@other_id)

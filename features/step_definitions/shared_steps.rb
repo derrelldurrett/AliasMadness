@@ -22,7 +22,6 @@ Given /\A'([^']+)' visiting the '([^']+)' page\z/ do |login_name,page_name|
 end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
-  # save_and_open_page
   puts 'I will visit '+link
   click_link link
 end
@@ -61,7 +60,7 @@ Given %q(The teams have already been entered) do
       next unless team.nil?
       puts %Q(Team not found under old (#{t[:old_name]}) or new name (#{t[:new_name]}))
       Team.all.each do |t|
-        puts 'Team: '+t.name+' ('+t.id+')'
+        puts "Team: #{t.name} (#{t.id})"
       end
       next
     end
