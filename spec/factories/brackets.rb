@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :bracket do
-    belongs_to ""
-    bracket_data "MyText"
-    lookup_by_label "MyText"
+    bracket_data {"MyText"}
+    lookup_by_label {"MyText"}
+    user
   end
 end

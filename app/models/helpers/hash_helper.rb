@@ -6,7 +6,7 @@ module HashHelper
     self.class.hash_vars.each do |s|
       if self.respond_to? s
         unless self.method(s).call.nil?
-          if self.method(s).call.respond_to? :id
+          if self.method(s).call.respond_to? :id # because :id is special!
             h=h*PRIME+self.method(s).call.id.hash
           else
             h=h*PRIME+self.method(s).call.hash

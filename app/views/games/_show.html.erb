@@ -1,8 +1,0 @@
-<%= select_tag 'winner',
-               game_or_team_options_for_select(bracket, @game),
-               {prompt: choose_winner_or(@game),
-                disabled: :true,
-                node: node,
-                class: 'game_winner force-font'+color_winner(@game, node, bracket_locked),
-                id: 'game_'+node}
-%>

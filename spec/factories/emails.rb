@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :email do
-    value "MyString"
+    value {"MyString"}
   end
 end

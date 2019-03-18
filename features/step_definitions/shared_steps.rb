@@ -22,7 +22,6 @@ Given /\A'([^']+)' visiting the '([^']+)' page\z/ do |login_name,page_name|
 end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
-  # save_and_open_page
   puts 'I will visit '+link
   click_link link
 end
@@ -51,4 +50,23 @@ end
 
 When /\AClicks '([^']+)'\z/ do |link|
   click_button link
+end
+
+Given %q(The teams have already been entered) do
+  team_data.each do |t|
+    team= Team.where(name: t[:old_name]).first
+    if team.nil?
+      team= Team.where(name: t[:new_name]).first
+      next unless team.nil?
+      puts %Q(Team not found under old (#{t[:old_name]}) or new name (#{t[:new_name]}))
+      Team.all.each do |t|
+        puts "Team: #{t.name} (#{t.id})"
+      end
+      next
+    end
+    result= team.update_attribute :name, t[:new_name]
+    redo unless result
+  end
+  lock_team_names
+  sleep 1
 end

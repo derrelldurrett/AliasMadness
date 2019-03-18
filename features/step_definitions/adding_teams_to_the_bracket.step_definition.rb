@@ -57,6 +57,7 @@ Then(/\AThe team '([^']+)' should be the '([^']+)' for '([^']+)'\z/) do |new_tea
 end
 
 Then %q(The teams should have the new names) do
+  # save_and_open_page
   team_data.each do |t|
     steps %Q{
       Then The team '#{t[:new_name]}' should be the 'name' for '#{t[:old_name]}'
@@ -71,23 +72,4 @@ Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name
       Then I should see '#{t[:new_name]}' on the '#{page_name}' page in place of '#{t[:old_name]}', locked, without reloading
       }
   end
-end
-
-Given %q(The teams have already been entered) do
-  team_data.each do |t|
-    team= Team.where(name: t[:old_name]).first
-    if team.nil?
-      team= Team.where(name: t[:new_name]).first
-      next unless team.nil?
-      puts %Q(Team not found under old (#{t[:old_name]}) or new name (#{t[:new_name]}))
-      Team.all.each do |t|
-        puts 'Team: '+t.name+' ('+t.id+')'
-      end
-      next
-    end
-    result= team.update_attribute :name, t[:new_name]
-    redo unless result
-  end
-  lock_team_names
-  sleep 1
 end

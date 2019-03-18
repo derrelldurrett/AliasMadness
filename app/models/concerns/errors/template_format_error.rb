@@ -1,2 +1,0 @@
-class TemplateFormatError < StandardError
-end

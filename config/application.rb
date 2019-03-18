@@ -12,8 +12,8 @@ module AliasMadness
   class Application < Rails::Application
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
-
     config.load_defaults 5.1
+
     # Settoad the plugins named here, in the order given (default is alphabetical).
     #     # :all canings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -50,6 +50,8 @@ module AliasMadness
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    # prevent asset:precompile from running the initializers, in theory.
+    config.assets.initialize_on_precompile = false
   end
 
   #TODO try to initialize here?

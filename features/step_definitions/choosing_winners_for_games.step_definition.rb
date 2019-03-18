@@ -86,25 +86,27 @@ end
 Then /\AThe game labeled '([^']+)' should display correctly\z/ do |label|
   label = label.to_s
   game_labeled = game_by_label label
-  within(build_game_css(label)) do
-    page.has_select?(GAME_WINNER_CSS, selected: game_labeled[:winner][:new_name])
+  game_css = build_game_css(label)
+  within(game_css) do
+    puts "Checking  #{label} (CSS: #{game_css}), expecting participant #{game_labeled[:winner][:new_name]}"
+    expect(page).to have_select("game_#{label}", selected: game_labeled[:winner][:new_name])
   end
-  within(build_game_css(get_descendant_label(label))) do
-    puts 'Checking ' + label + "'s descendant, " + get_descendant_label(label).to_s +
-             ', expecting participant ' + game_labeled[:winner][:new_name]
-    page.has_select?(GAME_WINNER_CSS, with_options: game_labeled[:winner][:new_name])
+  descendant_label = get_descendant_label(label)
+  descendant_game_css = build_game_css(descendant_label)
+  within(descendant_game_css) do
+    puts "Checking  #{label}'s descendant (CSS: #{descendant_game_css}), #{descendant_label}, expecting participant #{game_labeled[:winner][:new_name]}"
+    expect(page).to have_select("game_#{descendant_label}", with_options: [game_labeled[:winner][:new_name]])
   end
 end
 
 When 'An invited player enters the winners for the games' do
   63.downto(1).each do |label|
     steps %(When 'An invited player' enters the winner for game '#{label}')
-    sleep 3
   end
   click_button('Submit Your Bracket')
-  sleep 5
+  sleep 1
   visit path_to('Edit Bracket')
-  sleep 5
+  sleep 1
 end
 
 When "An invited player's winners for the games have all been entered" do
@@ -125,14 +127,14 @@ end
 When /I view "([^"]+)"/ do |which_bracket|
   case which_bracket
   when /my/
-    visit current_path # as long as Players have only one page....
+    # do nothing, since that's where we are.
   when /another/
     @other_id = get_players.each_other_id(@user.id).to_a.sample
     other = User.find(@other_id)
     # can't use this for when there's a score without computing it.
     click_link "#{other.name} == 0"
   end
-  sleep 4
+  sleep 2
 end
 
 Then(/\AI should not be able to change '([^']+)' to '([^']+)'\z/) do |team_name, non_participating_team|
@@ -159,7 +161,7 @@ end
 
 Then /\Athe '([^']+)' page should reflect the (\w+) standings\z/ do |page_name, which_time|
   visit path_to(page_name)
-  sleep 3
+  sleep 2
   verify_displayed_standings compute_expected_standings which_time
 end
 

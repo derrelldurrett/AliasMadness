@@ -3,7 +3,7 @@ class User < ApplicationRecord
   require 'helpers/hash_class_helper'
   extend HashClassHelper
   attr_accessor :remember_for_email
-  has_one :bracket
+  has_one :bracket, inverse_of: :user
   before_validation :do_validation_setup
   before_save :create_remember_token
   before_save :create_initial_bracket
@@ -66,6 +66,7 @@ class User < ApplicationRecord
   end
 
   def attach_user_to_bracket
+    b = self.bracket
     if self.bracket.user.nil?
       self.bracket.user = self
       self.bracket.save!

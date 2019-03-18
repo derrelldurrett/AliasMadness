@@ -9,6 +9,8 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/log/*/**
+/.heroku_env
 /tmp/*
 /log/.keep
 /tmp/.keep
@@ -20,3 +22,6 @@
 
 /.idea/*
 coverage/*
+
+/public/assets/*
+/public/assets/*/**

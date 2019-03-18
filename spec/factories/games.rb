@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :game do
-    team nil
-    bracket nil
-    label "MyString"
+    label {"MyString"}
+    team {nil}
+    bracket {nil}
   end
 end
