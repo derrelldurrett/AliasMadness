@@ -150,7 +150,7 @@ class Bracket < ApplicationRecord
   end
 
   def init_game(label)
-    Game.find_or_create_by(label: label.to_s, bracket_id: id)
+    Game.find_or_create_by(label: label.to_s, bracket_id: id, locked: false)
   end
 
   def init_lookup_by_label
