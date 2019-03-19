@@ -1,0 +1,18 @@
+<tr>
+  <%= content_tag :td, class: 'scenario' do %>
+    <%= div_for scenario, {class: 'scenario_list'} do %>
+      <br>
+      <p>
+        <%= scenario[:scenario].join(',') %>
+      </p>
+    <% end %>
+  <% end %>
+  <%= content_tag :td, class: 'results' do %>
+    <%= div_for scenario, {class: 'result_list'} do %>
+      <br>
+      <p>
+        <%= scenario[:result].join(',') %>
+      </p>
+    <% end %>
+  <% end %>
+</tr>

@@ -13,7 +13,7 @@ def reset_database
 end
 
 WHICH_TIME = {first: 0, second: 1, third: 2}
-ADMINS_LABEL_BLOCK = [63.downto(45), 63.downto(26), 63.downto(16)]
+ADMINS_LABEL_BLOCK = [63.downto(45), 63.downto(26), 63.downto(4)]
 
 def invite_player(name, email)
   fill_in 'Name', with: name

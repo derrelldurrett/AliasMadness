@@ -9,7 +9,7 @@ class User < ApplicationRecord
   before_save :create_initial_bracket
   after_save :attach_user_to_bracket
   has_secure_password
-  validates :name, presence: true, length: {maximum: 50, minimum: 3}
+  validates :name, presence: true, length: { maximum: 50, minimum: 3 }
   class EmailValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       # puts %q(Checking user )+record.name+%Q( [id: #{record.id}])+%q( with email )+value
@@ -19,8 +19,9 @@ class User < ApplicationRecord
     end
   end
   validates :email, presence: true, email: true,
-            uniqueness: {case_sensitive: false, message: %Q(%{value} is already taken.)}
-  validates :password, presence: true, length: {minimum: 6}
+                    uniqueness: { case_sensitive: false,
+                                  message: '%{value} is already taken.' }
+  validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
   ROLES = %w[admin player].freeze
@@ -32,7 +33,7 @@ class User < ApplicationRecord
     score = current_score || 0
     # if score==0 or self.updated_at < reference_bracket.newest_game_date
     score = @current_score = compute_score(reference_bracket)
-    self.update_attributes!({current_score: score})
+    update_attributes!(current_score: score)
     # end
     score
   end

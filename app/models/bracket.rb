@@ -57,44 +57,20 @@ class Bracket < ApplicationRecord
     bracket_data.vertices_dict.fetch(g.label).map do |l|
       lookup_node(l)
     end
-    # begin
-    # init_lookups if lookup_by_label_uninitialized?
-    # r = lookup_by_label.fetch l.to_s
-    # unless r.is_a? Game
-    #   raise KeyError
-    # end
-    # r
-    g = Game.where(bracket_id: id, label: l).first
-    #   init_lookups if @bracket_ancestors.nil?
-    #   r= Set.new
-    #   @bracket_ancestors[g.label].each do |a|
-    #     r << lookup_node(a)
-    #   end
-    #   r
-    # rescue KeyError
-    #   nil
-    # rescue => other_error
-    #   raise BadProgrammerError(other_error)
-    # end
   end
 
-  def lookup_node(n)
-    init_lookups if lookup_by_label_uninitialized?
-    lookup_by_label[n.to_s]
-  end
-
-  def lookup_ancestors(g)
-    init_lookups if @bracket_ancestors.nil?
-    r = Set.new
-    @bracket_ancestors[g.label].each do |a|
-      r << lookup_node(a)
-    end
-    r
-  rescue KeyError
-    nil
-  rescue StandardError => other_error
-    raise BadProgrammerError(other_error)
-  end
+  # def lookup_ancestors(g)
+  #   init_lookups if @bracket_ancestors.nil?
+  #   r = Set.new
+  #   @bracket_ancestors[g.label].each do |a|
+  #     r << lookup_node(a)
+  #   end
+  #   r
+  # rescue KeyError
+  #   nil
+  # rescue StandardError => other_error
+  #   raise BadProgrammerError(other_error)
+  # end
 
   def update_node(content, node)
     # old_content= @lookup_by_label[node]
@@ -169,7 +145,7 @@ class Bracket < ApplicationRecord
   end
 
   def init_game(label)
-    Game.find_or_create_by(label: label.to_s, bracket_id: id)
+    Game.find_or_create_by(label: label.to_s, bracket_id: id, locked: false)
   end
 
   def init_lookup_by_label
