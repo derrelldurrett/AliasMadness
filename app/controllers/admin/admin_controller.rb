@@ -9,7 +9,7 @@ class Admin
     def scenarios
       respond_to do |format|
         @user = current_user
-        @players = get_players
+        @players = get_players_sorted_by_score
         @scenarios = build_scenarios
         format.html {render 'admin/scenarios'}
       end

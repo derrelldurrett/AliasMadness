@@ -58,6 +58,8 @@ def build_new_player(player_file)
 end
 
 def choose_winners_for_brackets_games(bracket, down_to = 1, label_losers = false)
+  return if down_to > 63
+
   puts 'CHOOSING GAME WINNERS'
   games_by_label = hash_by_label Game.where(bracket_id: bracket.id)
   63.downto(down_to).each do |l|
@@ -133,9 +135,16 @@ end
 
 def seed_result
   bracket = Admin.get.bracket
-  choose_winners_for_brackets_games bracket, 25, true
+  choose_winners_for_brackets_games bracket, default_game_label, true
   bracket.save
-  @players.each { |p| p.score bracket }
+  @players.each {|p| p.score bracket}
+end
+
+# because this gets fed into a #downto() call, it's going to only work to calculate
+# values between 63 and 1. If you want no games, pass a number greater than 64.
+def default_game_label
+  rounds_to_seed = ENV.include?('ROUNDS_TO_SEED') ? ENV['ROUNDS_TO_SEED'] : 0
+  2**(6 - rounds_to_seed.to_i)
 end
 
 seed_admin unless ENV['SEED_ADMIN'].nil?

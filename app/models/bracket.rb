@@ -59,19 +59,6 @@ class Bracket < ApplicationRecord
     end
   end
 
-  # def lookup_ancestors(g)
-  #   init_lookups if @bracket_ancestors.nil?
-  #   r = Set.new
-  #   @bracket_ancestors[g.label].each do |a|
-  #     r << lookup_node(a)
-  #   end
-  #   r
-  # rescue KeyError
-  #   nil
-  # rescue StandardError => other_error
-  #   raise BadProgrammerError(other_error)
-  # end
-
   def update_node(content, node)
     # old_content= @lookup_by_label[node]
     @lookup_by_label[node] = content
@@ -126,7 +113,8 @@ class Bracket < ApplicationRecord
 
   def find_or_init_team(n)
     t = Team.find_by(label: n[:label])
-    n.merge!({name_locked: false, eliminated: false})
+    n[:name_locked] = false
+    n[:eliminated] = false
     t = Team.create(n) if t.nil?
     t
   end

@@ -14,6 +14,10 @@ class Team < ApplicationRecord
   self.hash_vars= %i(name seed id)
   self.json_client_ids= [:id, :label, :name, :seed, :eliminated]
 
+  def to_s
+    "#{name} (#{seed})"
+  end
+
   # Team's clone is itself (Teams are unique, uncopyable)
   def clone
     self

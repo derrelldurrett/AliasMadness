@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   require 'helpers/hash_helper'
   require 'helpers/hash_class_helper'
@@ -27,6 +29,10 @@ class User < ApplicationRecord
   ROLES = %w[admin player].freeze
 
   self.hash_vars = %i(name email)
+
+  def to_s
+    name
+  end
 
   # TODO: move this into a module that the downloader can modify to taste.
   def score(reference_bracket)

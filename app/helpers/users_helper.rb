@@ -15,6 +15,10 @@ module UsersHelper
     User.where(role: :player)
   end
 
+  def get_players_sorted_by_score
+    User.where(role: :player).order('current_score desc')
+  end
+
   def bracket_complete_class(player, is_for_admin)
     complete_class = ''
     if is_for_admin

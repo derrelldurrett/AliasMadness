@@ -3,7 +3,7 @@
     <%= div_for scenario, {class: 'scenario_list'} do %>
       <br>
       <p>
-        <%= scenario[:scenario].join(',') %>
+        <%= scenario.scenario_list.values.join("\n") %>
       </p>
     <% end %>
   <% end %>
@@ -11,7 +11,7 @@
     <%= div_for scenario, {class: 'result_list'} do %>
       <br>
       <p>
-        <%= scenario[:result].join(',') %>
+        <%= scenario.result.join("\n") %>
       </p>
     <% end %>
   <% end %>
