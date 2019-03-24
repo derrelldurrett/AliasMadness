@@ -1,8 +1,6 @@
-require_relative '../../lib/assets/debug_logger'
 class BracketsController < ApplicationController
   include SessionsHelper
   include UsersHelper
-  include DebugLogger
   before_action :check_authorization_admin, only: [:lock_brackets]
   respond_to :html, :json
 

@@ -18,7 +18,7 @@ module GamesHelper
   GAME_DISPLAY_CLASS = 'game_display'
 
   def build_game_class(game, node, bracket_locked)
-    GAME_DISPLAY_CLASS + left_or_right_node(node) + color_winner(game, node, bracket_locked)
+    GAME_DISPLAY_CLASS + left_or_right_node(node) + color_winner(game.winner, node, bracket_locked)
   end
 
   GAME_CHOICE_DEFAULT = 'Choose winner...'
@@ -27,14 +27,18 @@ module GamesHelper
     game.winner.nil? ? GAME_CHOICE_DEFAULT : game.winner.name
   end
 
-  def color_winner(game, node, bracket_locked)
+  def color_winner(winner, node, bracket_locked)
     color = 'grey'
     if bracket_locked
       w = Admin.get.bracket.lookup_game(node).winner
-      unless w.nil?
-        # color is red if the game is complete and its winner is eliminated
-        color = game.winner == w ? 'green' : 'red'
-      end
+      # color is green if the winner is the actual winner
+      # color is red if the winner is eliminated
+      # color otherwise remains grey if the game is not complete (w.nil?)
+      color = if winner == w
+                'green'
+              elsif winner.eliminated
+                'red'
+              end
     end
     ' ' + [color, 'winner_state'].join('_') # need a space in front
   end
