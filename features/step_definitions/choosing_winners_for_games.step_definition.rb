@@ -166,14 +166,15 @@ Then /\A'An invited player' should see the correct choices in green and the inco
   steps 'Given One of the players logs in'
   reference_bracket = games_by_label(Admin.get.bracket)
   puts "reload page the #{nth} time."
-  page.evaluate_script 'window.location.reload()' # wield a hammaer, apparently.
+  page.evaluate_script 'window.location.reload()' # wield a hammer, apparently.
   players_bracket = games_by_label(logged_in_player.bracket)
   # save_and_open_page
+  is_eliminated = {}
   ADMINS_LABEL_BLOCK[WHICH_TIME[nth.to_sym]].each do |l|
     label = l.to_s
     r_game = reference_bracket[label]
     p_game = players_bracket[label]
-    [r_game, p_game].each {|g| g.reload}
+    [r_game, p_game].each { |g| g.reload }
     expect(r_game.winner).not_to be_nil
     winner_state = p_game.winner == r_game.winner ? 'green' : 'red'
     puts "#{label}: player: #{p_game.winner.name}, ref: #{r_game.winner.name}"
@@ -182,7 +183,17 @@ Then /\A'An invited player' should see the correct choices in green and the inco
     if winner_state == 'green'
       expect(find(expected_css)).to have_text(exact_text_match(p_game.winner.name))
     else
+      is_eliminated[p_game.winner.name] = p_game.label
       expect(find(expected_css)).not_to have_text(exact_text_match(r_game.winner.name))
+    end
+  end
+  is_eliminated.each do |e_name,last_label|
+    last_label.to_i.downto(1).each do |l|
+      p_game = players_bracket[l.to_s]
+      if p_game.winner.name == e_name
+        expected_css = build_game_css(l, 'red')
+        expect page.has_css?(expected_css)
+      end
     end
   end
 end

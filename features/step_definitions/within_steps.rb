@@ -308,7 +308,7 @@ end
 
 def page_with_label_and_color(label, color)
   ret = ['game', label.to_s, color].join('_')
-  ret.concat '.html'
+  ret << '.html'
   ENV['RAILS_ROOT'] + '/' + ret
 end
 

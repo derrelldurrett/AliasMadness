@@ -42,9 +42,9 @@ class User < ApplicationRecord
     reference_bracket.games_by_label.zip(self.bracket.games_by_label) do |g_arr|
       next if g_arr[0].winner.nil?
       my_score += g_arr[0].winner.seed * g_arr[0].round_multiplier if g_arr[0].winner == g_arr[1].winner
-      puts "#{self.name}: #{my_score} -- admin #{g_arr[0].winner.name}, player #{g_arr[1].winner.name} multi: #{g_arr[0].round_multiplier} seed: #{g_arr[0].winner.seed} label: #{g_arr[0].label}"
+      #puts "#{self.name}: #{my_score} -- admin #{g_arr[0].winner.name}, player #{g_arr[1].winner.name} multi: #{g_arr[0].round_multiplier} seed: #{g_arr[0].winner.seed} label: #{g_arr[0].label}"
     end
-    puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
+    # puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
     logger.info %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
     my_score
   end
