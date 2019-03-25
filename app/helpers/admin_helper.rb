@@ -16,16 +16,16 @@ module AdminHelper
       result = compute_scores_for_scenario ref
       puts 'have a new result'
       @scenarios << build_scenario(result, to_choose)
+      puts "@scenarios has #{@scenarios.length} scenarios"
     else
       to_choose[i..-1].each do |g|
-        ref.lookup_ancestors(g).sort_by {|s| s.label.to_i}.each do |a|
-          puts "Choose for #{g.label}: "+to_choose.map {|t| t.winner}.join(', ')
+        ref.lookup_ancestors(g).sort_by { |s| s.label.to_i }.each do |a|
+          puts "Choose for #{g.label}: "+to_choose.map { |t| t.winner }.join(', ')
+          next if a.winner.nil?
           g.winner = a.winner
           choose_both_winners ref, to_choose, i + 1
-          to_choose[i..-1].each do |t|
-            t.winner = nil
-          end
         end
+        to_choose[i+1].winner = nil unless to_choose[i+1].nil?
       end
     end
   end

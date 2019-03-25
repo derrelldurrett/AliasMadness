@@ -74,7 +74,7 @@ class Bracket < ApplicationRecord
   end
 
   def games_by_label
-    games.order('label').to_a
+    @ordered_games ||= games.order('label').to_a
   end
 
   def init_lookups

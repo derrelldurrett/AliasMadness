@@ -15,9 +15,10 @@ class User < ApplicationRecord
   class EmailValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       # puts %q(Checking user )+record.name+%Q( [id: #{record.id}])+%q( with email )+value
-      record.errors.add attribute,
-                        (options[:message] || value + %q( is not an email)) unless value =~
-          Regexp.new(%q(\A([^@\s]+)@((?:[-.a-z0-9]+)\.[a-z]{2,})\z), Regexp::IGNORECASE)
+      unless value&.match?(Regexp.new(%q(\A([^@\s]+)@((?:[-.a-z0-9]+)\.[a-z]{2,})\z), Regexp::IGNORECASE))
+        record.errors.add attribute,
+                          (options[:message] || value + %q( is not an email))
+      end
     end
   end
   validates :email, presence: true, email: true,
@@ -47,12 +48,12 @@ class User < ApplicationRecord
   def compute_score(reference_bracket)
     my_score = 0
     reference_bracket.games_by_label.zip(self.bracket.games_by_label) do |g_arr|
-      next if g_arr[0].winner.nil?
+      next if g_arr[0].winner.nil? or g_arr[1].winner.eliminated
       my_score += g_arr[0].winner.seed * g_arr[0].round_multiplier if g_arr[0].winner == g_arr[1].winner
       # puts "#{self.name}: #{my_score} -- admin #{g_arr[0].winner.name}, player #{g_arr[1].winner.name} multi: #{g_arr[0].round_multiplier} seed: #{g_arr[0].winner.seed} label: #{g_arr[0].label}"
     end
-    puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
-    logger.info %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
+#    puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
+#    logger.info %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
     my_score
   end
 
