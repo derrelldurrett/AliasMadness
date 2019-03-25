@@ -40,12 +40,9 @@ class Admin
     end
 
     def build_players_email_list(players)
-      list = []
-      players.each do |p|
-        puts p.name, p.email
+      players.each_with_object([]) do |p, list|
         list << player_email_to_field(p)
       end
-      list.join(',')
     end
 
   end
