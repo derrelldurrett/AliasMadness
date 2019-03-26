@@ -18,9 +18,8 @@ class Admin
         params = Hash.new
         resource_params.each_with_index {|p, i| params[PARAM_KEYS[i]] = p}
         params[:message] = CGI::escapeHTML(params[:message]).gsub(/\n/, '<br>').html_safe
-        get_players.each_slice(20) do |p_slice|
-          p_slice.each {|to| puts to}
-          params[:to] = build_players_email_list p_slice
+        get_players.each do |p|
+          params[:to] = player_email_to_field(p)
           MessageMailer.message_mail(params.slice(*MESSAGE_KEYS)).deliver
         end
         flash.now[:success] = %Q(Message sent!)
@@ -40,12 +39,9 @@ class Admin
     end
 
     def build_players_email_list(players)
-      list = []
-      players.each do |p|
-        puts p.name, p.email
+      players.each_with_object([]) do |p, list|
         list << player_email_to_field(p)
       end
-      list.join(',')
     end
 
   end
