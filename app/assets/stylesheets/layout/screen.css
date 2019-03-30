@@ -217,3 +217,9 @@ td.right_connect {
     color: #0066cc;
     border: #0061BD;
 }
+
+.scenario_display {
+    border:2px solid #999988;
+    padding:0.8em;
+    margin-bottom:1em;
+}

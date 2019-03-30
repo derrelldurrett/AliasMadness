@@ -1,17 +1,17 @@
 <tr>
-  <%= content_tag :td, class: 'scenario' do %>
+  <%= content_tag :td, class: 'scenario_display scenario' do %>
     <%= div_for scenario, {class: 'scenario_list'} do %>
       <br>
       <p>
-        <%= scenario.scenario_list.values.join("\n") %>
+        <%= scenario.scenario_list.values.join("<br>").html_safe %>
       </p>
     <% end %>
   <% end %>
-  <%= content_tag :td, class: 'results' do %>
+  <%= content_tag :td, class: 'scenario_display results' do %>
     <%= div_for scenario, {class: 'result_list'} do %>
       <br>
       <p>
-        <%= scenario.result.join("\n") %>
+        <%= scenario.result.join("<br>").html_safe %>
       </p>
     <% end %>
   <% end %>

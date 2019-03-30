@@ -26,6 +26,7 @@ def seed_admin
         u.role = :admin
       end
       admin.save!
+      admin = Admin.get
     rescue StandardError => e
       puts %(Reseeding admin: #{e.message}\n#{e.backtrace.join("\n")})
       admin = nil

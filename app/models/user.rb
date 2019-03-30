@@ -32,7 +32,9 @@ class User < ApplicationRecord
   self.hash_vars = %i(name email)
 
   def to_s
-    name
+    s = name
+    s += " (#{@current_score})" unless @current_score.nil?
+    s
   end
 
   # TODO: move this into a module that the downloader can modify to taste.
@@ -58,7 +60,7 @@ class User < ApplicationRecord
   end
 
   def admin?
-    role == :admin.to_s
+    role.to_sym == :admin
   end
 
   private
@@ -74,20 +76,20 @@ class User < ApplicationRecord
   end
 
   def attach_user_to_bracket
-    b = self.bracket
-    if self.bracket.user.nil?
-      self.bracket.user = self
-      self.bracket.save!
-      # puts "saving bracket for user #{self.name} with #{self.bracket.games.length} games.  Id: #{self.bracket.id}"
+    b = bracket
+    if bracket.user.nil?
+      bracket.user = self
+      bracket.save!
+      # puts "saving bracket for user #{name} with #{bracket.games.length} games.  Id: #{bracket.id}"
     end
   end
 
   def do_validation_setup
-    self.email = self.email.downcase
-    unless self.admin?
+    email.downcase!
+    unless admin?
       self.password =
           self.password_confirmation =
-              self.remember_for_email =
+              remember_for_email =
                   SecureRandom.base64(24) #create a  32-character-length password
     end
   end
