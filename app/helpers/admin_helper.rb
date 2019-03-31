@@ -1,4 +1,5 @@
 module AdminHelper
+  include UsersHelper
   def build_scenarios
     ref = @user.bracket
     games = {}
