@@ -32,5 +32,6 @@ Feature: Edit bracket as admin
     Given 'An admin' visiting the 'Edit Bracket' page with all players' games entered
     When The Admin has updated some games the first time
     Then the invited players scores should be calculated
+    And I am visiting 'Edit Bracket'
     And the 'Edit Bracket' page should reflect the first standings
 

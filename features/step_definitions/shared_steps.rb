@@ -19,10 +19,12 @@ Given /\A'([^']+)' visiting the '([^']+)' page\z/ do |login_name,page_name|
     Given '#{login_name}' who is logged in
     Given I am visiting '#{page_name}'
   }
+  click_button 'Update Bracket' if login_name == 'admin'
 end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
   puts 'I will visit '+link
+  # save_and_open_page
   click_link link
 end
 

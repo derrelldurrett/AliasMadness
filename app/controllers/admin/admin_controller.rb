@@ -4,7 +4,7 @@ class Admin
     include SessionsHelper
     include UsersHelper
     include AdminHelper
-    #before_action :check_authorization_admin
+    before_action :check_authorization_admin
     respond_to :html
 
     def scenarios

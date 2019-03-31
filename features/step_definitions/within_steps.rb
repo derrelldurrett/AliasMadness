@@ -16,6 +16,8 @@ WHICH_TIME = {first: 0, second: 1, third: 2}
 ADMINS_LABEL_BLOCK = [63.downto(45), 63.downto(26), 63.downto(4)]
 
 def invite_player(name, email)
+  #save_and_open_page
+
   fill_in 'Name', with: name
   fill_in 'Email', with: email
   click_button('Invite Player')
@@ -251,6 +253,7 @@ def compute_expected_standings(which_time)
       end
     end
     standings.store(p, p_data[:score])
+    puts "#{p}: #{p_data[:score]}"
   end
   standings.to_a.sort_by {|p| -p[1]}
 end
@@ -280,6 +283,7 @@ end
 def verify_displayed_standings(standings)
   leader_board_row = page.all('#leader_board tr')
   expect(leader_board_row).not_to be_empty
+  save_and_open_page
   leader_board_row.each_with_index do |tr, index|
     expect(tr).to have_selector('.player_summary')
     expect(tr).to have_content(standings[index][STANDINGS_PLAYER])

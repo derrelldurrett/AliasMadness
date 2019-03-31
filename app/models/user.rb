@@ -50,17 +50,17 @@ class User < ApplicationRecord
   def compute_score(reference_bracket)
     my_score = 0
     reference_bracket.games_by_label.zip(self.bracket.games_by_label) do |g_arr|
-      next if g_arr[0].winner.nil? or g_arr[1].winner.eliminated
-      my_score += g_arr[0].winner.seed * g_arr[0].round_multiplier if g_arr[0].winner == g_arr[1].winner
-      # puts "#{self.name}: #{my_score} -- admin #{g_arr[0].winner.name}, player #{g_arr[1].winner.name} multi: #{g_arr[0].round_multiplier} seed: #{g_arr[0].winner.seed} label: #{g_arr[0].label}"
+      next if g_arr.any? {|g|g&.winner.nil?}
+      my_score += (g_arr[0]&.winner&.seed * g_arr[0].round_multiplier) if g_arr[0]&.winner == g_arr[1]&.winner
+      puts "#{self.name}: #{my_score} -- admin #{g_arr[0].winner.name}, player #{g_arr[1].winner.name} multi: #{g_arr[0].round_multiplier} seed: #{g_arr[0].winner.seed} label: #{g_arr[0].label}"
     end
-#    puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
+    puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
 #    logger.info %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
     my_score
   end
 
   def admin?
-    role.to_sym == :admin
+    role == :admin.to_s
   end
 
   private
