@@ -6,6 +6,6 @@ end
 When 'I view scenarios' do
   steps %q(Given 'an admin' who is logged in)
   click_link 'View Scenarios'
-  expect(page).to have_content('Scenario List')
   save_and_open_page
+  expect(page).to have_content('Scenario List')
 end

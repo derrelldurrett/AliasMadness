@@ -205,7 +205,6 @@ lockPlayersBrackets = (e) ->
     error: (jqXHR, textStatus, errorThrown) ->
       showError errorThrown, textStatus
 
-
 $ ->
   $('input.team_name').on 'change', (e) => nameTeam e.target
   $('select.game_winner').on 'change', (e) => chooseWinner e.target

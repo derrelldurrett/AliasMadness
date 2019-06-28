@@ -2,35 +2,39 @@ module AdminHelper
   include UsersHelper
   def build_scenarios
     ref = @user.bracket
-    games = {}
-    ref.games.sort_by_obj_label.winner_not_set.build_game_hash(games, ref)
-    players_with_scores = @players.map { |p| build_player(p,ref,games.keys) }
-    puts "Games remaining: #{games.length}"
+    data = {}
+    ref.games.sort_by_obj_label.winner_not_set.build_data_hash(data, ref)
+    players_with_scores = @players.map { |p| build_player(p, ref, data) }
+    @live_teams = data[:teams]
+    puts "Games remaining: #{data.length}"
     @scenarios = []
-    choose_both_winners games, players_with_scores
+    choose_both_winners data, players_with_scores
     @scenarios
   end
 
   # a Player (User w/role :player),
-  def build_player(p, r, ls)
+  def build_player(p, r, gs)
+    u_games = p.bracket.games.where(label: gs[:ancestors])
+    e_teams = Set.new(p.bracket.games.where(label: gs[:team_labels]).map { |g| g.winner })
     {
         player: p,
         score: p.score(r),
-        unfinished_games: p.bracket.games.where(label: ls)
+        unfinished_games: u_games,
+        live_teams: e_teams
     }
   end
 
   # chose all but last, choose 1, then the other, then back up, choose the next one,
   # etc.
   def choose_both_winners(ref_games, players_with_games, i = 0)
-    have_ancestors = ref_games.having_ancestors.sort_by_desc_numeric_key
+    have_ancestors = ref_games[:games].having_key(:ancestors).sort_by_desc_numeric_key
     if have_ancestors.length == i
       puts 'constructing result'
       construct_result have_ancestors, players_with_games
     else
       j, h_game = have_ancestors[i]
       h_game[:ancestors].each do |a|
-        h_game[:game].winner = ref_games[a.label][:game].winner
+        h_game[:game].winner = ref_games[:games][a.label][:game].winner
         choose_both_winners ref_games, players_with_games, i + 1
         h_game[:game].winner = nil
       end
@@ -61,7 +65,7 @@ module AdminHelper
   end
 
   def compute_scores_for_scenario(ref, ps_w_games)
-    ps_w_games.build_predicted_scores(ref).sort_by_desc_score.build_display_list
+    ps_w_games.build_predicted_scores(ref, @live_teams).sort_by_desc_score.build_display_list
   end
 
   def self.score_player(pwg, ref)
@@ -69,7 +73,7 @@ module AdminHelper
   end
 
   # r is a Bracket, g is a Game, o is a Hash, keys game labels.
-  def self.build_ancestors(r,g,o)
+  def self.build_ancestors(r, g, o)
     r.lookup_ancestors(g).save_o(o).sort_by_obj_label
   end
 
@@ -81,14 +85,21 @@ module Enumerable
     each_with_object([]) { |h, o| o << "#{h[:player].name} (#{h[:pred_score]})" }
   end
 
-  def build_game_hash(_games, ref)
-    each_with_object(_games) do |g, o|
-      o[g.label] = { game: g, ancestors: AdminHelper.build_ancestors(ref,g,o) }
+  def build_data_hash(data, ref)
+    data[:games] = {}
+    each_with_object(data[:games]) do |g, out|
+      out[g.label] = { game: g, ancestors: AdminHelper.build_ancestors(ref, g, out) }
     end
+    data[:ancestors] = data[:games].having_key(:ancestors).map { |h| h[0] }
+    data[:team_labels] = data[:games].having_key(:team).map { |h| h[0] }
+    data[:teams] = Set.new(data[:games].having_key(:team).map { |h| game_or_team(h[1][:game]) })
   end
 
-  def build_predicted_scores(ref)
-    each { |pwg| pwg[:pred_score] = pwg[:score] + AdminHelper.score_player(pwg,ref) }
+  def build_predicted_scores(ref, teams)
+    each do |pwg|
+      next if (pwg[:live_teams] - teams).empty?
+      pwg[:pred_score] = pwg[:score] + AdminHelper.score_player(pwg, ref)
+    end
   end
 
   def compute_scores
@@ -96,13 +107,17 @@ module Enumerable
    sum { |_l, h_ref| h_ref[:game].winner.seed * h_ref[:game].round_multiplier }
   end
 
+  def game_or_team(a)
+    a.is_a?(Game) ? { game: a, team: a.winner } : {game: a, team: a}
+  end
+
   # Call on a hash
-  def having_ancestors
-    select { |_k,v| v.key? :ancestors }
+  def having_key(k)
+    select { |_k,v| v.key? k }
   end
 
   def save_o(o)
-    each { |a| o[a.label] = { game: a } unless o.key?(a.label) }
+    each { |a| o[a.label] = game_or_team(a) unless o.key?(a.label) }
   end
 
   # Call on a Hash with keys that are strings of integers, or integers
