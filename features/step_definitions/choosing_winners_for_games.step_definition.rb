@@ -162,6 +162,7 @@ end
 Then /\Athe '([^']+)' page should reflect the (\w+) standings\z/ do |page_name, which_time|
   visit path_to(page_name)
   sleep 2
+  save_and_open_page
   verify_displayed_standings compute_expected_standings which_time
 end
 

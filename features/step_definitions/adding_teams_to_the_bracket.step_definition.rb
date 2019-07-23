@@ -66,6 +66,7 @@ Then %q(The teams should have the new names) do
 end
 
 Then /\AAn admin should see the new names on the '([^']+)' page\z/ do |page_name|
+  save_and_open_page
   visit path_to(page_name)
   team_data.each do |t|
     steps %Q{

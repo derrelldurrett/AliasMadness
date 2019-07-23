@@ -4,6 +4,7 @@ require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
 class Game < ApplicationRecord
   include HashHelper
+  include NodeWinner
   extend HashClassHelper
   include JSONClientHelper
   extend JSONClientClassHelper
@@ -25,6 +26,7 @@ class Game < ApplicationRecord
                 # comparisons to work (even though it
                 # shouldn't have mattered?)
 
+  # Satisfies the NodeWinner interface
   alias winner team
   alias winner= team=
 

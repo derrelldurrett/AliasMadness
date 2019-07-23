@@ -6,10 +6,18 @@ def seed_database
 end
 
 def reset_database
-  User.all.each {|e| e.delete}
-  Bracket.all.each {|e| e.delete}
-  Game.all.each {|e| e.delete}
-  Team.all.each {|e| e.delete}
+  User.all.each do |e|
+    e.delete
+  end
+  Bracket.all.each do |e|
+    e.delete
+  end
+  Game.all.each do |e|
+    e.delete
+  end
+  Team.all.each do |e|
+    e.delete
+  end
 end
 
 WHICH_TIME = {first: 0, second: 1, third: 2}

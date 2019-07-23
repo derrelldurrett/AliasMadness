@@ -12,10 +12,10 @@ module AdminHelper
 
   # a Player (User w/role :player),
   def build_player(p, r, ls)
-    {
-        player: p,
-        score: p.score(r),
-        unfinished_games: p.bracket.games.where(label: ls)
+   {
+     player: p,
+     score: p.score(r),
+     unfinished_games: p.bracket.games.where(label: ls)
     }
   end
 

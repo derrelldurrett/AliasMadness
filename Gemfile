@@ -34,9 +34,8 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara' # Adds support for Capybara system testing and selenium driver
   gem 'capybara-screenshot'
-  gem 'chromedriver-helper'
+  # gem 'chromedriver-helper'
   gem 'cucumber-rails', require: false
-  gem 'database_cleaner'
   gem 'email_spec'
   gem 'factory_bot_rails'
   gem 'faker'
@@ -46,7 +45,7 @@ group :development, :test do
   gem 'rb-inotify' # , '0.8.8' # linux
   gem 'rspec' # , '>= 2.14'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 4.0'
   gem 'shoulda' # , '>3.1.1'
 end
 

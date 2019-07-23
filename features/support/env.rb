@@ -5,6 +5,7 @@
 # files.
 
 require 'cucumber/rails'
+Cucumber::Rails::Database.autorun_database_cleaner = false
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -26,3 +27,4 @@ require 'cucumber/rails'
 # 2) Set the value below to true. Beware that doing this globally is not
 # recommended as it will mask a lot of errors for you!
 #
+ActiveRecord::Migration.maintain_test_schema!

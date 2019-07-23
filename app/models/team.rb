@@ -4,6 +4,7 @@ require 'helpers/json_client_helper'
 require 'helpers/json_client_class_helper'
 class Team < ApplicationRecord
   include HashHelper
+  include NodeWinner
   extend HashClassHelper
   include JSONClientHelper
   extend JSONClientClassHelper
@@ -29,6 +30,11 @@ class Team < ApplicationRecord
         seed == other.seed))
   end
   alias == eql?
+
+  # We're just ourselves
+  def winner
+    self
+  end
 
   private
 
