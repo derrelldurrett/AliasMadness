@@ -1,8 +1,3 @@
-Given %q{The Admin's email address} do
-  admin = Admin.get
-  @email = admin.email
-end
-
 Given %q{a link to the login page with the email as the parameter} do
   @link = login_path(email: @email)
 end
@@ -14,7 +9,6 @@ end
 Then %q{the page should contain the email address in the 'email' field} do
   expect(page).to have_selector('label')
   expect(page).to have_content('Email')
-  # save_and_open_page
   find_field('Email').value.should eq(@email)
 end
 
@@ -30,12 +24,6 @@ When %q(I visit the login page, enter the password, and click 'Login') do
   find_field('Password').value.should be_nil
   fill_in  'Password', with: @password
   click_button 'Login'
-end
-
-Given %q(The Admin's email address and password) do
-  admin = Admin.get
-  @email = admin.email
-  @password = ENV['ALIASMADNESS_PASSWORD']
 end
 
 Then %q(I should have a choice between creating Players, creating Brackets, choosing winners for games, or sending a message about the state of the pool, depending on the time at which I visit the page.) do

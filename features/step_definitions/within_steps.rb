@@ -16,8 +16,6 @@ WHICH_TIME = {first: 0, second: 1, third: 2}
 ADMINS_LABEL_BLOCK = [63.downto(45), 63.downto(26), 63.downto(4)]
 
 def invite_player(name, email)
-  #save_and_open_page
-
   fill_in 'Name', with: name
   fill_in 'Email', with: email
   click_button('Invite Player')
@@ -31,7 +29,7 @@ def login(email, password)
 end
 
 def login_as_admin
-  admin = Admin.get
+  admin = Admin.get.reload
   @user = admin
   email = admin.email
   password = ENV['ALIASMADNESS_PASSWORD']
@@ -82,7 +80,7 @@ def path_to(page_name)
   when /\Alogin\z/i
     login_path(email: @email)
   when /Edit Bracket/i
-    puts 'Visiting ' + page_name + ' for user ' + @user.id.to_s
+    puts "Visiting #{page_name} for user #{@user.id.to_s} (#{@user.name})"
     user_path(id: @user.id)
   when /Send Message/i
     new_admin_message_path
@@ -153,14 +151,12 @@ def team_data_by_label(label)
 end
 
 def complete_brackets(player)
-  bracket = Bracket.where(user_id: player.id).first
-  choose_games_for_bracket bracket
+  choose_games_for_bracket player
   save_mock_bracket player
 end
 
 def create_a_player
   player = FactoryBot.create(:player)
-  add_to_players player
   player
 end
 
@@ -180,27 +176,26 @@ end
 
 def games_by_label(bracket)
   @bracket_in_db ||= Hash.new
-  @bracket_in_db[bracket.id] ||= Hash.new
+  @bracket_in_db[bracket.reload.id] ||= Hash.new
   @bracket_in_db[bracket.id][:games_by_label] ||= hash_by_label Game.where(bracket_id: bracket.id)
 end
 
-def choose_games_for_bracket(bracket, labels = 63.downto(1), reset_game_data = true)
+def choose_games_for_bracket(user, labels = 63.downto(1), reset_game_data = true)
+  bracket = user.bracket
   reinit_game_data if reset_game_data
   bracket_games_by_label = games_by_label(bracket)
   labels.each do |label|
     g = bracket_games_by_label[label.to_s]
     winning_team = team_data_by_label(game_by_label(label)[:winners_label])
-    puts "assigning winners for #{bracket.id} -- node '#{label} -- 'winner #{winning_team.name}"
+    # puts "assigning winners for #{bracket.id} (#{user.name}) -- node #{label} -- winner #{winning_team.name}"
     g.update_attributes!({winner: winning_team})
-    g.reload
-    mark_losing_team_eliminated g, bracket
+    mark_losing_team_eliminated g, bracket if user.admin?
   end
 end
 
 def mark_losing_team_eliminated(g, b)
-  ancestors = b.lookup_ancestors(g)
+  ancestors = b.reload.lookup_ancestors(g)
   ancestors.each do |a|
-    a.reload
     a_team = a.is_a?(Team) ? a : a.winner
     unless a_team.label == g.winner.label
       a_team.update_attributes!({eliminated: true})
@@ -219,8 +214,8 @@ def hash_by_label(labeled_entities)
 end
 
 def pick_game_winners_as_admin(labels, reset_game_data = true)
-  admin = Admin.get
-  choose_games_for_bracket admin.bracket, labels, reset_game_data
+  admin = User.find_by_role(:admin).reload
+  choose_games_for_bracket admin, labels, reset_game_data
   save_mock_bracket admin
   update_players_scores admin.bracket
 end
@@ -231,7 +226,7 @@ def add_to_players(player)
 end
 
 def get_players
-  @players
+  User.where(role: :player)
 end
 
 STANDINGS_PLAYER = 0
@@ -247,9 +242,9 @@ def compute_expected_standings(which_time)
     ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]].each do |l|
       if p_data[:games][l][:winners_label] == admin_games[:games][l][:winners_label]
         p_data[:score] += admin_games[:games][l][:winner][:seed].to_i * round_multiplier(l)
-        puts "#{p}: #{p_data[:score]} with seed #{admin_games[:games][l][:winner][:seed]} and #{l} (#{round_multiplier(l)})}"
+        puts "#{p}: #{p_data[:score]} with seed #{admin_games[:games][l][:winner][:seed]} at label #{l} (with multiplier: #{round_multiplier(l)})}"
       else
-        puts "no score"
+        puts "no score at label #{l}"
       end
     end
     standings.store(p, p_data[:score])
@@ -283,7 +278,6 @@ end
 def verify_displayed_standings(standings)
   leader_board_row = page.all('#leader_board tr')
   expect(leader_board_row).not_to be_empty
-  save_and_open_page
   leader_board_row.each_with_index do |tr, index|
     expect(tr).to have_selector('.player_summary')
     expect(tr).to have_content(standings[index][STANDINGS_PLAYER])
@@ -325,11 +319,17 @@ def page_with_label_and_color(label, color)
 end
 
 def check_players_scores
-  reference_bracket = Admin.get.bracket
+  reference_bracket = Admin.get.bracket.reload
   update_players_scores reference_bracket
   User.where(role: :player).each do |p|
     expect(p.current_score).not_to be_nil
   end
+end
+
+def call_update_in_browser
+  visit path_to('Edit Bracket')
+  click_button 'Update Bracket'
+  sleep 10
 end
 
 def update_players_scores(bracket)
@@ -341,7 +341,6 @@ def exact_text_match(text)
 end
 
 def verify_player_is_green_state(player)
-  # save_and_open_page
   expect(page).to have_selector('td.bracket_complete', text: player.name)
 end
 

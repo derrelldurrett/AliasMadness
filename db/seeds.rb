@@ -14,26 +14,23 @@ if !ENV['TEAM_NAMES_SET'].nil? or !ENV['SEED_PLAYERS'].nil? or !ENV['SEED_GAMES'
   include TransformTeamData
 end
 
+def delete_db_contents
+  Game.destroy_all
+  Team.destroy_all
+  Bracket.destroy_all
+  User.destroy_all
+end
+
 def seed_admin
-  admin = nil
-  while admin.nil?
-    begin
-      admin = User.new do |u|
-        u.name = ENV['ALIASMADNESS_ADMIN']
-        u.password = ENV['ALIASMADNESS_PASSWORD']
-        u.password_confirmation = ENV['ALIASMADNESS_PASSWORD']
-        u.email = ENV['ALIASMADNESS_ADMINEMAIL']
-        u.role = :admin
-      end
-      admin.save!
-      admin = Admin.get
-    rescue StandardError => e
-      puts %(Reseeding admin: #{e.message}\n#{e.backtrace.join("\n")})
-      admin = nil
-      User.delete(Admin.get.id)
-      redo
-    end
+  admin = User.new do |u|
+    u.name = ENV['ALIASMADNESS_ADMIN']
+    u.password = ENV['ALIASMADNESS_PASSWORD']
+    u.password_confirmation = ENV['ALIASMADNESS_PASSWORD']
+    u.email = ENV['ALIASMADNESS_ADMINEMAIL']
+    u.role = :admin
   end
+  admin.save!
+  admin = Admin.get
   puts 'Seeded admin: ' + admin.to_s
 end
 
@@ -50,7 +47,7 @@ end
 def build_new_player(player_file)
   player = User.new do |u|
     u.name = Faker::Name.name
-    u.email = Faker::Internet.email(u.name)
+    u.email = Faker::Internet.email(name: u.name)
     u.role = :player
   end
   player.save!
@@ -148,6 +145,7 @@ def default_game_label
   2**(6 - rounds_to_seed.to_i)
 end
 
+delete_db_contents
 seed_admin unless ENV['SEED_ADMIN'].nil?
 seed_teams unless ENV['TEAM_NAMES_SET'].nil?
 seed_players unless ENV['SEED_PLAYERS'].nil?

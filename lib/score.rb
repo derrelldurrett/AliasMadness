@@ -18,7 +18,7 @@ module Score
       next if g_arr[0].winner.nil?
       my_score += g_arr[0].winner.seed*g_arr[0].round_multiplier if g_arr[0].winner==g_arr[1].winner
     end
-#    logger.info %Q(Score for user_id #{self.user_id} (bracket_id-- #{self.id}): #{my_score})
+    logger.info %Q(Score for user_id #{self.user_id} (bracket_id-- #{self.id}): #{my_score})
     my_score
   end
 

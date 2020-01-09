@@ -88,13 +88,11 @@ Then /\AThe game labeled '([^']+)' should display correctly\z/ do |label|
   game_labeled = game_by_label label
   game_css = build_game_css(label)
   within(game_css) do
-    puts "Checking  #{label} (CSS: #{game_css}), expecting participant #{game_labeled[:winner][:new_name]}"
     expect(page).to have_select("game_#{label}", selected: game_labeled[:winner][:new_name])
   end
   descendant_label = get_descendant_label(label)
   descendant_game_css = build_game_css(descendant_label)
   within(descendant_game_css) do
-    puts "Checking  #{label}'s descendant (CSS: #{descendant_game_css}), #{descendant_label}, expecting participant #{game_labeled[:winner][:new_name]}"
     expect(page).to have_select("game_#{descendant_label}", with_options: [game_labeled[:winner][:new_name]])
   end
 end
@@ -156,23 +154,21 @@ When /\AThe Admin has updated some games the (\w+) time\z/ do |which_time|
 end
 
 Then 'the invited players scores should be calculated' do
-  update_players_scores Admin.get.bracket
+  update_players_scores Admin.get.bracket.reload
 end
 
 Then /\Athe '([^']+)' page should reflect the (\w+) standings\z/ do |page_name, which_time|
   visit path_to(page_name)
   sleep 2
-  save_and_open_page
   verify_displayed_standings compute_expected_standings which_time
 end
 
 Then /\A'An invited player' should see the correct choices in green and the incorrect choices in red the (\w+) time\z/ do |nth|
   steps 'Given One of the players logs in'
-  reference_bracket = games_by_label(Admin.get.bracket)
+  reference_bracket = games_by_label(User.find_by_role(:admin).bracket)
   puts "reload page the #{nth} time."
   page.evaluate_script 'window.location.reload()' # wield a hammer, apparently.
   players_bracket = games_by_label(logged_in_player.bracket)
-  # save_and_open_page
   is_eliminated = {}
   ADMINS_LABEL_BLOCK[WHICH_TIME[nth.to_sym]].each do |l|
     label = l.to_s
@@ -181,9 +177,8 @@ Then /\A'An invited player' should see the correct choices in green and the inco
     [r_game, p_game].each { |g| g.reload }
     expect(r_game.winner).not_to be_nil
     winner_state = p_game.winner == r_game.winner ? 'green' : 'red'
-    puts "#{label}: player: #{p_game.winner.name}, ref: #{r_game.winner.name}"
     expected_css = build_game_css(label, winner_state)
-    expect page.has_css?(expected_css)
+     expect page.has_css?(expected_css)
     if winner_state == 'green'
       expect(find(expected_css)).to have_text(exact_text_match(p_game.winner.name))
     else
@@ -227,9 +222,7 @@ Then "The subsequent games should display 'Choose winner...'" do
 end
 
 Then 'I should not be able to change its games' do
-  # save_and_open_page
   td_node_name = build_game_css('63')
-  puts td_node_name
   within(td_node_name) do
     expect(page).to have_selector(GAME_WINNER_CSS + '[disabled]')
   end

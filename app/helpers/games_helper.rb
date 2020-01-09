@@ -28,18 +28,28 @@ module GamesHelper
   end
 
   def color_winner(winner, node, bracket_locked)
-    color = 'grey'
+    # need a space in front
+    ' '.freeze + [winner_state(bracket_locked, node, winner), 'winner_state'.freeze].join('_'.freeze)
+  end
+
+  private
+
+  def winner_state(bracket_locked, node, winner)
+    color = 'grey'.freeze
     if bracket_locked
-      w = Admin.get.bracket.lookup_game(node).winner
+      w = User.find_by_role(:admin).bracket.lookup_game(node).winner
+      w.reload unless w.nil?
       # color is green if the winner is the actual winner
       # color is red if the winner is eliminated
       # color otherwise remains grey if the game is not complete (w.nil?)
       color = if winner == w
-                'green'
-              elsif winner.eliminated
-                'red'
+                'green'.freeze
+              elsif winner.eliminated?
+                'red'.freeze
+              else
+                'grey'.freeze
               end
     end
-    ' ' + [color, 'winner_state'].join('_') # need a space in front
+    color
   end
 end

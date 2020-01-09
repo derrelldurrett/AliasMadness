@@ -24,7 +24,6 @@ end
 
 Given /\AI am visiting '([^']+)'\z/ do |link|
   puts 'I will visit '+link
-  # save_and_open_page
   click_link link
 end
 

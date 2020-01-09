@@ -1,4 +1,4 @@
-ruby '2.6.1'
+ruby '2.6.3'
 
 source 'https://rubygems.org'
 
@@ -14,12 +14,14 @@ gem 'jbuilder' # Build JSON APIs with ease. Read more: https://github.com/rails/
 gem 'nokogiri' # force the following gem updates
 gem 'pg'
 gem 'puma' # Use Puma as the app server
-gem 'rails', '5.2.2' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '5.2.4' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'record_tag_helper'
 gem 'responders' # extend controller classes with respond_to
 gem 'rgl' # build and traverse graphs easily
-gem 'sassc-rails' # Use SCSS for stylesheets
+gem 'sass-rails' # Use SCSS for stylesheets
 gem 'sendgrid-ruby' # mail with SendGrid
+gem 'sprockets', '>= 4.0'
+gem 'sprockets-rails'
 gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
 
@@ -30,11 +32,11 @@ gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
 
 # development/test shared gems
 group :development, :test do
-  gem 'bootstrap-generators'
+  #gem 'bootstrap-generators'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara' # Adds support for Capybara system testing and selenium driver
   gem 'capybara-screenshot'
-  gem 'chromedriver-helper'
+  gem 'webdrivers'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'email_spec'
@@ -51,10 +53,10 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.2' # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
+  gem 'listen' #, '>= 3.0.5', '< 3.2' # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'spring' # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'web-console', '>= 3.3.0'
+  gem 'spring-watcher-listen' #, '~> 2.0.0'
+  gem 'web-console' #, '>= 3.3.0'
 end
 
 group :test do

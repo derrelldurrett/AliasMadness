@@ -12,7 +12,6 @@ class BracketsController < ApplicationController
       respond_with false, {status: 400}
     else
       if game_data_processed? params[:game_data], id
-        update_player_scores if current_user.admin? # only if admin...
         flash[:success]= 'Games saved!'
         respond_with true, {status: 204}
       else
@@ -20,10 +19,11 @@ class BracketsController < ApplicationController
         respond_with false, {status: 400}
       end
     end
+    update_player_scores if current_user.admin? # only if admin...
   end
 
   def show
-    @bracket = Bracket.find(params[:id])
+    @bracket = Bracket.find(params[:id]).reload
   end
 
   def lock_brackets
@@ -44,7 +44,7 @@ class BracketsController < ApplicationController
     data.each do |d|
       (game_label,winner_name,winner_label)= d
       game= games_by_label.fetch game_label.to_s
-      if winner_label.nil? or winner_label == '' or winner_name.nil? or winner_name ==     ''
+      if winner_label.nil? or winner_label == '' or winner_name.nil? or winner_name == ''
         team=nil
       else
         team= Team.find_by_label winner_label
@@ -56,11 +56,11 @@ class BracketsController < ApplicationController
         end
         # if admin's bracket, mark losing team eliminated
         if current_user.admin?
-          b= Admin.get.bracket
+          b= Admin.get.bracket.reload
           ancestors= b.lookup_ancestors(b.lookup_game game_label)
           ancestors.each do |a|
             a_team= ancestor_team a
-            unless a_team.label==winner_label
+            unless a_team.nil? or a_team.label == winner_label
               a_team.update_attributes!({eliminated: true})
               break
             end
@@ -68,7 +68,6 @@ class BracketsController < ApplicationController
         end
       end
       game.update_attributes!({winner: team})
-      noop
     end
     ret
   end

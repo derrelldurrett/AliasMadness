@@ -121,7 +121,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td class='center force-center'><%= @user.current_score.to_s %></td>
+      <td class='center force-center'> <% unless @user.admin? %> <%= @user.current_score.to_s %> <% end %> </td>
       <td></td>
       <td></td>
       <td></td>

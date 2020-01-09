@@ -1,13 +1,14 @@
 module UsersHelper
   def update_player_scores
-    @players = []
-    @players = players = get_players
+    players = get_players
     if players.length >= 1
-      reference = Admin.get.bracket
-      @players = players.sort_by do |p|
+      reference = Admin.get.reload.bracket
+      players.sort_by do |p|
         p.score reference
         p.reload
       end
+      @players = get_players_sorted_by_score
+      puts %Q(Players scores updated.)
     end
   end
 

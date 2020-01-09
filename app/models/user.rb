@@ -42,6 +42,7 @@ class User < ApplicationRecord
     score = current_score || 0
     # if score==0 or self.updated_at < reference_bracket.newest_game_date
     score = @current_score = compute_score(reference_bracket)
+    #puts(%Q(Updating #{name}'s score to #{score}))
     update_attributes!(current_score: score)
     # end
     score
@@ -49,13 +50,10 @@ class User < ApplicationRecord
 
   def compute_score(reference_bracket)
     my_score = 0
-    reference_bracket.games_by_label.zip(self.bracket.games_by_label) do |g_arr|
+    reference_bracket.games_by_label.zip(bracket.games_by_label) do |g_arr|
       next if g_arr.any? {|g|g&.winner.nil?}
       my_score += (g_arr[0]&.winner&.seed * g_arr[0].round_multiplier) if g_arr[0]&.winner == g_arr[1]&.winner
-      #puts "#{self.name}: #{my_score} -- admin #{g_arr[0].winner.name}, player #{g_arr[1].winner.name} multi: #{g_arr[0].round_multiplier} seed: #{g_arr[0].winner.seed} label: #{g_arr[0].label}"
     end
-    #puts %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
-#    logger.info %Q(Score for #{self.name} bracket_id-- #{self.bracket.id}: #{my_score})
     my_score
   end
 
@@ -70,8 +68,6 @@ class User < ApplicationRecord
   end
 
   def create_initial_bracket
-    #puts 'creating initial bracket'
-    #puts caller
     self.bracket = BracketFactory.instance.create_bracket if self.bracket.nil?
   end
 

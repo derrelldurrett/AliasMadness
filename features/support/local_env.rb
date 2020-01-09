@@ -15,7 +15,7 @@ require 'capybara/rails'
 require 'email_spec/cucumber'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
-require 'chromedriver-helper'
+require 'webdrivers/chromedriver'
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
