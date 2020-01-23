@@ -60,6 +60,7 @@ Given 'The pool is in progress' do
            Given The teams have already been entered
            Given The players have been invited
            Given The players have entered their winning teams
+           Given The Admin has locked the players' brackets
            Given The Admin has updated some games the first time
          "
 end
@@ -147,8 +148,6 @@ When /\AThe Admin has updated some games the (\w+) time\z/ do |which_time|
   case which_time
   when 'first'
     steps "Given The Admin has locked the players' brackets"
-  when 'third'
-    steps 'Given The pool is in progress'
   end
   pick_game_winners_as_admin(ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]], false)
 end

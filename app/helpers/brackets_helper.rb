@@ -1,4 +1,19 @@
 module BracketsHelper
+  def common_bracket_update(id, params)
+    if params[:game_data].nil?
+      flash[:error]= 'Request FAILED!'
+      respond_with false, {status: 400}
+    else
+      if game_data_processed? params[:game_data], id
+        flash[:success]= 'Games saved!'
+        respond_with true, {status: 204}
+      else
+        flash[:error]= 'Games NOT SAVED!'
+        respond_with false, {status: 400}
+      end
+    end
+  end
+
   def players_brackets_locked?
     players= User.where({role: :player}).all
     players_with_locked_brackets= players.where(bracket_locked: 'true').all

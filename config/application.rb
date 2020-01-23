@@ -53,6 +53,10 @@ module AliasMadness
 
     # prevent asset:precompile from running the initializers, in theory.
     config.assets.initialize_on_precompile = false
+
+    # We use delayed_job_active_record to determine, in the background, which players
+    # will benefit if a specific group of winning teams win out.
+    config.active_job.queue_adapter = :delayed_job
   end
 
   #TODO try to initialize here?

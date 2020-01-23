@@ -1,4 +1,5 @@
 class BracketsController < ApplicationController
+  include BracketsHelper
   include SessionsHelper
   include UsersHelper
   before_action :check_authorization_admin, only: [:lock_brackets]
@@ -7,19 +8,11 @@ class BracketsController < ApplicationController
   def update
     id = params[:id]
     params = resource_params
-    if params[:game_data].nil?
-      flash[:error]= 'Request FAILED!'
-      respond_with false, {status: 400}
-    else
-      if game_data_processed? params[:game_data], id
-        flash[:success]= 'Games saved!'
-        respond_with true, {status: 204}
-      else
-        flash[:error]= 'Games NOT SAVED!'
-        respond_with false, {status: 400}
-      end
+    common_bracket_update id, params
+    if current_user.admin?
+      update_player_scores
+      build_scenarios
     end
-    update_player_scores if current_user.admin? # only if admin...
   end
 
   def show
@@ -44,35 +37,49 @@ class BracketsController < ApplicationController
     data.each do |d|
       (game_label,winner_name,winner_label)= d
       game= games_by_label.fetch game_label.to_s
-      if winner_label.nil? or winner_label == '' or winner_name.nil? or winner_name == ''
-        team=nil
-      else
-        team= Team.find_by_label winner_label
-        if team.name != winner_name
-          ret= false
-          flash.now[:error] =
-              %Q(label/name mismatch! Expected winner #{winner_name}, got #{team.name})
-          break
-        end
-        # if admin's bracket, mark losing team eliminated
-        if current_user.admin?
-          b= Admin.get.bracket.reload
-          ancestors= b.lookup_ancestors(b.lookup_game game_label)
-          ancestors.each do |a|
-            a_team= ancestor_team a
-            unless a_team.nil? or a_team.label == winner_label
-              a_team.update_attributes!({eliminated: true})
-              break
-            end
-          end
-        end
+      team = get_team(game_label, winner_label, winner_name)
+      if team.nil?
+        ret = false
+        break
       end
       game.update_attributes!({winner: team})
     end
     ret
   end
 
-  def noop; end
+  def get_team(game_label, winner_label, winner_name)
+    if winner_label.nil? or winner_label == '' or winner_name.nil? or winner_name == ''
+      team = nil
+    else
+      team = Team.find_by_label winner_label
+      if team.name != winner_name
+        ret = false
+        flash.now[:error] =
+            %Q(label/name mismatch! Expected winner #{winner_name}, got #{team.name})
+        return
+      end
+      # if admin's bracket, mark losing team eliminated
+      if current_user.admin?
+        eliminate_loser(game_label, winner_label)
+        # TODO: here, we schedule the background job to calculate scenarios if there's fewer than
+        # TODO: some number of games remaining -- 16?
+        # Something to do with ActionJob.
+      end
+    end
+    team
+  end
+
+  def eliminate_loser(game_label, winner_label)
+    b = Admin.get.bracket.reload
+    ancestors = b.lookup_ancestors(b.lookup_game game_label)
+    ancestors.each do |a|
+      a_team = ancestor_team a
+      unless a_team.nil? or a_team.label == winner_label
+        a_team.update_attributes!({eliminated: true})
+        break
+      end
+    end
+  end
 
   def lock_players_brackets
     # fixme so we make this one giant update of all games simultaneously

@@ -13,7 +13,7 @@ def reset_database
 end
 
 WHICH_TIME = {first: 0, second: 1, third: 2}
-ADMINS_LABEL_BLOCK = [63.downto(45), 63.downto(26), 63.downto(4)]
+ADMINS_LABEL_BLOCK = [63.downto(45), 63.downto(26), 63.downto(8)]
 
 def invite_player(name, email)
   fill_in 'Name', with: name
@@ -186,6 +186,7 @@ def choose_games_for_bracket(user, labels = 63.downto(1), reset_game_data = true
   bracket_games_by_label = games_by_label(bracket)
   labels.each do |label|
     g = bracket_games_by_label[label.to_s]
+    g.reload
     winning_team = team_data_by_label(game_by_label(label)[:winners_label])
     # puts "assigning winners for #{bracket.id} (#{user.name}) -- node #{label} -- winner #{winning_team.name}"
     g.update_attributes!({winner: winning_team})
@@ -196,7 +197,9 @@ end
 def mark_losing_team_eliminated(g, b)
   ancestors = b.reload.lookup_ancestors(g)
   ancestors.each do |a|
+    a.reload
     a_team = a.is_a?(Team) ? a : a.winner
+    puts "game: #{g.label}, ancestor: #{a.label}; a_team: #{a_team}" if a_team.nil?
     unless a_team.label == g.winner.label
       a_team.update_attributes!({eliminated: true})
       break

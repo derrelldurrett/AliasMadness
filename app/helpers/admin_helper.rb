@@ -1,14 +1,22 @@
+require 'benchmark'
 module AdminHelper
   include UsersHelper
+
   def build_scenarios
     ref = @user.bracket
     data = {}
     ref.games.sort_by_obj_label.winner_not_set.build_data_hash(data, ref)
     players_with_scores = @players.map { |p| build_player(p, ref, data) }
     @live_teams = data[:teams]
-    puts "Games remaining: #{data.length}"
+    puts "Games remaining: #{data[:ancestors].length}"
+    puts "Teams remaining: "
+    data[:teams].each {|t| puts "\t#{t.name}"}
     @scenarios = []
-    choose_both_winners data, players_with_scores
+    Benchmark.bm(21) do |bm|
+      bm.report('Calculate scenarios: ') do
+        choose_both_winners data, players_with_scores, data[:games].having_key(:ancestors).sort_by_desc_numeric_key
+      end
+    end
     @scenarios
   end
 
@@ -24,18 +32,18 @@ module AdminHelper
     }
   end
 
-  # chose all but last, choose 1, then the other, then back up, choose the next one,
+  # choose all but last, choose 1, then the other, then back up, choose the next one,
   # etc.
-  def choose_both_winners(ref_games, players_with_games, i = 0)
-    have_ancestors = ref_games[:games].having_key(:ancestors).sort_by_desc_numeric_key
+  def choose_both_winners(ref_games, players_with_games, have_ancestors, i = 0)
     if have_ancestors.length == i
-      puts 'constructing result'
+      puts "constructing result #{@scenarios.length+1}"
       construct_result have_ancestors, players_with_games
     else
       j, h_game = have_ancestors[i]
       h_game[:ancestors].each do |a|
-        h_game[:game].winner = ref_games[:games][a.label][:game].winner
-        choose_both_winners ref_games, players_with_games, i + 1
+        w = ref_games[:games][a.label][:game].winner
+        h_game[:game].winner = w
+        choose_both_winners ref_games, players_with_games, have_ancestors, i + 1
         h_game[:game].winner = nil
       end
     end
@@ -76,8 +84,6 @@ module AdminHelper
   def self.build_ancestors(r, g, o)
     r.lookup_ancestors(g).save_o(o).sort_by_obj_label
   end
-
-  def noop; end
 end
 
 module Enumerable
@@ -92,19 +98,20 @@ module Enumerable
     end
     data[:ancestors] = data[:games].having_key(:ancestors).map { |h| h[0] }
     data[:team_labels] = data[:games].having_key(:team).map { |h| h[0] }
-    data[:teams] = Set.new(data[:games].having_key(:team).map { |h| game_or_team(h[1][:game]) })
+    data[:teams] = Set.new(data[:games].having_key(:team).map { |h| game_or_team(h[1][:game])[:team] })
   end
 
   def build_predicted_scores(ref, teams)
     each do |pwg|
-      next if (pwg[:live_teams] - teams).empty?
-      pwg[:pred_score] = pwg[:score] + AdminHelper.score_player(pwg, ref)
+      pwg[:pred_score] = pwg[:score]
+      next if (pwg[:live_teams] & teams).empty?
+      pwg[:pred_score] += AdminHelper.score_player(pwg, ref)
     end
   end
 
   def compute_scores
     # TODO: Eventually the computation has to come from the Score module
-   sum { |_l, h_ref| h_ref[:game].winner.seed * h_ref[:game].round_multiplier }
+    sum { |_l, h_ref| h_ref[:game].winner.seed * h_ref[:game].round_multiplier }
   end
 
   def game_or_team(a)
