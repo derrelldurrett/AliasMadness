@@ -10,6 +10,7 @@ end
 gem 'bcrypt' # Use ActiveModel has_secure_password
 gem 'cancancan' # roles
 gem 'coffee-rails' # Use CoffeeScript for .coffee assets and views
+gem 'daemons' # Also needed for DJ
 gem 'delayed_job_active_record' # Ugh at having to use DJ....
 gem 'jbuilder' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'nokogiri' # force the following gem updates

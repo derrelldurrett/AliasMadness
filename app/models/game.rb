@@ -37,42 +37,42 @@ class Game < ApplicationRecord
   end
 
   def round_multiplier
-    # *Really* need to make this a property of the game at the time it's created
-    case label.to_i
-      when 1
-        64
-      when 2..3
-        32
-      when 4..7
-        16
-      when 8..15
-        8
-      when 16..31
-        4
-      when 32..63
-        2
-      else
-        raise StandardError, "broken game label: #{label}"
-    end
+    mult ||= case label.to_i
+             when 1
+               64
+             when 2..3
+               32
+             when 4..7
+               16
+             when 8..15
+               8
+             when 16..31
+               4
+             when 32..63
+               2
+             else
+               raise StandardError, "broken game label: #{label}"
+             end
+    mult
   end
 
   def round
-    # *Really* need to make this a property of the game at the time it's created
-    case label.to_i
-    when 1
-      6
-    when 2..3
-      5
-    when 4..7
-      4
-    when 8..15
-      3
-    when 16..31
-      2
-    when 32..63
-      1
-    else
-      raise StandardError, "broken game label: #{label}"
-    end
+    r ||= case label.to_i
+          when 1
+            6
+          when 2..3
+            5
+          when 4..7
+            4
+          when 8..15
+            3
+          when 16..31
+            2
+          when 32..63
+            1
+          else
+            raise StandardError, "broken game label: #{label}"
+          end
+    r
   end
 end

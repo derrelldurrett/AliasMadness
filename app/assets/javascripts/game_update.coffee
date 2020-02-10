@@ -22,7 +22,6 @@ class @GameUpdate
       null
 
   @gameUpdateCallCleanUp: (t) ->
-    $(t).prop('disabled', false)
     installGameUpdateClickHandler()
 
   @gameUpdateError: (errorThrown, textStatus, t) ->
@@ -56,4 +55,7 @@ class @GameUpdate
         Common.reloadPage()
       error: (jqXHR, textStatus, errorThrown) ->
         Common.showError errorThrown, textStatus
+      complete: (jqXHR, textStatus) ->
+        $(target).prop('disabled', false)
+
     return false

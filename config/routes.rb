@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :brackets, only: [:update, :show]
   resources :teams, only: [:update]
 
+  get 'scenarios', to: 'brackets#scenarios'
   put 'lock_names', to: 'teams#lock_names'
   put 'lock_players_brackets', to: 'brackets#lock_brackets'
 
@@ -18,6 +19,5 @@ Rails.application.routes.draw do
     # Directs /admin/products/* to Admin::ProductsController
     # (app/controllers/admin/products_controller.rb)
     resources :messages, only: [:create, :new]
-    get 'scenarios', to: 'admin#scenarios'
   end
 end

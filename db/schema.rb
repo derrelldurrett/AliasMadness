@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_223126) do
+ActiveRecord::Schema.define(version: 2020_01_29_213612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,12 @@ ActiveRecord::Schema.define(version: 2020_01_21_223126) do
     t.boolean "locked", default: false
     t.index ["bracket_id"], name: "index_games_on_bracket_id"
     t.index ["team_id"], name: "index_games_on_team_id"
+  end
+
+  create_table "scenarios", force: :cascade do |t|
+    t.string "scenario_teams"
+    t.string "result"
+    t.integer "remaining_games"
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|

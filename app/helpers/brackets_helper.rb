@@ -49,4 +49,8 @@ module BracketsHelper
     end
     node_string
   end
+
+  def json_to_html(jsn)
+    JSON.parse(jsn).join('<br>')
+  end
 end

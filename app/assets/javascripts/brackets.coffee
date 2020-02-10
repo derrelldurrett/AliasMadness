@@ -71,6 +71,7 @@ loadBracketData = ->
 
 lockPlayersBrackets = (e) ->
   e.preventDefault()
+  $(e.target).prop('disabled', true)
   $.ajax
     contentType: 'application/json'
     type: 'PUT'
@@ -82,6 +83,8 @@ lockPlayersBrackets = (e) ->
       Common.reloadPage()
     error: (jqXHR, textStatus, errorThrown) ->
       Common.showError errorThrown, textStatus
+    complete: (jqXHR, textStatus) ->
+      $(e.target).prop('disabled', false)
 
 nameTeam = (target) ->
   sendTeamNameUpdate(t) for t in $(target)

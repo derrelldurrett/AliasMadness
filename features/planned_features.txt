@@ -1,5 +1,12 @@
 admin(auto-delete?) of sad-sack players (those what ain't paid)
 admin can see/show possible futures scenarios for wins/losses
+    Only do this after the first two rounds are complete (no need to risk a stack explosion)
+    Store the scenarios in a table
+    Group the presentation in a useful way
+        A typical situation spanning multiple "scenarios" is one where the winner is determined with
+            more than one game remaining
+        Or, stated differently, many different scenarios result in no change in the outcome
+        So, "group" the scenarios by indicating the common result among them and show that final result?
 right-click on a player in the left column to directly compare future chances
 calculate "potential points" remaining for a bracket
 show "potential (or final, as appropriate) point/original potential points"

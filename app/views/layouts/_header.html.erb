@@ -17,11 +17,11 @@
               <%= link_to 'Send Message', new_admin_message_path,
                           class: 'nav-list-button' %>
             </li>
-            <li class='nav-list-item'>
-              <%= link_to 'View Scenarios', admin_scenarios_path,
-                          class: 'nav-list-button' %>
-            </li>
           <% end %>
+          <li class='nav-list-item'>
+            <%= link_to 'View Scenarios', scenarios_path,
+                        class: 'nav-list-button' %>
+          </li>
           <li class='nav-list-item last'>
             <div class="popup">
               <%= %Q(Email: #{Admin.get.email}) %>

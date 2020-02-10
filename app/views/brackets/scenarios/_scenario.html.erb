@@ -3,7 +3,7 @@
     <%= div_for scenario, {class: 'scenario_list'} do %>
       <br>
       <p>
-        <%= scenario.scenario_list.values.join("<br>").html_safe %>
+        <%= json_to_html(scenario.scenario_teams).html_safe %>
       </p>
     <% end %>
   <% end %>
@@ -11,7 +11,7 @@
     <%= div_for scenario, {class: 'result_list'} do %>
       <br>
       <p>
-        <%= scenario.result.join("<br>").html_safe %>
+        <%= json_to_html(scenario.result).html_safe %>
       </p>
     <% end %>
   <% end %>

@@ -11,7 +11,7 @@ class User < ApplicationRecord
   before_save :create_initial_bracket
   after_save :attach_user_to_bracket
   has_secure_password
-  validates :name, presence: true, length: { maximum: 50, minimum: 3 }
+  validates :name, presence: true, length: { maximum: 50, minimum: 1 }
   class EmailValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       # puts %q(Checking user )+record.name+%Q( [id: #{record.id}])+%q( with email )+value

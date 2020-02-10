@@ -9,9 +9,11 @@ class BracketsController < ApplicationController
     id = params[:id]
     params = resource_params
     common_bracket_update id, params
+    # I think the code here would be better in a method that only appears in the
+    # AdminController namespace, but I can't exactly figure out how to do that....
     if current_user.admin?
       update_player_scores
-      build_scenarios
+      ScenarioFactory.build_scenarios
     end
   end
 
@@ -21,13 +23,23 @@ class BracketsController < ApplicationController
 
   def lock_brackets
     if params[:lock_players_brackets].nil?
-      flash[:error]= 'Players Brackets NOT LOCKED!'
+      flash[:error]= 'Players Brackets NOT LOCKED!'.freeze
     else
       lock_players_brackets
-      flash[:success]= 'Players Brackets LOCKED!'
+      flash[:success]= 'Players Brackets LOCKED!'.freeze
     end
     respond_to { |format| format.json { render :json => current_user } }
   end
+
+  def scenarios
+    @user = current_user
+    @players = get_players_sorted_by_score
+    @scenarios = Scenario.all
+    respond_to do |format|
+      format.html { render 'brackets/scenarios'.freeze }
+    end
+  end
+
 
   private
 
