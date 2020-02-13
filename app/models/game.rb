@@ -38,18 +38,12 @@ class Game < ApplicationRecord
 
   def round_multiplier
     mult ||= case label.to_i
-             when 1
-               64
-             when 2..3
-               32
-             when 4..7
-               16
-             when 8..15
-               8
-             when 16..31
-               4
-             when 32..63
-               2
+             when 1      then 64
+             when 2..3   then 32
+             when 4..7   then 16
+             when 8..15  then 8
+             when 16..31 then 4
+             when 32..63 then 2
              else
                raise StandardError, "broken game label: #{label}"
              end
@@ -58,21 +52,21 @@ class Game < ApplicationRecord
 
   def round
     r ||= case label.to_i
-          when 1
-            6
-          when 2..3
-            5
-          when 4..7
-            4
-          when 8..15
-            3
-          when 16..31
-            2
-          when 32..63
-            1
-          else
-            raise StandardError, "broken game label: #{label}"
+          when 1      then 6
+          when 2..3   then 5
+          when 4..7   then 4
+          when 8..15  then 3
+          when 16..31 then 2
+          when 32..63 then 1
+          else raise StandardError, "broken game label: #{label}"
           end
     r
+  end
+
+  def last_in_round?
+    l ||= case label.to_i
+          when 1, 2, 4, 8, 16, 32 then true
+          else false
+          end
   end
 end

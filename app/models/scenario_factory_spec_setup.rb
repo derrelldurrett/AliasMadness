@@ -149,18 +149,21 @@ def init_bracket_data
       '10': %w(80 80 80 80), # choose from 21 and 20
       '9': %w(78 78 78 78), # choose from 19 and 18
       '8': %w(69 69 69 69), # choose from 17 and 16
-      '7': %w(127 127 127 127), # choose from 15 and 14
-      '6': %w(96 96 96 96), # choose from 13 and 12
-      '5': %w(80 80 80 80), # choose from 11 and 10
-      '4': [nil, '78', '69', '69'], # choose from 9 and 8
+      '7': [nil, '127', '127', '127'], # choose from 15 and 14
+      '6': [nil, '96', '96', '96'], # choose from 13 and 12
+      '5': [nil, '80', '80', '80'], # choose from 11 and 10
+      '4': [nil, '69', '69', '69'], # choose from 9 and 8
       '3': [nil, '96', '96', '127'], # choose from 7 and 6
-      '2': [nil, '78', '69', '69'], # choose from 5 and 4
+      '2': [nil, '69', '69', '69'], # choose from 5 and 4
       '1': [nil, '96', '69', '127'] # choose from 3 and 2
       # Possible scenarios:
+      # game 7: 64 (Team 3 (1)) or 127 (Team 61 (15))
+      # game 6: 110 (Team 7 (2)) or 96 (Team 2 (1))
+      # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
       # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
-      # game 3: 96 (Team 2 (1)) or 127 (Team 61 (15))
-      # game 2: 80 (Team 4 (1)), 78 (Team 6 (2)), or 69 (Team 49 (12))
-      # game 1: 80 (Team 4 (1)), 78 (Team 6 (2)), 69 (Team 49 (12)),
+      # game 3: 110 (Team 7 (2)), 96 (Team 2 (1)) or 127 (Team 61 (15))
+      # game 2: 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), or 69 (Team 49 (12))
+      # game 1: 110 (Team 7 (2)), 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), 69 (Team 49 (12)),
       #           96 (Team 2 (1)), or 127 (Team 61 (15))
   }
 end
@@ -178,6 +181,7 @@ def init_brackets
       end
     end
   end
+  init_bracket_data.select { |_k, g| g[0].nil? }.length
 end
 
 def init_admin_and_players
