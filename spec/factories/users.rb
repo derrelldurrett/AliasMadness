@@ -14,7 +14,7 @@ FactoryBot.define do
     "player_#{n}@foo.bar"
   end
 
-  factory :random_user, class: "User" do
+  factory :random_user, class: User do
     name {generate :random_name}
     email {generate :random_email}
     password {'some useless password'}
@@ -23,7 +23,7 @@ FactoryBot.define do
     current_score {0}
   end
 
-  factory :admin, class: "User" do
+  factory :admin, class: User do
     name {'admin'}
     email {'admin@foo.bar'}
     password {'some useless password'}

@@ -67,7 +67,6 @@ class Bracket < ApplicationRecord
 
   def eql?(o)
     return false unless self.class.eql?(o.class)
-
     initialization_data.zip(o.initialization_data).all? do |a|
       a[0].eql? a[1]
     end

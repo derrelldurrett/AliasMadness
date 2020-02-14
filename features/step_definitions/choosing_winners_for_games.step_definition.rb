@@ -65,6 +65,12 @@ Given 'The pool is in progress' do
          "
 end
 
+Given 'The pool is in progress with a specific set of players and teams' do
+  admin, _games_remaining = init_brackets(10) #use the smallest scenario
+  lock_players_brackets
+  ScenarioFactory.new.build_scenarios_without_delay(admin) # do it inline
+end
+
 Given 'The players have been invited' do
   create_the_players
 end

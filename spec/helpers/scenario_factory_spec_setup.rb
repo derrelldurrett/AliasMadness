@@ -130,7 +130,7 @@ def init_bracket_data
           '3': [nil, '96', '96', '127'], # choose from 7 and 6
           '2': [nil, '69', '69', '69'], # choose from 5 and 4
           '1': [nil, '96', '69', '127'] # choose from 3 and 2
-          # Possible scenarios:
+          # Possible scenarios: (Not filtered by what's possible because of choices.)
           # game 7: 64 (Team 3 (1)) or 127 (Team 61 (15))
           # game 6: 110 (Team 7 (2)) or 96 (Team 2 (1))
           # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
@@ -204,7 +204,7 @@ def init_bracket_data
           '3': [nil, '96', '96', '127'], # choose from 7 and 6
           '2': [nil, '69', '69', '69'], # choose from 5 and 4
           '1': [nil, '96', '69', '127'] # choose from 3 and 2
-          # Possible scenarios:
+          # Possible scenarios: (Not filtered by what's possible because of choices.)
           # game 6: 110 (Team 7 (2)) or 96 (Team 2 (1))
           # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
           # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
@@ -277,7 +277,7 @@ def init_bracket_data
               '3': [nil, '96', '96', '127'], # choose from 7 and 6
               '2': [nil, '69', '69', '80'], # choose from 5 and 4
               '1': [nil, '96', '69', '127'] # choose from 3 and 2
-              # Possible scenarios:
+              # Possible scenarios: (Not filtered by what's possible because of choices.)
               # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
               # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
               # game 3: 110 (Team 7 (2)), 96 (Team 2 (1)) or 127 (Team 61 (15))
@@ -288,6 +288,7 @@ def init_bracket_data
   }
 end
 
+# Return the admin, so we can pass it in to #build_scenarios
 def init_brackets(bracket_key)
   admin_and_users = init_admin_and_players # admin at 0, users 1,2, and 3
   ActiveRecord::Base.transaction do
@@ -298,18 +299,20 @@ def init_brackets(bracket_key)
         game = user.bracket.lookup_game label
         game.winner= user.bracket.lookup_node users_team
         game.save!
+        user.bracket.update_node game, game.label
       end
     end
     admin_and_users.each do |u|
       u.bracket.save!
     end
   end
-  init_bracket_data[bracket_key].select { |_k, g| g[0].nil? }.length
+  games_remaining = init_bracket_data[bracket_key].select { |_k, g| g[0].nil? }.length
+  [admin_and_users[0], games_remaining]
 end
 
 def init_admin_and_players
   User.all.delete_all
-  admin = create(:admin) # Gotta figure out how to reinitialize the Admin's bracket, so we can call that.
+  admin = create(:admin)
   ActiveRecord::Base.transaction do
     admin.bracket.games.each do |g|
       g.winner = nil

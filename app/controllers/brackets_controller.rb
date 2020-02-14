@@ -13,7 +13,7 @@ class BracketsController < ApplicationController
     # AdminController namespace, but I can't exactly figure out how to do that....
     if current_user.admin?
       update_player_scores
-      ScenarioFactory.build_scenarios
+      ScenarioFactory.new.build_scenarios current_user
     end
   end
 

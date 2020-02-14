@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'scenario_factory_spec_setup'
+require_relative './scenario_factory_spec_setup'
 
 RSpec.describe ScenarioFactory, type: :helper do
   # three "class" methods in ScenarioFactory: ::build_ancestors, ::build_scenarios,
@@ -14,12 +14,11 @@ RSpec.describe ScenarioFactory, type: :helper do
   describe '::build_scenarios calculates the remaining results as scenarios' do
     it "gets the correct number of scenarios and results within them" do
       init_bracket_data.keys.each do |expected_value|
-        games_remaining = init_brackets expected_value
-        ScenarioFactory.build_scenarios_without_delay
+        admin, games_remaining = init_brackets expected_value
+        ScenarioFactory.new.build_scenarios_without_delay admin
         puts "Games reamining: #{games_remaining}"
         scenarios = Scenario.where(remaining_games: games_remaining)
-        # scenarios.order(:result).each {|s| puts %Q/\n#{s.id} -- teams: #{JSON.parse(s.scenario_teams).join(', ')}\n\t res: #{JSON.parse(s.result).join(', ')}/ }
-        expect(scenarios.length).to eql(expected_value) # 128 = 2^7, but some possibilities are missing...
+        expect(scenarios.length).to eql(expected_value)
       end
     end
   end
