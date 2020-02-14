@@ -1,18 +1,13 @@
 class ScenarioFactory
   class << self
-    # r is a Bracket, g is a Game, o is a Hash, keys are game labels.
-    def build_ancestors(r, g, o)
-      r.lookup_ancestors(g).cache_obj(o).sort_by_obj_label
-    end
-
     def build_scenarios
       data = initialize_scenario_data
       return if data.nil?
-      choose_both_winners data, sorted_games_with_ancestors(data[:games])
+      choose_both_winners data, sorted_games_with_ancestors(data.games)
       process_and_store_scenarios
-    # rescue => exception
-    #   Delayed::Worker.logger.info exception.message
-    #   Delayed::Worker.logger.info exception.backtrace.join("\n")
+    rescue => exception
+      Delayed::Worker.logger.info exception.message
+      Delayed::Worker.logger.info exception.backtrace.join("\n")
     end
     handle_asynchronously :build_scenarios
 
@@ -22,11 +17,16 @@ class ScenarioFactory
 
     private
 
+    def assert_winner(g, r)
+      g.winner = r.winner
+      @checker.insert_game_winner g
+    end
+
     def build_data_hash(ref)
       games_without_winners = ref.games.sort_by_obj_label.winner_not_set
       return if games_without_winners.length > 31 # too many games means too big a data set
       @remaining_games = games_without_winners.length
-      games_without_winners.as_data_hash(ref)
+      GameData.new games_without_winners, ref
     end
 
     # a Player (User w/role :player),
@@ -34,16 +34,16 @@ class ScenarioFactory
       {
           player: p,
           score: p.score(r),
-          unfinished_games: p.bracket.games.where(label: gs[:ancestors]),
-          live_teams: build_surviving_teams(p, gs[:games].values.map { |h| h[:game].label })
+          unfinished_games: p.bracket.games.where(label: gs.ancestors),
+          live_teams: build_surviving_teams(p, gs.games.values.map { |h| h[:game].label })
       }
     end
 
     def build_players(ref, data)
       @players_with_scores = User.where(role: :player).map { |p| build_player(p, ref, data) }
       build_predicted_teams
-      Delayed::Worker.logger.info "Games remaining: #{data[:ancestors].length}"
-      Delayed::Worker.logger.info "Teams remaining: #{data[:teams].to_a.join("\t") {|t| t.name}}"
+      Delayed::Worker.logger.info "Games remaining: #{data.ancestors.length}"
+      Delayed::Worker.logger.info "Teams remaining: #{data.teams.to_a.join("\t") {|t| t.name}}"
     end
 
     # Collapse the list of teams that the players have predicted into a Set that we check against
@@ -58,10 +58,10 @@ class ScenarioFactory
     # should trigger the check that the scenario is done (which means that all of the choices we have made
     # in this scenario for this round are not chosen in the next round by any player).
     def build_predicted_teams
-      @predicted_teams = Hash.new {|h,k| h[k] = Set.new}
+      @predicted_teams = Hash.new { |h,k| h[k] = Set.new } # autovivify hash values as sets
       @players_with_scores.each do |pwt|
         pwt[:live_teams].each do |k,v|
-          v.each {|t| @predicted_teams[k] << t}
+          v.each { |t| @predicted_teams[k] << t }
         end
       end
     end
@@ -76,7 +76,7 @@ class ScenarioFactory
 
     def build_surviving_teams(p, gs)
       games = p.bracket.games.where(label: gs)
-      games.each_with_object(Hash.new {|h,k| h[k] = Set.new}) do |g, o|
+      games.each_with_object( Hash.new { |h,k| h[k] = Set.new } ) do |g, o|
         o[g.round] << g.winner unless g.winner.eliminated?
       end
     end
@@ -102,13 +102,10 @@ class ScenarioFactory
       else
         h_game = have_ancestors[i][1]
         h_game[:ancestors].each do |a|
-          w = ref_games[:games][a.label][:game].winner
           g = h_game[:game]
-          g.winner = w
-          @checker.insert_game_winner g
+          assert_winner g, ref_games.games[a.label][:game]
           choose_both_winners ref_games, have_ancestors, i + 1
-          @checker.remove_game_winner g
-          g.winner = nil
+          retract_game_winner g
         end
       end
     end
@@ -122,13 +119,21 @@ class ScenarioFactory
       @scenarios << build_scenario(result, have_ancestors)
     end
 
+    # this has to be protected from being called if i == 0
+    def disjoint_winners?(h, i)
+      g = h[i-1][1][:game]
+      r = g.round
+      g.last_in_round? and not @checker.winners_in_next_round?(r, @predicted_teams)
+    end
+
+    # Initialize the stuff we're going to use
     def initialize_scenario_data
-      ref = Admin.get.bracket.reload
+      ref = User.where(role: :admin).first.bracket.reload # Necessary because the Admin's bracket doesn't get reinitialized in tests (yet)
       data = build_data_hash ref
       return if data.nil?
       build_players ref, data
       @scenarios = []
-      @checker = Checker.new data[:games]
+      @checker = Checker.new data.games
       data
     end
 
@@ -140,16 +145,17 @@ class ScenarioFactory
       end
     end
 
-    # We're done if g is the last in its round, and
-    def scenario_done?(h, i)
-      i != 0 and (h.length == i or disjoint_winners? h, i)
+    def retract_game_winner(g)
+      @checker.remove_game_winner g
+      g.winner = nil
     end
 
-    # this has to be protected from being called if i == 0
-    def disjoint_winners?(h, i)
-      g = h[i-1][1][:game]
-      r = g.round
-      g.last_in_round? and not @checker.winners_in_next_round?(r, @predicted_teams)
+    # We have to protect the call to disjoint_winners? from the possibliity that we'll call this with i = 0, since we'll
+    # address a place outside of the array if we do.
+    # We're done (so return true) if we've worked through all the games or g is the last in its round, and the set of
+    # winning teams which exist in this scenario branch are disjoint from the set of predicted winners.
+    def scenario_done?(h, i)
+      i != 0 and (h.length == i or disjoint_winners? h, i)
     end
 
     def sorted_games_with_ancestors(games)
@@ -164,17 +170,6 @@ module Enumerable
     each_with_object([]) { |h, o| o << "#{h[:player].name} (#{h[:pred_score]})" }
   end
 
-  def as_data_hash(ref)
-    data = {}
-    data[:games] = each_with_object({}) do |g, out|
-      out[g.label] = { game: g, ancestors: ScenarioFactory.build_ancestors(ref, g, out) }
-    end
-    data[:ancestors] = data[:games].having_key(:ancestors).map { |h| h[0] }
-    data[:team_labels] = data[:games].having_key(:team).map { |h| h[0] }
-    data[:teams] = Set.new(data[:games].having_key(:team).map { |h| game_or_team(h[1][:game])[:team] })
-    data
-  end
-
   def build_predicted_scores(ref)
     each do |pwg|
       pwg[:pred_score] = pwg[:score]
@@ -187,18 +182,16 @@ module Enumerable
     sum { |_l, h_ref| h_ref[:game].winner.seed * h_ref[:game].round_multiplier }
   end
 
-  def game_or_team(a)
-    a.is_a?(Game) ? { game: a, team: a.winner } : {team: a}
-  end
-
   # Call on a hash
   def having_key(k)
     select { |_k,v| v.key? k }
   end
 
   # keep track of what label matches what game or team
-  def cache_obj(o)
-    each { |a| o[a.label] = game_or_team(a) unless o.key?(a.label) }
+  def cache_obj(gd, o)
+    each do |a|
+      o[a.label] = gd.game_or_team(a) unless o.key?(a.label)
+    end
   end
 
   # Call on a Hash with keys that are strings of integers, or integers
@@ -223,14 +216,17 @@ module Enumerable
     end
   end
 
-  # Use this to select only the games where there's not a winner assigned
+  # Call this on a list of games to select only the games where there's not a winner assigned
   def winner_not_set
     select { |g| g.winner.nil? }
   end
 end
 
 class Checker
-
+  # Our data structure is a hash of hashes, where the outside hashes are keyed by the round of the game
+  # and the inner keys are the labels of those games, and the value of the label is the winning team. Build
+  # this hash for all of the games required to compute the answer (conveniently, this is the array of
+  # games in the giant data hash we've constructed)
   def initialize(game_data)
     @game_winners_by_round = Hash.new { |h,k| h[k] = Hash.new }
     # from the game with the next larger label in game_data without a winner to the next round boundary
@@ -243,6 +239,10 @@ class Checker
     end until g.last_in_round?
   end
 
+  def insert_game_winner(g)
+    @game_winners_by_round[g.round][g.label] = g.winner
+  end
+
   def next_label(l)
     (l.to_i+1).to_s
   end
@@ -251,18 +251,36 @@ class Checker
     d[next_label l][:game]
   end
 
-  def noop; end
-
-  def insert_game_winner(g)
-    # Init the set of winners for this
-    @game_winners_by_round[g.round][g.label] = g.winner
-  end
-
   def remove_game_winner(g)
-    @game_winners_by_round[g.round][g.label] = nil
+    @game_winners_by_round[g.round].delete g.label
   end
 
+  # Call to discover whether there are any of the predicted winners still alive in the next round
   def winners_in_next_round?(r, compare_to_by_round)
     not (compare_to_by_round[r+1] & @game_winners_by_round[r].values).empty?
   end
+end
+
+class GameData
+  attr_reader :games, :ancestors, :team_labels, :teams
+  def initialize(games, ref_bracket)
+    @games = games.each_with_object({}) do |g, out|
+      out[g.label] = { game: g, ancestors: build_ancestors(ref_bracket, g, out) }
+    end
+    @ancestors = @games.having_key(:ancestors).map { |h| h[0] }
+    @team_labels = @games.having_key(:team).map { |h| h[0] }
+    @teams = Set.new(@games.having_key(:team).map { |h| game_or_team(h[1][:game])[:team] })
+  end
+
+  def game_or_team(a)
+    a.is_a?(Game) ? { game: a, team: a.winner } : {team: a}
+  end
+
+  private
+
+  # r is a Bracket, g is a Game, o is a Hash, keys are game labels.
+  def build_ancestors(r, g, o)
+    r.lookup_ancestors(g).cache_obj(self, o).sort_by_obj_label
+  end
+
 end

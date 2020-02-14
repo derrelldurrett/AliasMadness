@@ -63,115 +63,235 @@ label: 67, seed: 9, id: 3, name: Team 34
 label: 66, seed: 8, id: 4, name: Team 30
 label: 65, seed: 16, id: 1, name: Team 67
 label: 64, seed: 1, id: 2, name: Team 1
-
-1.upto(12).each {|i| puts %Q/#{i} -- teams: #{JSON.parse(Scenario.find(i).scenario_teams).join(', ')}\n\t res: #{JSON.parse(Scenario.find(i).result).join(', ')}/ }
-
-1 -- teams: Round 4: Team 6 (2), Round 5: Team 61 (15), Team 4 (1), Round 6: Team 61 (15)
-	 res: some_player_3 (2572), some_player_1 (1164), some_player_2 (1132)
-2 -- teams: Round 4: Team 6 (2), Round 5: Team 61 (15), Team 4 (1), Round 6: Team 4 (1)
-	 res: some_player_3 (1612), some_player_1 (1164), some_player_2 (1132)
-3 -- teams: Round 4: Team 6 (2), Round 5: Team 61 (15), Team 6 (2)
-	 res: some_player_3 (1612), some_player_1 (1228), some_player_2 (1132)
-4 -- teams: Round 4: Team 6 (2), Round 5: Team 2 (1), Team 4 (1), Round 6: Team 2 (1)
-	 res: some_player_1 (1260), some_player_2 (1164), some_player_3 (1132)
-5 -- teams: Round 4: Team 6 (2), Round 5: Team 2 (1), Team 4 (1), Round 6: Team 4 (1)
-	 res: some_player_1 (1196), some_player_2 (1164), some_player_3 (1132)
-6 -- teams: Round 4: Team 6 (2), Round 5: Team 2 (1), Team 6 (2)
-	 res: some_player_1 (1260), some_player_2 (1164), some_player_3 (1132)
-7 -- teams: Round 4: Team 49 (12), Round 5: Team 61 (15), Team 4 (1), Round 6: Team 61 (15)
-	 res: some_player_3 (2764), some_player_2 (1324), some_player_1 (1132)
-8 -- teams: Round 4: Team 49 (12), Round 5: Team 61 (15), Team 4 (1), Round 6: Team 4 (1)
-	 res: some_player_3 (1804), some_player_2 (1324), some_player_1 (1132)
-9 -- teams: Round 4: Team 49 (12), Round 5: Team 61 (15), Team 49 (12)
-	 res: some_player_3 (2188), some_player_2 (1708), some_player_1 (1132)
-10 -- teams: Round 4: Team 49 (12), Round 5: Team 2 (1), Team 4 (1), Round 6: Team 2 (1)
-	 res: some_player_2 (1356), some_player_3 (1324), some_player_1 (1228)
-11 -- teams: Round 4: Team 49 (12), Round 5: Team 2 (1), Team 4 (1), Round 6: Team 4 (1)
-	 res: some_player_2 (1356), some_player_3 (1324), some_player_1 (1164)
-12 -- teams: Round 4: Team 49 (12), Round 5: Team 2 (1), Team 49 (12)
-	 res: some_player_2 (1740), some_player_3 (1708), some_player_1 (1164)
 =end
 def init_bracket_data
   {
-      '63': %w(127 127 127 127), # choose from 127 and 126
-      '62': %w(124 124 124 124), # choose from 125 and 124
-      '61': %w(122 122 122 122), # choose from 123 and 122
-      '60': %w(120 120 120 120), # choose from 121 and 120
-      '59': %w(118 118 118 118), # choose from 119 and 118
-      '58': %w(116 116 116 116), # choose from 117 and 116
-      '57': %w(114 114 114 114), # choose from 115 and 114
-      '56': %w(112 112 112 112), # choose from 113 and 112
-      '55': %w(110 110 110 110), # choose from 111 and 110
-      '54': %w(108 108 108 108), # choose from 109 and 108
-      '53': %w(106 106 106 106), # choose from 107 and 106
-      '52': %w(104 104 104 104), # choose from 105 and 104
-      '51': %w(102 102 102 102), # choose from 103 and 102
-      '50': %w(100 100 100 100), # choose from 101 and 100
-      '49': %w(98 98 98 98), # choose from 99 and 98
-      '48': %w(96 96 96 96), # choose from 97 and 96
-      '47': %w(94 94 94 94), # choose from 95 and 94
-      '46': %w(92 92 92 92), # choose from 93 and 92
-      '45': %w(90 90 90 90), # choose from 91 and 90
-      '44': %w(88 88 88 88), # choose from 89 and 88
-      '43': %w(86 86 86 86), # choose from 87 and 86
-      '42': %w(84 84 84 84), # choose from 85 and 84
-      '41': %w(82 82 82 82), # choose from 83 and 82
-      '40': %w(80 80 80 80), # choose from 81 and 80
-      '39': %w(78 78 78 78), # choose from 79 and 78
-      '38': %w(76 76 76 76), # choose from 77 and 76
-      '37': %w(74 74 74 74), # choose from 75 and 74
-      '36': %w(72 72 72 72), # choose from 73 and 72
-      '35': %w(70 70 70 70), # choose from 71 and 70
-      '34': %w(69 69 69 69), # choose from 69 and 68
-      '33': %w(66 66 66 66), # choose from 67 and 66
-      '32': %w(64 64 64 64), # choose from 65 and 64
-      '31': %w(127 127 127 127), # choose from 63 and 62
-      '30': %w(122 122 122 122), # choose from 61 and 60
-      '29': %w(118 118 118 118), # choose from 59 and 58
-      '28': %w(112 112 112 112), # choose from 57 and 56
-      '27': %w(110 110 110 110), # choose from 55 and 54
-      '26': %w(106 106 106 106), # choose from 53 and 52
-      '25': %w(102 102 102 102), # choose from 51 and 50
-      '24': %w(96 96 96 96), # choose from 49 and 48
-      '23': %w(94 94 94 94), # choose from 47 and 46
-      '22': %w(90 90 90 90), # choose from 45 and 44
-      '21': %w(86 86 86 86), # choose from 43 and 42
-      '20': %w(80 80 80 80), # choose from 41 and 40
-      '19': %w(78 78 78 78), # choose from 39 and 38
-      '18': %w(74 74 74 74), # choose from 37 and 36
-      '17': %w(69 69 69 69), # choose from 35 and 34
-      '16': %w(64 64 64 64), # choose from 33 and 32
-      '15': %w(127 127 127 127), # choose from 31 and 30
-      '14': %w(112 112 112 112), # choose from 29 and 28
-      '13': %w(110 110 110 110), # choose from 27 and 26
-      '12': %w(96 96 96 96), # choose from 25 and 24
-      '11': %w(94 94 94 94), # choose from 23 and 22
-      '10': %w(80 80 80 80), # choose from 21 and 20
-      '9': %w(78 78 78 78), # choose from 19 and 18
-      '8': %w(69 69 69 69), # choose from 17 and 16
-      '7': [nil, '127', '127', '127'], # choose from 15 and 14
-      '6': [nil, '96', '96', '96'], # choose from 13 and 12
-      '5': [nil, '80', '80', '80'], # choose from 11 and 10
-      '4': [nil, '69', '69', '69'], # choose from 9 and 8
-      '3': [nil, '96', '96', '127'], # choose from 7 and 6
-      '2': [nil, '69', '69', '69'], # choose from 5 and 4
-      '1': [nil, '96', '69', '127'] # choose from 3 and 2
-      # Possible scenarios:
-      # game 7: 64 (Team 3 (1)) or 127 (Team 61 (15))
-      # game 6: 110 (Team 7 (2)) or 96 (Team 2 (1))
-      # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
-      # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
-      # game 3: 110 (Team 7 (2)), 96 (Team 2 (1)) or 127 (Team 61 (15))
-      # game 2: 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), or 69 (Team 49 (12))
-      # game 1: 110 (Team 7 (2)), 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), 69 (Team 49 (12)),
-      #           96 (Team 2 (1)), or 127 (Team 61 (15))
+      98 => {
+          '63': %w(127 127 127 127), # choose from 127 and 126
+          '62': %w(124 124 124 124), # choose from 125 and 124
+          '61': %w(122 122 122 122), # choose from 123 and 122
+          '60': %w(120 120 120 120), # choose from 121 and 120
+          '59': %w(118 118 118 118), # choose from 119 and 118
+          '58': %w(116 116 116 116), # choose from 117 and 116
+          '57': %w(114 114 114 114), # choose from 115 and 114
+          '56': %w(112 112 112 112), # choose from 113 and 112
+          '55': %w(110 110 110 110), # choose from 111 and 110
+          '54': %w(108 108 108 108), # choose from 109 and 108
+          '53': %w(106 106 106 106), # choose from 107 and 106
+          '52': %w(104 104 104 104), # choose from 105 and 104
+          '51': %w(102 102 102 102), # choose from 103 and 102
+          '50': %w(100 100 100 100), # choose from 101 and 100
+          '49': %w(98 98 98 98), # choose from 99 and 98
+          '48': %w(96 96 96 96), # choose from 97 and 96
+          '47': %w(94 94 94 94), # choose from 95 and 94
+          '46': %w(92 92 92 92), # choose from 93 and 92
+          '45': %w(90 90 90 90), # choose from 91 and 90
+          '44': %w(88 88 88 88), # choose from 89 and 88
+          '43': %w(86 86 86 86), # choose from 87 and 86
+          '42': %w(84 84 84 84), # choose from 85 and 84
+          '41': %w(82 82 82 82), # choose from 83 and 82
+          '40': %w(80 80 80 80), # choose from 81 and 80
+          '39': %w(78 78 78 78), # choose from 79 and 78
+          '38': %w(76 76 76 76), # choose from 77 and 76
+          '37': %w(74 74 74 74), # choose from 75 and 74
+          '36': %w(72 72 72 72), # choose from 73 and 72
+          '35': %w(70 70 70 70), # choose from 71 and 70
+          '34': %w(69 69 69 69), # choose from 69 and 68
+          '33': %w(66 66 66 66), # choose from 67 and 66
+          '32': %w(64 64 64 64), # choose from 65 and 64
+          '31': %w(127 127 127 127), # choose from 63 and 62
+          '30': %w(122 122 122 122), # choose from 61 and 60
+          '29': %w(118 118 118 118), # choose from 59 and 58
+          '28': %w(112 112 112 112), # choose from 57 and 56
+          '27': %w(110 110 110 110), # choose from 55 and 54
+          '26': %w(106 106 106 106), # choose from 53 and 52
+          '25': %w(102 102 102 102), # choose from 51 and 50
+          '24': %w(96 96 96 96), # choose from 49 and 48
+          '23': %w(94 94 94 94), # choose from 47 and 46
+          '22': %w(90 90 90 90), # choose from 45 and 44
+          '21': %w(86 86 86 86), # choose from 43 and 42
+          '20': %w(80 80 80 80), # choose from 41 and 40
+          '19': %w(78 78 78 78), # choose from 39 and 38
+          '18': %w(74 74 74 74), # choose from 37 and 36
+          '17': %w(69 69 69 69), # choose from 35 and 34
+          '16': %w(64 64 64 64), # choose from 33 and 32
+          '15': %w(127 127 127 127), # choose from 31 and 30
+          '14': %w(112 112 112 112), # choose from 29 and 28
+          '13': %w(110 110 110 110), # choose from 27 and 26
+          '12': %w(96 96 96 96), # choose from 25 and 24
+          '11': %w(94 94 94 94), # choose from 23 and 22
+          '10': %w(80 80 80 80), # choose from 21 and 20
+          '9': %w(78 78 78 78), # choose from 19 and 18
+          '8': %w(69 69 69 69), # choose from 17 and 16
+          '7': [nil, '127', '127', '127'], # choose from 15 and 14
+          '6': [nil, '96', '96', '96'], # choose from 13 and 12
+          '5': [nil, '80', '80', '80'], # choose from 11 and 10
+          '4': [nil, '69', '69', '69'], # choose from 9 and 8
+          '3': [nil, '96', '96', '127'], # choose from 7 and 6
+          '2': [nil, '69', '69', '69'], # choose from 5 and 4
+          '1': [nil, '96', '69', '127'] # choose from 3 and 2
+          # Possible scenarios:
+          # game 7: 64 (Team 3 (1)) or 127 (Team 61 (15))
+          # game 6: 110 (Team 7 (2)) or 96 (Team 2 (1))
+          # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
+          # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
+          # game 3: 64 (Team 3 (1)), 110 (Team 7 (2)), 96 (Team 2 (1)) or 127 (Team 61 (15))
+          # game 2: 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), or 69 (Team 49 (12))
+          # game 1: 64 (Team 3 (1)), 110 (Team 7 (2)), 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), 69 (Team 49 (12)),
+          #           96 (Team 2 (1)), or 127 (Team 61 (15))
+      },
+      58 => {
+          '63': %w(127 127 127 127), # choose from 127 and 126
+          '62': %w(124 124 124 124), # choose from 125 and 124
+          '61': %w(122 122 122 122), # choose from 123 and 122
+          '60': %w(120 120 120 120), # choose from 121 and 120
+          '59': %w(118 118 118 118), # choose from 119 and 118
+          '58': %w(116 116 116 116), # choose from 117 and 116
+          '57': %w(114 114 114 114), # choose from 115 and 114
+          '56': %w(112 112 112 112), # choose from 113 and 112
+          '55': %w(110 110 110 110), # choose from 111 and 110
+          '54': %w(108 108 108 108), # choose from 109 and 108
+          '53': %w(106 106 106 106), # choose from 107 and 106
+          '52': %w(104 104 104 104), # choose from 105 and 104
+          '51': %w(102 102 102 102), # choose from 103 and 102
+          '50': %w(100 100 100 100), # choose from 101 and 100
+          '49': %w(98 98 98 98), # choose from 99 and 98
+          '48': %w(96 96 96 96), # choose from 97 and 96
+          '47': %w(94 94 94 94), # choose from 95 and 94
+          '46': %w(92 92 92 92), # choose from 93 and 92
+          '45': %w(90 90 90 90), # choose from 91 and 90
+          '44': %w(88 88 88 88), # choose from 89 and 88
+          '43': %w(86 86 86 86), # choose from 87 and 86
+          '42': %w(84 84 84 84), # choose from 85 and 84
+          '41': %w(82 82 82 82), # choose from 83 and 82
+          '40': %w(80 80 80 80), # choose from 81 and 80
+          '39': %w(78 78 78 78), # choose from 79 and 78
+          '38': %w(76 76 76 76), # choose from 77 and 76
+          '37': %w(74 74 74 74), # choose from 75 and 74
+          '36': %w(72 72 72 72), # choose from 73 and 72
+          '35': %w(70 70 70 70), # choose from 71 and 70
+          '34': %w(69 69 69 69), # choose from 69 and 68
+          '33': %w(66 66 66 66), # choose from 67 and 66
+          '32': %w(64 64 64 64), # choose from 65 and 64
+          '31': %w(127 127 127 127), # choose from 63 and 62
+          '30': %w(122 122 122 122), # choose from 61 and 60
+          '29': %w(118 118 118 118), # choose from 59 and 58
+          '28': %w(112 112 112 112), # choose from 57 and 56
+          '27': %w(110 110 110 110), # choose from 55 and 54
+          '26': %w(106 106 106 106), # choose from 53 and 52
+          '25': %w(102 102 102 102), # choose from 51 and 50
+          '24': %w(96 96 96 96), # choose from 49 and 48
+          '23': %w(94 94 94 94), # choose from 47 and 46
+          '22': %w(90 90 90 90), # choose from 45 and 44
+          '21': %w(86 86 86 86), # choose from 43 and 42
+          '20': %w(80 80 80 80), # choose from 41 and 40
+          '19': %w(78 78 78 78), # choose from 39 and 38
+          '18': %w(74 74 74 74), # choose from 37 and 36
+          '17': %w(69 69 69 69), # choose from 35 and 34
+          '16': %w(64 64 64 64), # choose from 33 and 32
+          '15': %w(127 127 127 127), # choose from 31 and 30
+          '14': %w(112 112 112 112), # choose from 29 and 28
+          '13': %w(110 110 110 110), # choose from 27 and 26
+          '12': %w(96 96 96 96), # choose from 25 and 24
+          '11': %w(94 94 94 94), # choose from 23 and 22
+          '10': %w(80 80 80 80), # choose from 21 and 20
+          '9': %w(78 78 78 78), # choose from 19 and 18
+          '8': %w(69 69 69 69), # choose from 17 and 16
+          '7': %w(127 127 127 127), # choose from 15 and 14
+          '6': [nil, '96', '96', '96'], # choose from 13 and 12
+          '5': [nil, '80', '80', '80'], # choose from 11 and 10
+          '4': [nil, '69', '69', '69'], # choose from 9 and 8
+          '3': [nil, '96', '96', '127'], # choose from 7 and 6
+          '2': [nil, '69', '69', '69'], # choose from 5 and 4
+          '1': [nil, '96', '69', '127'] # choose from 3 and 2
+          # Possible scenarios:
+          # game 6: 110 (Team 7 (2)) or 96 (Team 2 (1))
+          # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
+          # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
+          # game 3: 110 (Team 7 (2)), 96 (Team 2 (1)) or 127 (Team 61 (15))
+          # game 2: 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), or 69 (Team 49 (12))
+          # game 1: 110 (Team 7 (2)), 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), 69 (Team 49 (12)),
+          #           96 (Team 2 (1)), or 127 (Team 61 (15))
+      },
+      10 => {
+              '63': %w(126 127 127 127), # choose from 127 and 126
+              '62': %w(124 124 124 124), # choose from 125 and 124
+              '61': %w(122 122 122 122), # choose from 123 and 122
+              '60': %w(120 120 120 120), # choose from 121 and 120
+              '59': %w(118 118 118 118), # choose from 119 and 118
+              '58': %w(116 116 116 116), # choose from 117 and 116
+              '57': %w(114 114 114 114), # choose from 115 and 114
+              '56': %w(112 112 112 112), # choose from 113 and 112
+              '55': %w(110 110 110 110), # choose from 111 and 110
+              '54': %w(108 108 108 108), # choose from 109 and 108
+              '53': %w(106 106 106 106), # choose from 107 and 106
+              '52': %w(104 104 104 104), # choose from 105 and 104
+              '51': %w(102 102 102 102), # choose from 103 and 102
+              '50': %w(100 100 100 100), # choose from 101 and 100
+              '49': %w(98 98 98 98), # choose from 99 and 98
+              '48': %w(96 96 96 96), # choose from 97 and 96
+              '47': %w(94 94 94 94), # choose from 95 and 94
+              '46': %w(92 92 92 92), # choose from 93 and 92
+              '45': %w(90 90 90 90), # choose from 91 and 90
+              '44': %w(88 88 88 88), # choose from 89 and 88
+              '43': %w(86 86 86 86), # choose from 87 and 86
+              '42': %w(84 84 84 84), # choose from 85 and 84
+              '41': %w(82 82 82 82), # choose from 83 and 82
+              '40': %w(80 80 80 80), # choose from 81 and 80
+              '39': %w(78 78 78 78), # choose from 79 and 78
+              '38': %w(76 76 76 76), # choose from 77 and 76
+              '37': %w(74 74 74 74), # choose from 75 and 74
+              '36': %w(72 72 72 72), # choose from 73 and 72
+              '35': %w(70 70 70 70), # choose from 71 and 70
+              '34': %w(68 69 69 69), # choose from 69 and 68
+              '33': %w(66 66 66 66), # choose from 67 and 66
+              '32': %w(64 64 64 64), # choose from 65 and 64
+              '31': %w(124 127 127 127), # choose from 63 and 62
+              '30': %w(122 122 122 122), # choose from 61 and 60
+              '29': %w(118 118 118 118), # choose from 59 and 58
+              '28': %w(112 112 112 112), # choose from 57 and 56
+              '27': %w(110 110 110 110), # choose from 55 and 54
+              '26': %w(106 106 106 106), # choose from 53 and 52
+              '25': %w(102 102 102 102), # choose from 51 and 50
+              '24': %w(96 96 96 96), # choose from 49 and 48
+              '23': %w(94 94 94 94), # choose from 47 and 46
+              '22': %w(90 90 90 90), # choose from 45 and 44
+              '21': %w(86 86 86 86), # choose from 43 and 42
+              '20': %w(80 80 80 80), # choose from 41 and 40
+              '19': %w(78 78 78 78), # choose from 39 and 38
+              '18': %w(74 74 74 74), # choose from 37 and 36
+              '17': %w(70 69 69 69), # choose from 35 and 34
+              '16': %w(64 64 64 64), # choose from 33 and 32
+              '15': %w(122 127 127 127), # choose from 31 and 30
+              '14': %w(112 112 112 112), # choose from 29 and 28
+              '13': %w(110 110 110 110), # choose from 27 and 26
+              '12': %w(96 96 96 96), # choose from 25 and 24
+              '11': %w(94 94 94 94), # choose from 23 and 22
+              '10': %w(80 80 80 80), # choose from 21 and 20
+              '9': %w(78 78 78 78), # choose from 19 and 18
+              '8': %w(70 69 69 69), # choose from 17 and 16
+              '7': %w(112 127 127 127), # choose from 15 and 14
+              '6': %w(110 96 96 96), # choose from 13 and 12
+              '5': [nil, '94', '80', '80'], # choose from 11 and 10
+              '4': [nil, '69', '69', '69'], # choose from 9 and 8
+              '3': [nil, '96', '96', '127'], # choose from 7 and 6
+              '2': [nil, '69', '69', '80'], # choose from 5 and 4
+              '1': [nil, '96', '69', '127'] # choose from 3 and 2
+              # Possible scenarios:
+              # game 5: 94 (Team 8 (2)) or 80 (Team 4 (1))
+              # game 4: 78 (Team 6 (2)) or 69 (Team 49 (12))
+              # game 3: 110 (Team 7 (2)), 96 (Team 2 (1)) or 127 (Team 61 (15))
+              # game 2: 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), or 69 (Team 49 (12))
+              # game 1: 110 (Team 7 (2)), 94 (Team 8 (2)), 80 (Team 4 (1)), 78 (Team 6 (2)), 69 (Team 49 (12)),
+              #           96 (Team 2 (1)), or 127 (Team 61 (15))
+      }
   }
 end
 
-def init_brackets
+def init_brackets(bracket_key)
   admin_and_users = init_admin_and_players # admin at 0, users 1,2, and 3
   ActiveRecord::Base.transaction do
-    init_bracket_data.each do |label, per_user_data|
+    init_bracket_data[bracket_key].each do |label, per_user_data|
       per_user_data.each_with_index do |users_team, i|
         next if users_team.nil?
         user = admin_and_users[i]
@@ -180,12 +300,23 @@ def init_brackets
         game.save!
       end
     end
+    admin_and_users.each do |u|
+      u.bracket.save!
+    end
   end
-  init_bracket_data.select { |_k, g| g[0].nil? }.length
+  init_bracket_data[bracket_key].select { |_k, g| g[0].nil? }.length
 end
 
 def init_admin_and_players
-  admin = create :admin
+  User.all.delete_all
+  admin = create(:admin) # Gotta figure out how to reinitialize the Admin's bracket, so we can call that.
+  ActiveRecord::Base.transaction do
+    admin.bracket.games.each do |g|
+      g.winner = nil
+      g.save!
+    end
+    admin.bracket.save!
+  end
   users = []
   3.times do
     users << create(:random_user)
