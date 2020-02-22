@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'admin/show'
+  #get 'admin/show'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'static_pages#home'
@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get 'scenarios', to: 'brackets#scenarios'
   put 'lock_names', to: 'teams#lock_names'
   put 'lock_players_brackets', to: 'brackets#lock_brackets'
+
+  mount ActionCable.server => '/cable'
 
   namespace :admin do
     # Directs /admin/products/* to Admin::ProductsController

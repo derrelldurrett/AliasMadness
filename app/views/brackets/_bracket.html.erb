@@ -939,7 +939,11 @@
       <td></td>
       <td></td>
       <td class='right_connect'></td>
-      <td></td>
+      <td class="chat-header" style="position: absolute;">
+        <div id="chat-header-anchor" style="position: relative; text-align: center;">
+          <h3>Heckle Forum</h3>
+        </div>
+      </td>
       <td></td>
       <td></td>
       <td></td>
@@ -951,14 +955,18 @@
                  locals: {form: f, bracket: @bracket, node: '120'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
                  locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '44'}
       %>
       <td></td>
       <td class='right_connect'></td>
-      <td></td>
+      <td id="chats-received-anchor" style="position: absolute;">
+        <%= render partial: 'brackets/chats/chats_received',
+                   locals: {user: @user, heckles: @heckles}
+        %>
+      </td>
       <td></td>
       <td></td>
       <td></td>
@@ -970,7 +978,7 @@
       %>
       <td class='left_connect'></td>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '89'}
       %>
@@ -989,7 +997,7 @@
                  locals: {form: f, bracket: @bracket, node: '121'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
@@ -1008,7 +1016,7 @@
       <td class='left_connect'></td>
       <td></td>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '90'}
       %>
@@ -1027,7 +1035,7 @@
                  locals: {form: f, bracket: @bracket, node: '122'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
                  locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '45'}
@@ -1046,7 +1054,7 @@
       %>
       <td class='left_connect'></td>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '91'}
       %>
@@ -1065,7 +1073,7 @@
                  locals: {form: f, bracket: @bracket, node: '123'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <td></td>
       <td></td>
       <td class='right_connect'></td>
@@ -1084,7 +1092,7 @@
       <td></td>
       <td></td>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '92'}
       %>
@@ -1103,7 +1111,7 @@
                  locals: {form: f, bracket: @bracket, node: '124'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
                  locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '46'}
@@ -1122,7 +1130,7 @@
       %>
       <td class='left_connect'></td>
     </TR>
-    <TR>
+    <TR class='chat-receipt'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '93'}
       %>
@@ -1141,7 +1149,7 @@
                  locals: {form: f, bracket: @bracket, node: '125'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-border'>
       <td></td>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
@@ -1160,7 +1168,7 @@
       <td class='left_connect'></td>
       <td></td>
     </TR>
-    <TR>
+    <TR class='chat-border'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '94'}
       %>
@@ -1179,14 +1187,18 @@
                  locals: {form: f, bracket: @bracket, node: '126'}
       %>
     </TR>
-    <TR>
+    <TR class='chat-sending'>
       <td class='right_connect'></td>
       <%= render partial: 'brackets/game',
                  locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '47'}
       %>
       <td></td>
       <td></td>
-      <td></td>
+      <td id="chat-sending-anchor" style="position: absolute;">
+        <%= render partial: 'brackets/chats/chat_to_send',
+                   locals: {user: @user}
+        %>
+      </td>
       <td></td>
       <td></td>
       <td></td>
@@ -1198,7 +1210,7 @@
       %>
       <td class='left_connect'></td>
     </TR>
-    <TR>
+    <TR class='chat-sending'>
       <%= render partial: 'brackets/team',
                  locals: {form: f, bracket: @bracket, node: '95'}
       %>

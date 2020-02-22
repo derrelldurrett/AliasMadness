@@ -18,7 +18,7 @@ module GamesHelper
   GAME_DISPLAY_CLASS = 'game_display'
 
   def build_game_class(game, node, bracket_locked)
-    GAME_DISPLAY_CLASS + left_or_right_node(node) + color_winner(game.winner, node, bracket_locked)
+    [GAME_DISPLAY_CLASS, left_or_right_node(node), color_winner(game.winner, node, bracket_locked)] * ' '.freeze
   end
 
   GAME_CHOICE_DEFAULT = 'Choose winner...'

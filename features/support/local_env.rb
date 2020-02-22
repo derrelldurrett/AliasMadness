@@ -17,7 +17,22 @@ require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'webdrivers/chromedriver'
 Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+  # Turn on browser logs
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      loggingPrefs: {
+          browser: 'ALL'
+      },
+      chromeOptions: {
+          w3c: false #,
+          #          args: %w(headless)
+      },
+  )
+
+  Capybara::Selenium::Driver.new(
+      app,
+      browser: :chrome,
+      desired_capabilities: capabilities
+  )
 end
 
 # Capybara.register_driver :headless_chrome do |app|
@@ -31,8 +46,12 @@ end
 # end
 #
 # Capybara.javascript_driver = :headless_chrome
-chosen_capybara_driver = :chrome # :culerity # :webkit # :poltergeist
+chosen_capybara_driver = :chrome
+Capybara.default_driver = chosen_capybara_driver
 Capybara.javascript_driver = chosen_capybara_driver
+Capybara::Chromedriver::Logger::TestHooks.for_rspec!
+Capybara::Chromedriver::Logger.raise_js_errors = true
+Capybara.server = :puma
 Capybara.default_selector = :css
 Capybara.exact= true
 Capybara.configure do |config|

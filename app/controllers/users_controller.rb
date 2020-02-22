@@ -30,6 +30,7 @@ class UsersController < ApplicationController
         @bracket = @user.bracket
         @players = get_players_sorted_by_score
         @disabled = current_user != @user
+        @heckles = Heckle.all
       rescue ActiveRecord::RecordNotFound => e
         puts e.message
         all = User.all

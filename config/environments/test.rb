@@ -39,4 +39,9 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # ActionCable is apparently a difficult thing to configure for the test env...
+  config.action_cable.mount_path = '/cable'
+  # config.action_cable.url = 'wss://example.com/cable'
+  config.action_cable.disable_request_forgery_protection = true
 end

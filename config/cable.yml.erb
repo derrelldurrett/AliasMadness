@@ -1,6 +1,6 @@
 redis: &default
   adapter: redis
-  url: 
+  url: <%= ENV['REDIS_URL'] %>
 
 production:
   channel_prefix: AliasMadness_production

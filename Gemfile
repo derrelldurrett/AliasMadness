@@ -28,7 +28,7 @@ gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read
 gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
 
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
+gem 'redis'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -37,6 +37,7 @@ group :development, :test do
   #gem 'bootstrap-generators'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara' # Adds support for Capybara system testing and selenium driver
+  gem 'capybara-chromedriver-logger'
   gem 'capybara-screenshot'
   gem 'webdrivers'
   gem 'cucumber-rails', require: false

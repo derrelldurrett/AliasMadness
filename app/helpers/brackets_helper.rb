@@ -26,25 +26,25 @@ module BracketsHelper
     if (n % 2) == 1
       case n
         when 96..127
-          node_string=' left_connect'
+          node_string=' left_connect'.freeze
         when 64..95
-          node_string=' right_connect'
+          node_string=' right_connect'.freeze
         when 48..63
-          node_string=' left_connect'
+          node_string=' left_connect'.freeze
         when 32..47
-          node_string=' right_connect'
+          node_string=' right_connect'.freeze
         when 24..31
-          node_string=' left_connect'
+          node_string=' left_connect'.freeze
         when 16..23
-          node_string=' right_connect'
+          node_string=' right_connect'.freeze
         when 12..15
-          node_string=' left_connect'
+          node_string=' left_connect'.freeze
         when 8..11
-          node_string=' right_connect'
+          node_string=' right_connect'.freeze
         when 6, 7, 3
-          node_string=' left_connect'
+          node_string=' left_connect'.freeze
         when 4, 5, 2
-          node_string=' right_connect'
+          node_string=' right_connect'.freeze
       end
     end
     node_string
