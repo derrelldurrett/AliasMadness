@@ -7,8 +7,8 @@ Given /\A'([^']+)' who is logged in\z/ do |login|
     when /(?i:admin)/
       login_as_admin
     when /(?i:(\binvited player))/
-      login = (get_players.nil? or get_players.empty?) ? create_a_player : get_players.first
-      login_as_player login
+      @login = (get_players.nil? or get_players.empty?) ? create_a_player : get_players.first
+      login_as_player @login
   end
 end
 

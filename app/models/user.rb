@@ -10,11 +10,11 @@ class User < ApplicationRecord
   before_save :create_remember_token
   before_save :create_initial_bracket
   after_save :attach_user_to_bracket
+  after_create_commit :create_chat_name
   has_secure_password
   validates :name, presence: true, length: { maximum: 50, minimum: 1 }
   class EmailValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
-      # puts %q(Checking user )+record.name+%Q( [id: #{record.id}])+%q( with email )+value
       unless value&.match?(Regexp.new(%q(\A([^@\s]+)@((?:[-.a-z0-9]+)\.[a-z]{2,})\z), Regexp::IGNORECASE))
         record.errors.add attribute,
                           (options[:message] || value + %q( is not an email))
@@ -61,6 +61,24 @@ class User < ApplicationRecord
     role == :admin.to_s
   end
 
+  # Kinda weird we'd need this to be public, but you shouldn't call it.
+  def identify_unique_chat_name(existing_names, min_tokens)
+    n_tokens = min_tokens
+    tokens = name.split(/\s+/)
+    try_name = tokens[0,n_tokens] * ' '
+    fix_ids = []
+    while existing_names.key? try_name and not existing_names[try_name][:id] == id do
+      fix_ids << existing_names[try_name]
+      try_name = tokens[0,n_tokens] * ' '
+      n_tokens += 1
+    end
+    update!(chat_name: try_name)
+    existing_names[try_name] = {id: id, name: name}
+    fix_ids.each do |fix_id_h|
+      User.find(fix_id_h[:id]).identify_unique_chat_name(existing_names, min_tokens+1)
+    end
+  end
+
   private
 
   def resource_params
@@ -92,5 +110,16 @@ class User < ApplicationRecord
 
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
+  end
+
+  # Do this so that it's unique, and modify other names as necessary to get it unique using whole tokens, which must
+  # be at least two characters long.
+  def create_chat_name
+    existing_names_with_id = User.select('id, name, chat_name').each_with_object({}) do |u, e|
+      next if self == u
+      u.chat_name ||= u.name.split(/\s+/).first
+      e[u.chat_name]= { id: u.id, name: u.name }
+    end
+    identify_unique_chat_name(existing_names_with_id, 1)
   end
 end

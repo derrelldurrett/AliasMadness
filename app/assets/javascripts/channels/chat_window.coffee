@@ -8,7 +8,7 @@ class ChatWindowDriver
     curWidth -= 20 # Because of the margins we want
     $('div[id^="chat"]').each (index, element) =>
       $(element).css("width", curWidth)
-    $('textarea#chat-text').each (index, element) =>
+    $('div#chat-text').each (index, element) =>
       $(element).css("width", curWidth)
     headerHeight = 0
     $('td.chat-header').each (index, element) =>
@@ -22,14 +22,14 @@ class ChatWindowDriver
     $('tr.chat-sending').each (index, element) =>
       sendingHeight += $(element).height()
     $('div#chat-send').css('height', sendingHeight)
+    $('div#chat-text').css('height', sendingHeight)
 
   @sendChat: (event) ->
     if event.keyCode is 13 # return/enter => send
-      Chats.forum.heckle event.target.value
-      event.target.value = ''
+      Chats.forum.heckle event.target.textContent, event.target.dataset.uid
+      event.target.textContent = ''
       event.preventDefault()
 
 $ ->
-  console.log 'can we see this message?'
   ChatWindowDriver.setChatWidths()
   $('#chat-text').on 'keypress', (e) => ChatWindowDriver.sendChat(e)

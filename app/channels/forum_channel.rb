@@ -8,6 +8,6 @@ class ForumChannel < ApplicationCable::Channel
   end
 
   def heckle(data)
-    Heckle.create! content: data['message']
+    Heckle.create! content: data['message'], from_id: data['id']
   end
 end

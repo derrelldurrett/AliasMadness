@@ -10,6 +10,7 @@ Given %q(The Admin's email address and password) do
 end
 
 Then 'The players brackets should be locked' do
-  brackets = User.where.not(bracket_locked: false)
+  brackets = User.where(role: :player, bracket_locked: false)
+  puts "Unlocked player brackets: #{brackets.length}"
   expect(brackets).to be_empty
 end

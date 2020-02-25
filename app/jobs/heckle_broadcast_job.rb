@@ -11,6 +11,6 @@ class HeckleBroadcastJob < ApplicationJob
   private
 
   def render_heckle(heckle)
-    ApplicationController.renderer.render(partial: 'heckles/heckle', locals: { heckle: heckle })
+    ApplicationController.renderer.render partial: 'heckles/heckle', locals: { heckle: heckle }
   end
 end

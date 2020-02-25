@@ -376,6 +376,11 @@ def build_css_for_game_select(label)
   %Q(#game_#{label})
 end
 
+def choose_another_player
+  exclude = logged_in_player.id
+  User.where(role: :player).where.not(id: exclude).first
+end
+
 module Enumerable
 # monkey patch Enumerable
   def each_other_id(reject_this)

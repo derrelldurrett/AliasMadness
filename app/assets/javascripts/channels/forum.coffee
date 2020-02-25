@@ -8,5 +8,5 @@ Chats.forum = Chats.cable.subscriptions.create "ForumChannel",
   received: (data) ->
     $('#chats-received').append data.heckle
 
-  heckle: (merciless_heckle) ->
-    @perform 'heckle', message: merciless_heckle
+  heckle: (merciless_heckle, uid) ->
+    @perform 'heckle', message: merciless_heckle, id: uid

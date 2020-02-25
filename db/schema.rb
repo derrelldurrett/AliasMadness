@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_20_193249) do
+ActiveRecord::Schema.define(version: 2020_02_23_231422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 2020_02_20_193249) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "from_id"
+    t.integer "to_id"
   end
 
   create_table "scenarios", force: :cascade do |t|
@@ -83,6 +85,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_193249) do
     t.string "email"
     t.integer "current_score", default: 0
     t.boolean "bracket_locked", default: false
+    t.string "chat_name"
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 

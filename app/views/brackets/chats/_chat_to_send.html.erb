@@ -1,6 +1,6 @@
 <div id="chat-to-send-container" style="position:relative; margin: 10px;">
   <div id="chat-send" style="position:relative; z-index: auto;">
     <label for="chat-send">Send</label>
-    <textarea id="chat-text" style="position:relative; z-index: auto;"></textarea>
+    <div contenteditable="true" data-uid="<%= user.id %>" id="chat-text" style="position:relative; z-index: auto; border: 1px solid #000; margin: 2px; overflow: auto;"></div>
   </div>
 </div>

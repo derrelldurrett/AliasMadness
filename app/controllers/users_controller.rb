@@ -17,7 +17,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    #reset_session
     @user = User.find resource_params(:id)
     @user.password= resource_params()[:password]
     session_authenticate(@user)
