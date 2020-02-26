@@ -4,7 +4,7 @@ require_relative 'application'
 ActionMailer::Base.smtp_settings = {
     :user_name => ENV['ALIASMADNESS_SENDGRID_USERNAME'],
     :password => ENV['ALIASMADNESS_SENDGRID_PASSWORD'],
-    :domain => ENV['ALIASMADNESS_DOMAIN'],
+    :domain => 'smtp.sendgrid.net',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,

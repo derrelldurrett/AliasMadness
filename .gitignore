@@ -10,7 +10,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /log/*/**
-.heroku_env
+/config/secrets.yml
 /tmp/*
 /log/.keep
 /tmp/.keep

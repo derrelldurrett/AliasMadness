@@ -5,7 +5,7 @@ redis: &default
 production:
   channel_prefix: AliasMadness_production
   adapter: redis
-  url: redis://localhost:6379/1
+  url:
 
 development: *default
 test:

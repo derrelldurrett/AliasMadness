@@ -3,20 +3,22 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  username: <%= ENV["ALIASMADNESS_DB_USER"] %>
-  password: <%= ENV["ALIASMADNESS_DB_PASSWORD"] %>
 #
 
 development:
   <<: *default
   database: aliasmadness_development
-  
+  username: <%= ENV["ALIASMADNESS_DB_USER"] %>
+  password: <%= ENV["ALIASMADNESS_DB_PASSWORD"] %>
+
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test: &test
   <<: *default
   database: aliasmadness_test
+  username: <%= ENV["ALIASMADNESS_DB_USER"] %>
+  password: <%= ENV["ALIASMADNESS_DB_PASSWORD"] %>
 
 production:
   <<: *default
