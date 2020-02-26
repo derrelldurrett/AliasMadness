@@ -26,7 +26,7 @@ class ChatWindowDriver
 
   @sendChat: (event) ->
     if event.keyCode is 13
-      if event.target.textContent is not ''
+      unless event.target.textContent is ''
         Chats.forum.heckle event.target.textContent, event.target.dataset.uid
       event.target.textContent = ''
       event.preventDefault()
