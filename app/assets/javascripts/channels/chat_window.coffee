@@ -25,8 +25,9 @@ class ChatWindowDriver
     $('div#chat-text').css('height', sendingHeight)
 
   @sendChat: (event) ->
-    if event.keyCode is 13 # return/enter => send
-      Chats.forum.heckle event.target.textContent, event.target.dataset.uid
+    if event.keyCode is 13
+      if event.target.textContent is not ''
+        Chats.forum.heckle event.target.textContent, event.target.dataset.uid
       event.target.textContent = ''
       event.preventDefault()
 
