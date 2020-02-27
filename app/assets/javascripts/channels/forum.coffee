@@ -6,7 +6,7 @@ Chats.forum = Chats.cable.subscriptions.create "ForumChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    $('#chats-received').append data.heckle
+    $(data.heckle).insertBefore $('#chat-anchor')
 
   heckle: (merciless_heckle, uid) ->
     @perform 'heckle', message: merciless_heckle, id: uid

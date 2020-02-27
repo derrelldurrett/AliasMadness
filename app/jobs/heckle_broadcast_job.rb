@@ -6,11 +6,11 @@ class HeckleBroadcastJob < ApplicationJob
     # get the channel from the heckle object being passed in? Or at least compute it?
     ActionCable.server.broadcast "forum_channel", heckle: render_heckle(heckle)
   end
-  #handle_asynchronously :perform
 
   private
 
   def render_heckle(heckle)
-    ApplicationController.renderer.render partial: 'heckles/heckle', locals: { heckle: heckle }
+    u = User.find(heckle.from_id)
+    ApplicationController.renderer.render partial: 'heckles/heckle', locals: { heckle: heckle, this_user: u }
   end
 end

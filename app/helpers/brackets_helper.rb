@@ -55,10 +55,16 @@ module BracketsHelper
   end
 
   def heckler(id)
-    "<b>@#{User.find(id).chat_name}</b>".html_safe
+    "<b>@#{User.find(id).chat_name}: </b>".html_safe
   end
 
   def tag_targets(heckle)
     heckle.content # until we figure out how to deal with the fact there could be more than one tag
+  end
+
+  def color_div_if_sender(user, heckle)
+    always = ' overflow-anchor: none;'.freeze
+    as_safe = user.id == heckle.from_id ? %Q(background-color: #CCE6FF;#{always}) : always
+    as_safe.html_safe
   end
 end
