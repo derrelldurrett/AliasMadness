@@ -4,7 +4,7 @@ When 'I view scenarios' do
   expect(page).to have_content('Scenario List')
 end
 
-Then("I should see Round {int} in two Scenarios and Round {int} and Round {int} in eight Scenarios") do |int, int2, int3|
+Then("I should see only Round {int} in two Scenarios and Round {int} and Round {int} in eight Scenarios") do |int, int2, int3|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
