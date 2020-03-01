@@ -1,6 +1,8 @@
-<div id="chat-to-send-container" style="position:relative; margin: 10px;">
-  <div id="chat-send" style="position:relative; z-index: auto;">
+<div id="chat-to-send-container">
+  <div id="chat-send">
     <label for="chat-send">Send</label>
-    <div contenteditable="true" data-uid="<%= user.id %>" id="chat-text" style="position:relative; z-index: auto; border: 1px solid #000; margin: 2px; overflow: auto;"></div>
+    <div id="chat-text" contenteditable="true" data-uid="<%= user.id %>"
+         data-chat-name-lookup="<%= chat_names_as_json %>">
+    </div>
   </div>
 </div>

@@ -939,8 +939,8 @@
       <td></td>
       <td></td>
       <td class='right_connect'></td>
-      <td class="chat-header" style="position: absolute;">
-        <div id="chat-header-anchor" style="position: relative; text-align: center;">
+      <td class="chat-header">
+        <div id="chat-header-anchor">
           <h3>Heckle Forum</h3>
         </div>
       </td>
@@ -962,7 +962,7 @@
       %>
       <td></td>
       <td class='right_connect'></td>
-      <td id="chats-received-anchor" style="position: absolute;">
+      <td id="chats-received-anchor">
         <%= render partial: 'brackets/chats/chats_received',
                    locals: {user: @user, heckles: @heckles}
         %>
@@ -1194,7 +1194,7 @@
       %>
       <td></td>
       <td></td>
-      <td id="chat-sending-anchor" style="position: absolute;">
+      <td id="chat-sending-anchor">
         <%= render partial: 'brackets/chats/chat_to_send',
                    locals: {user: @user}
         %>

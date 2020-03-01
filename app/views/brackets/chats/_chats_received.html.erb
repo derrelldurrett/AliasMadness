@@ -1,7 +1,7 @@
-<div id="chats-received-container" style="position:relative; margin: 10px;">
+<div id="chats-received-container">
   <label for="chats-received">Rec'd</label>
-  <div id="chats-received" style="position:relative; border: 1px solid #000; margin: 2px; overflow: auto; z-index: auto">
+  <div id="chats-received">
     <%= render partial: 'heckles/heckle', collection: heckles, as: :heckle, locals: {this_user: user} %>
-    <div id="chat-anchor" style="overflow-anchor: auto; height: 1px"></div>
+    <div id="chat-anchor"></div>
   </div>
 </div>

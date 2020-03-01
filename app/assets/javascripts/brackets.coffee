@@ -52,22 +52,18 @@ getBracketEntry = (bId, n) ->
 loadBracket = (e) ->
   loadBracketData()
   loadBracketAncestors()
-  return
 
 loadBracketAncestors = ->
   ancestors = $('table.bracket').data 'ancestors'
   StoreWrapper.setAncestorData(n, a) for n, a of ancestors
-  return
 
 loadBracketData = ->
-# Using jQuery.one() means we *must* clear the data-bracket attribute
-# before continuing.
   data = $('table.bracket').data 'bracket'
   bracketId = data.id
   StoreWrapper.localStore(bracketId, node) for node in data.nodes
+  # Using jQuery.one() means we *must* clear the data-bracket attribute before continuing.
   $('table.bracket').data 'bracket', ''
   $('table.bracket').data 'bracket_id', bracketId
-  return
 
 lockPlayersBrackets = (e) ->
   e.preventDefault()
@@ -124,7 +120,6 @@ updateLocalBracket = (input) ->
   while  d = StoreWrapper.getDescendant n
     buildGameNode(bId, d)
     n = d
-  return
 
 updateOptions = (target) ->
   node = $(target).attr 'node'
@@ -132,7 +127,6 @@ updateOptions = (target) ->
   bId = $('table.bracket').data 'bracket_id'
   winner = $(target).find(':selected').text() # Store.get(buildLocalStoreLabel(bId,winnerLabel,'name'))
   updateLocalBracket({node: node, winner: winner, bracket_id: bId, winners_label: winnerLabel})
-  return
 
 wipeTextField = (targetNode) ->
   targetNode.value = ''

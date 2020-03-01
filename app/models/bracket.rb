@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'assets/rgl/directed_adjacency_graph'
-require 'initialize_bracket/bracket_template'
-require 'helpers/hash_helper'
-require 'helpers/hash_class_helper'
-require 'helpers/json_client_helper'
-require 'helpers/json_client_class_helper'
 class Bracket < ApplicationRecord
+  require 'assets/rgl/directed_adjacency_graph'
+  require 'initialize_bracket/bracket_template'
+  require 'helpers/hash_helper'
+  require 'helpers/hash_class_helper'
+  require 'helpers/json_client_helper'
+  require 'helpers/json_client_class_helper'
   @@cached_teams = []
   include HashHelper
   extend HashClassHelper

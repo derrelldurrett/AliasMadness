@@ -3,7 +3,11 @@
 class User < ApplicationRecord
   require 'helpers/hash_helper'
   require 'helpers/hash_class_helper'
+#  require 'helpers/json_client_helper'
+#  require 'helpers/json_client_class_helper'
   extend HashClassHelper
+#  include JSONClientHelper
+#  extend JSONClientClassHelper
   attr_accessor :remember_for_email
   has_one :bracket, inverse_of: :user
   before_validation :do_validation_setup
@@ -30,6 +34,7 @@ class User < ApplicationRecord
   ROLES = %w[admin player].freeze
 
   self.hash_vars = %i(name email)
+# self.json_client_ids = %i[id chat_name]
 
   def to_s
     s = name

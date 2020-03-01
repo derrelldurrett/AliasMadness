@@ -7,7 +7,7 @@ class Heckle < ApplicationRecord
 
   def broadcast_and_trim
     HeckleBroadcastJob.perform_now self
-    # Keep only 100 heckles
+    # Keep only the 100 most-recent heckles
     Heckle.order(created_at: :desc).offset(100).delete_all
   end
 end

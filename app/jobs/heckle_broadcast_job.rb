@@ -11,6 +11,7 @@ class HeckleBroadcastJob < ApplicationJob
 
   def render_heckle(heckle)
     u = User.find(heckle.from_id)
-    ApplicationController.renderer.render partial: 'heckles/heckle', locals: { heckle: heckle, this_user: u }
+    ApplicationController.renderer.render partial: 'heckles/heckle',
+                                          locals: { heckle: heckle, this_user: u }
   end
 end

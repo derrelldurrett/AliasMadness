@@ -34,12 +34,10 @@ class @StoreWrapper
   @localStore: (i, n) ->
     pairs = @buildLocalStorePairs i, n
     Store.set p[0], p[1] for p in pairs
-    return
 
   @setAncestorData: (node, ancestors) ->
     Store.set 'a_' + node, ancestors
     Store.set 'd_' + a, node for a in ancestors
-    return
 
   @setStoreName: (bId, l, name) ->
     Store.set(@buildLocalStoreLabel(bId, l, 'name'), name)
@@ -62,3 +60,6 @@ class @StoreWrapper
       @setStoreWinner(bId, n, input.winner)
       @setStoreWinnersLabel(bId, n, input.winners_label)
       @setStoreNew(bId, n)
+
+  @noop: ->
+    ''

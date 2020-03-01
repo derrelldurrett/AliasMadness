@@ -63,8 +63,12 @@ module BracketsHelper
   end
 
   def color_div_if_sender(user, heckle)
-    always = ' overflow-anchor: none;'.freeze
-    as_safe = user.id == heckle.from_id ? %Q(background-color: #CCE6FF;#{always}) : always
+    as_safe = 'heckles'.freeze
+    as_safe += ' from-me-in-chat'.freeze if user.id == heckle.from_id
     as_safe.html_safe
+  end
+
+  def chat_names_as_json
+    User.where(role: :player).each_with_object([]) {|u,o| o << [u.chat_name, u.id]}.to_json
   end
 end

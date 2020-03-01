@@ -2,7 +2,21 @@
 #= require_self
 #= require common
 class ChatWindowDriver
-  @setChatWidths: () ->
+  @setChatDimensions: ->
+    @setWidths()
+    @setHeights()
+
+  @loadChatNames: ->
+    new ChatLookup $('#chat-text').data('chat-name-lookup')
+
+  @sendChat: (event, chatters) ->
+    if event.keyCode is 13
+      unless event.target.textContent is ''
+        Chats.forum.heckle event.target.textContent, event.target.dataset.uid
+      event.target.textContent = ''
+      event.preventDefault()
+
+  @setWidths: ->
     curWidth = 0
     (curWidth += $('td[data-node="'+n+'"]').width() for n in ["5", "2", "1", "3", "7"])
     curWidth -= 20 # Because of the margins we want
@@ -10,27 +24,21 @@ class ChatWindowDriver
       $(element).css("width", curWidth)
     $('div#chat-text').each (index, element) =>
       $(element).css("width", curWidth)
-    headerHeight = 0
-    $('td.chat-header').each (index, element) =>
-      headerHeight += $(element).height()
-    $('div#chat-header-anchor').css('height', headerHeight)
-    receiptHeight = 0
-    $('tr.chat-receipt').each (index, element) =>
-      receiptHeight += $(element).height()
-    $('div#chats-received').css('height', receiptHeight)
-    sendingHeight = 0
-    $('tr.chat-sending').each (index, element) =>
-      sendingHeight += $(element).height()
-    $('div#chat-send').css('height', sendingHeight)
-    $('div#chat-text').css('height', sendingHeight)
 
-  @sendChat: (event) ->
-    if event.keyCode is 13
-      unless event.target.textContent is ''
-        Chats.forum.heckle event.target.textContent, event.target.dataset.uid
-      event.target.textContent = ''
-      event.preventDefault()
+  @setHeights: ->
+    @setHeight('td.chat-header', ['div#chat-header-anchor']) # header
+    @setHeight('tr.chat-receipt', ['div#chats-received']) # receipt
+    @setHeight('tr.chat-sending', ['div#chat-send', 'div#chat-text']) # send
+
+  @setHeight: (source, targets) ->
+    height = 0
+    $(source).each (index, element) =>
+      height += $(element).height()
+    $(t).css('height', height) for t in targets
 
 $ ->
-  ChatWindowDriver.setChatWidths()
-  $('#chat-text').on 'keypress', (e) => ChatWindowDriver.sendChat(e)
+  ChatWindowDriver.setChatDimensions()
+  chatters = ChatWindowDriver.loadChatNames()
+  $('#chat-text').on 'keypress', (e) => ChatWindowDriver.sendChat(e, chatters)
+  document.getElementById('chat-anchor').scrollIntoView()
+
