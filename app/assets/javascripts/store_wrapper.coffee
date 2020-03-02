@@ -60,6 +60,3 @@ class @StoreWrapper
       @setStoreWinner(bId, n, input.winner)
       @setStoreWinnersLabel(bId, n, input.winners_label)
       @setStoreNew(bId, n)
-
-  @noop: ->
-    ''

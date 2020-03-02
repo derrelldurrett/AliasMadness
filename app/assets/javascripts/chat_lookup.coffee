@@ -1,5 +1,11 @@
 class ChatLookup
   constructor: (nameIdMap) ->
     @map = {}
-    @map[nameId[0]] = nameId[1] for nameId in nameIdMap
+    @autoCompleteList = []
+    buildLists(nameId) for nameId in nameIdMap
+
+  buildLists: (nameId) ->
+    [name, id] = nameId
+    @map[name] = id
+    @autoCompleteList.push name
 
