@@ -40,7 +40,6 @@ class BracketsController < ApplicationController
     end
   end
 
-
   private
 
   def game_data_processed?(data, bracket_id)
@@ -73,9 +72,6 @@ class BracketsController < ApplicationController
       # if admin's bracket, mark losing team eliminated
       if current_user.admin?
         eliminate_loser(game_label, winner_label)
-        # TODO: here, we schedule the background job to calculate scenarios if there's fewer than
-        # TODO: some number of games remaining -- 16?
-        # Something to do with ActionJob.
       end
     end
     team
@@ -106,8 +102,6 @@ class BracketsController < ApplicationController
       end
     end
   end
-
-  private
 
   def resource_params
     params.require(:bracket).permit!

@@ -37,6 +37,7 @@ module UsersHelper
     params[:role]='player'
     set_player_login params
     @user = User.create!(params)
+    @user.update bracket_locked: :false # apparently necessary on heroku, because the tests don't see it
     UserMailer.welcome_email(@user, @remember_for_email).deliver
   end
 

@@ -51,7 +51,7 @@ Then %q(The team names should not be editable) do
 end
 
 Then(/\AThe team '([^']+)' should be the '([^']+)' for '([^']+)'\z/) do |new_team_attr_val, team_attr, old_team_attr_val|
-  team = Team.where(id: look_up_team_id_by_original_data(old_team_attr_val)).first
+  team = Team.where(id: look_up_team_id_by_original_data(old_team_attr_val)).first.reload
   expect(team).not_to be_nil
   expect(team.send(team_attr)).to eq(new_team_attr_val)
 end
