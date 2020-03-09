@@ -34,3 +34,4 @@ class ChatWindowDriver
 $ ->
   ChatWindowDriver.setChatWidths()
   $('#chat-text').on 'keypress', (e) => ChatWindowDriver.sendChat(e)
+  document.getElementById('chat-anchor').scrollIntoView()
