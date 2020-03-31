@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem "actionview", ">= 5.2.4.2"
 gem 'bcrypt' # Use ActiveModel has_secure_password
 gem 'cancancan' # roles
 gem 'coffee-rails' # Use CoffeeScript for .coffee assets and views
