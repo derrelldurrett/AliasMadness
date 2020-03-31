@@ -119,7 +119,7 @@ end
 def eliminate_team(loser)
   # loser is either a Team or a Game-- get the Team from the Game
   loser = winner_from_ancestor(loser)
-  loser.update_attributes!({eliminated: true})
+  loser.update!({eliminated: true})
   puts 'Eliminated ' + loser.name
 end
 
