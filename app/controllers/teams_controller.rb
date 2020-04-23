@@ -6,7 +6,7 @@ class TeamsController < ApplicationController
   # PUT /teams/1.json
   def update
     @team = Team.find(params[:id])
-    @team.update_attributes! name: params[:team][:name]
+    @team.update! name: params[:team][:name]
     @bracket = Bracket.find(params[:bracket][:id])
     node = @bracket.update_node params[:team], params[:bracket][:node].to_s
     @bracket.save!

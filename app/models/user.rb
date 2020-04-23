@@ -48,7 +48,7 @@ class User < ApplicationRecord
     # if score==0 or self.updated_at < reference_bracket.newest_game_date
     score = @current_score = compute_score(reference_bracket)
     #puts(%Q(Updating #{name}'s score to #{score}))
-    update_attributes!(current_score: score)
+    update!(current_score: score)
     # end
     score
   end

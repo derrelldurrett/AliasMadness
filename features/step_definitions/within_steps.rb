@@ -189,7 +189,7 @@ def choose_games_for_bracket(user, labels = 63.downto(1), reset_game_data = true
     g.reload
     winning_team = team_data_by_label(game_by_label(label)[:winners_label])
     # puts "assigning winners for #{bracket.id} (#{user.name}) -- node #{label} -- winner #{winning_team.name}"
-    g.update_attributes!({winner: winning_team})
+    g.update!({winner: winning_team})
     mark_losing_team_eliminated g, bracket if user.admin?
   end
 end
@@ -201,7 +201,7 @@ def mark_losing_team_eliminated(g, b)
     a_team = a.is_a?(Team) ? a : a.winner
     puts "game: #{g.label}, ancestor: #{a.label}; a_team: #{a_team}" if a_team.nil?
     unless a_team.label == g.winner.label
-      a_team.update_attributes!({eliminated: true})
+      a_team.update!({eliminated: true})
       break
     end
   end

@@ -5,7 +5,7 @@ module Score
     # if score==0 or self.updated_at < reference_bracket.newest_game_date
     ###
     score= @current_score= compute_score(reference_bracket)
-    self.update_attributes!({current_score: score})
+    self.update!({current_score: score})
     # end
     score
   end

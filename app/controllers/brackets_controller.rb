@@ -53,7 +53,7 @@ class BracketsController < ApplicationController
         ret = false
         break
       end
-      game.update_attributes!({winner: team})
+      game.update!({winner: team})
     end
     ret
   end
@@ -83,7 +83,7 @@ class BracketsController < ApplicationController
     ancestors.each do |a|
       a_team = ancestor_team a
       unless a_team.nil? or a_team.label == winner_label
-        a_team.update_attributes!({eliminated: true})
+        a_team.update!({eliminated: true})
         break
       end
     end
