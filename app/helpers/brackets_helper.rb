@@ -58,16 +58,6 @@ module BracketsHelper
     "<b>@#{User.find(id).chat_name}: </b>".html_safe
   end
 
-  def tag_targets(heckle)
-    heckle.content # until we figure out how to deal with the fact there could be more than one tag
-  end
-
-  def color_div_if_sender(user, heckle)
-    as_safe = 'heckles'.freeze
-    as_safe += ' from-me-in-chat'.freeze if user.id == heckle.from_id
-    as_safe.html_safe
-  end
-
   def chat_names_as_json
     User.where(role: :player).each_with_object([]) {|u,o| o << [u.chat_name, u.id]}.to_json
   end

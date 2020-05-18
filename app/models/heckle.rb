@@ -1,6 +1,6 @@
 class Heckle < ApplicationRecord
-  # Need an additional after_create_commit action that trims the list of Heckles, so
-  # it doesn't grow uncontrollably
+  has_many :heckles_user
+  has_many :targets, source: :user, through: :heckles_user
   after_create_commit :broadcast_and_trim
 
   private

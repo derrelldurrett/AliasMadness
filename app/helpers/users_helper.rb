@@ -48,4 +48,10 @@ module UsersHelper
                 SecureRandom.base64(24) #create a  32-character-length password
   end
 
+  def load_users_heckles
+    show = Heckle.where(id: HecklesUser.where(user_id: current_user.id).select(:heckle_id))
+    all_pairs = HecklesUser.all.select(:heckle_id).distinct
+    show += Heckle.where.not(id: all_pairs)
+    show.sort_by { |h| h.id }
+  end
 end

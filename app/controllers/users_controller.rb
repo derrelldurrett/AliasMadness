@@ -29,9 +29,8 @@ class UsersController < ApplicationController
         @bracket = @user.bracket
         @players = get_players_sorted_by_score
         @disabled = current_user != @user
-        @heckles = Heckle.all
       rescue ActiveRecord::RecordNotFound => e
-        puts e.message
+        logger.info e.message
         all = User.all
         all.each {|u| puts 'user: ' + u.name + ' : ' + u.id.to_s}
       end

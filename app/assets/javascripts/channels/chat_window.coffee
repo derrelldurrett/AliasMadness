@@ -1,7 +1,8 @@
-# Behavior for driving the sizing of the heckle forum window, and the setup of the autocomplete
-# feature for the chat window
 #= require_self
 #= require common
+# Behavior for driving the sizing of the heckle forum window, and the setup of the autocomplete
+# feature for the chat window.
+# Chat Window behavior
 class ChatWindowDriver
   constructor: () ->
     @loadChatNames()
@@ -25,7 +26,7 @@ class ChatWindowDriver
 
   # the hidden inputs attached to the div for the chat to send need to have their tags converted to a list of ids
   collectTargetIds: () ->
-    (i.value()) for i in $('input.to-id').each()
+    (i.value) for i in $('input.to-id')
 
   handleChatAutos: (chatter, targ, div) ->
     t = targ.textContent.substr(@atSignLoc)
@@ -55,8 +56,12 @@ class ChatWindowDriver
         else
           @sendChat(event)
 
+  highlightFromUser: ->
+    uid = $('div#chat-text').attr('data-uid')
+    @tagIfMe($(h), uid) for h in $('div.heckles')
+
   initAutocompDiv: (targ) ->
-    autocompDiv = document.createElement("DIV")
+    autocompDiv = document.createElement("div")
     autocompDiv.setAttribute("id", targ.id + "autocomplete-list")
     autocompDiv.setAttribute("class", "autocomplete-items")
     targ.parentNode.appendChild autocompDiv
@@ -75,8 +80,12 @@ class ChatWindowDriver
     @preceeding = t.innerHTML.substr(0, t.innerHTML.length - 1)
 
   insertAndCloseAutocomplete: (chatter, autocompItem) ->
+    # Weirdly, this value is different on Chrome versus Firefox....
+    displayMe = if chatter.startsWith('@') then chatter else '@'+chatter
+    console.log("preceeds: #{@preceeding}")
+    console.log("#{chatter} became #{displayMe}")
     #insert the value for the autocomplete text field:
-    @chatInput.innerHTML = "#{@preceeding}<strong>@#{chatter}</strong>&nbsp;"
+    @chatInput.innerHTML = "#{@preceeding}<strong>#{displayMe}</strong>&nbsp;"
     autocompItem.innerHTML = "<input class='to-id' type='hidden' value='#{@chatters.getIdForChatter(chatter)}' />"
     @chatInput.appendChild autocompItem
     @setCaret(@chatInput)
@@ -89,7 +98,7 @@ class ChatWindowDriver
     @chatters = new ChatLookup $('#chat-text').data('chat-name-lookup')
 
   makeAutocompleteEntry: (chatter, targ) ->
-    autocompItem = document.createElement("DIV")
+    autocompItem = document.createElement("div")
     autocompItem.innerHTML = "<strong>@#{chatter.substr(0,targ.length-1)}</strong>#{chatter.substr(targ.length-1)}"
     autocompItem.addEventListener "click", (e) => @insertAndCloseAutocomplete(chatter, autocompItem)
     autocompItem
@@ -145,9 +154,13 @@ class ChatWindowDriver
     $('div#chat-text').each (index, element) =>
       $(element).css("width", curWidth)
 
+  tagIfMe: (heckleDiv, uid) ->
+    heckleDiv.addClass('from-me-in-chat') if heckleDiv.attr('data-sid') == uid
+
 $ ->
   chatDriver = new ChatWindowDriver
   chatDriver.setChatDimensions()
+  chatDriver.highlightFromUser()
   $('#chat-text').on 'input', (e) => chatDriver.checkInput(e)
   $('#bracket').on 'click', (e) -> chatDriver.resetAutocomplete()
   # force the newest chat into view

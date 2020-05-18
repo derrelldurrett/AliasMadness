@@ -18,9 +18,9 @@ Feature: Players want to heckle each other for their failures and successes
     Then I should see the heckle in my response window
     And I should see their chat name in the response
 
-#  @wip
-#  @javascript
-#  Scenario: I want to send messages to a specific other user (and see them reflected in my chats)
-#    Given 'An invited player' logs in with all teams entered and other players invited
-#    When I use the '@' sign to identify another user by first name, and send them a heckle
-#    Then I should see the private heckle in my response window
+  @wip
+  @javascript
+  Scenario: I want to send messages to a specific other user (and see them reflected in my chats)
+    Given 'An invited player' logs in with all teams entered and other players invited
+    When I use the '@' sign to identify another user by first name, and send them a heckle
+    Then I should see the private heckle in my response window

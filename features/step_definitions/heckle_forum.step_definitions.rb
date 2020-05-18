@@ -30,13 +30,15 @@ Then 'I should see their chat name in the response' do
   expect(find('div#chats-received')).to have_text('@'+sender.chat_name)
 end
 
-private_heckle = 'this is a private message'.freeze
+private_heckle = 'this is a private message to'.freeze
 When "I use the '@' sign to identify another user by first name, and send them a heckle" do
-  fill_in 'chat-text', with: (private_heckle)
-  find('#chat-text').native.send_keys(:return)
-  sleep 2
+  find('#chat-text').set(private_heckle + ' @' + choose_another_player.chat_name)
+  find('#chat-text').send_keys(:return)
+  find('#chat-text').send_keys(:return)
+  sleep 20
 end
 
 Then 'I should see the private heckle in my response window' do
+  save_and_open_page
   expect(find('div#chats-received')).to have_text(private_heckle)
 end

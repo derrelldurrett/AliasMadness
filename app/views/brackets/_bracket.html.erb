@@ -1,6 +1,7 @@
 <%= form_for(@bracket, method: :put, remote: true, format: :json) do |f| %>
   <table class='bracket center' id="bracket" data-bracket="<%= @bracket.to_json_client_string %>"
-         data-ancestors="<%= @bracket.to_json_ancestor_lookup_string %>">
+         data-ancestors="<%= @bracket.to_json_ancestor_lookup_string %>"
+         data-chat="<%= @user.private_channel %>">
     <tr>
       <th class='center'>Round 1</th>
       <th class='center'>Round 2</th>
@@ -964,7 +965,7 @@
       <td class='right_connect'></td>
       <td id="chats-received-anchor">
         <%= render partial: 'brackets/chats/chats_received',
-                   locals: {user: @user, heckles: @heckles}
+                   locals: {user: @user, heckles: load_users_heckles}
         %>
       </td>
       <td></td>

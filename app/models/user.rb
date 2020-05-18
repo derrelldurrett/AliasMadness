@@ -3,13 +3,11 @@
 class User < ApplicationRecord
   require 'helpers/hash_helper'
   require 'helpers/hash_class_helper'
-#  require 'helpers/json_client_helper'
-#  require 'helpers/json_client_class_helper'
   extend HashClassHelper
-#  include JSONClientHelper
-#  extend JSONClientClassHelper
   attr_accessor :remember_for_email
   has_one :bracket, inverse_of: :user
+  has_many :heckles_user
+  has_many :heckles, through: :heckles_user
   before_validation :do_validation_setup
   before_save :create_remember_token
   before_save :create_initial_bracket
@@ -40,6 +38,10 @@ class User < ApplicationRecord
     s = name
     s += " (#{@current_score})" unless @current_score.nil?
     s
+  end
+
+  def private_channel
+    PrivateChannel.broadcasting_for(self)
   end
 
   # TODO: move this into a module that the downloader can modify to taste.
@@ -108,13 +110,13 @@ class User < ApplicationRecord
     unless admin?
       self.password =
           self.password_confirmation =
-              remember_for_email =
+              self.remember_for_email =
                   SecureRandom.base64(24) #create a  32-character-length password
     end
   end
 
   def create_remember_token
-    self.remember_token = SecureRandom.urlsafe_base64
+    self.remember_token ||= SecureRandom.urlsafe_base64
   end
 
   # Do this so that it's unique, and modify other names as necessary to get it unique using whole tokens, which must

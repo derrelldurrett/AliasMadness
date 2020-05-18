@@ -8,9 +8,11 @@ module ApplicationHelper
     end
   end
 
-  # @return [true, if the number of unlocked brackets is 0]
+  # @return [true, false]
+  # True if all players' brackets that are locked,
+  # False otherwise.
   def players_brackets_locked?
+    # True if all players' brackets are locked.
     User.where({role: :player}).where(bracket_locked: false).length == 0
   end
-
 end
