@@ -16,6 +16,7 @@ class ChatWindowDriver
     elems[@currentFocus].classList.add 'autocomplete-active'
 
   checkInput: (event) ->
+    console.log("inner HTML: #{event.target.innerHTML}")
     if event.originalEvent.data is '@'
       @initChatTargetList(event)
     else if @atSignLoc >= 0
@@ -27,6 +28,32 @@ class ChatWindowDriver
   # the hidden inputs attached to the div for the chat to send need to have their tags converted to a list of ids
   collectTargetIds: () ->
     (i.value) for i in $('input.to-id')
+
+  createRange: (sel, doc) ->
+    textRange = sel.createRange()
+    preCaretTextRange = doc.body.createTextRange()
+    preCaretTextRange.moveToElementText(@chatInput)
+    preCaretTextRange.setEndPoint("EndToStart", textRange)
+    selRge.start = preCaretTextRange.text.length
+    preCaretTextRange.setEndPoint("EndToEnd", textRange)
+    selRge.end = preCaretTextRange.text.length
+    selRge
+
+  # method stolen from https://stackoverflow.com/questions/4811822/get-a-ranges-start-and-end-offsets-relative-to-its-parent-container/4812022#4812022
+  # but I want a better version that can copy the preceeding HTML
+  getSelectionRange: () ->
+    selRge = {start: 0, end: 0}
+    doc = @chatInput.ownerDocument || @chatInput.document
+    win = doc.defaultView || doc.parentWindow
+    if typeof win.getSelection isnt "undefined"
+      sel = win.getSelection()
+      if sel.rangeCount > 0
+        console.log("using an existing range")
+        selRge = @useExistingRange(sel)
+    else if (sel = doc.selection) && sel.type isnt "Control"
+      console.log("creating a range")
+      selRge = @createRange(sel, doc)
+    selRge
 
   handleChatAutos: (chatter, targ, div) ->
     t = targ.textContent.substr(@atSignLoc)
@@ -73,11 +100,16 @@ class ChatWindowDriver
     $('#chat-text').on 'keydown', (e) => @handleNonInput(e)
     $('#chat-text').on 'input', (e) => @checkInput(e)
 
+  # Be smarter: start a selection when we see an '@'
+  # end a selection where the cursor is
+  # figure out how to get the preceeding HTML (preserve existing formatting)
+  # combine the preceeding HTML with the new bit.
   initChatTargetList: (event) ->
     @resetAutocomplete()
     t = event.target
-    @atSignLoc = t.textContent.length - 1
-    @preceeding = t.innerHTML.substr(0, t.innerHTML.length - 1)
+    @atSignLoc = @getSelectionRange().start - 1
+    @preceeding = t.textContent.substr(0, @atSignLoc)
+    console.log("Preceeding: '#{@preceeding}'\nfrom textContent: '#{t.textContent}'\nCompare innerText: '#{t.innerText}'\nand HTML: '#{t.innerHTML}'")
 
   insertAndCloseAutocomplete: (chatter, autocompItem) ->
     # Weirdly, this value is different on Chrome versus Firefox....
@@ -156,6 +188,16 @@ class ChatWindowDriver
 
   tagIfMe: (heckleDiv, uid) ->
     heckleDiv.addClass('from-me-in-chat') if heckleDiv.attr('data-sid') == uid
+
+  useExistingRange: ->
+    range = win.getSelection().getRangeAt(0)
+    preCaretRange = range.cloneRange()
+    preCaretRange.selectNodeContents(@chatInput)
+    preCaretRange.setEnd(range.startContainer, range.startOffset)
+    selRge.start = preCaretRange.toString().length
+    preCaretRange.setEnd(range.endContainer, range.endOffset)
+    selRge.end = preCaretRange.toString().length
+    selRge
 
 $ ->
   chatDriver = new ChatWindowDriver
