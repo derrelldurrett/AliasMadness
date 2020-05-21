@@ -55,6 +55,14 @@ class ChatWindowDriver
       selRge = @createRange(sel, doc)
     selRge
 
+  # Shamelessly stolen from here: https://stackoverflow.com/a/29258657/1888553
+  getPreceedingHTML: (editable) ->
+    point = document.createTextNode("\u0001")
+    document.getSelection().getRangeAt(0).insertNode(point)
+    position = editable.innerHTML.indexOf("\u0001")
+    point.parentNode.removeChild(point)
+    editable.innerHTML.substr(0, position-1)
+
   handleChatAutos: (chatter, targ, div) ->
     t = targ.textContent.substr(@atSignLoc)
     if chatter.substr(0,t.length-1).toUpperCase() is t.substr(1).toUpperCase()
@@ -108,7 +116,7 @@ class ChatWindowDriver
     @resetAutocomplete()
     t = event.target
     @atSignLoc = @getSelectionRange().start - 1
-    @preceeding = t.textContent.substr(0, @atSignLoc)
+    @preceeding = @getPreceedingHTML(t)
     console.log("Preceeding: '#{@preceeding}'\nfrom textContent: '#{t.textContent}'\nCompare innerText: '#{t.innerText}'\nand HTML: '#{t.innerHTML}'")
 
   insertAndCloseAutocomplete: (chatter, autocompItem) ->
@@ -189,11 +197,12 @@ class ChatWindowDriver
   tagIfMe: (heckleDiv, uid) ->
     heckleDiv.addClass('from-me-in-chat') if heckleDiv.attr('data-sid') == uid
 
-  useExistingRange: ->
-    range = win.getSelection().getRangeAt(0)
+  useExistingRange: (sel) ->
+    range = sel.getRangeAt(0)
     preCaretRange = range.cloneRange()
     preCaretRange.selectNodeContents(@chatInput)
     preCaretRange.setEnd(range.startContainer, range.startOffset)
+    selRge = {}
     selRge.start = preCaretRange.toString().length
     preCaretRange.setEnd(range.endContainer, range.endOffset)
     selRge.end = preCaretRange.toString().length
