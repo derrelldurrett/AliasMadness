@@ -2,8 +2,9 @@ class HeckleBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(heckle)
+    to_send = render_heckle(heckle)
     compute_channels(heckle).each do |channel|
-      ActionCable.server.broadcast channel, {heckle: render_heckle(heckle)}
+      ActionCable.server.broadcast channel, {heckle: to_send}
     end
   end
 
@@ -25,7 +26,6 @@ class HeckleBroadcastJob < ApplicationJob
   end
 
   def render_heckle(heckle)
-    ApplicationController.renderer.render partial: 'heckles/heckle',
-                                          locals: { heckle: heckle }
+    ApplicationController.renderer.render partial: 'heckles/heckle', locals: { heckle: heckle }
   end
 end

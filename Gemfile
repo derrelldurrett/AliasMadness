@@ -13,6 +13,7 @@ gem 'coffee-rails' # Use CoffeeScript for .coffee assets and views
 gem 'daemons' # Also needed for DJ
 gem 'delayed_job_active_record' # Ugh at having to use DJ....
 gem 'jbuilder' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jquery-rails'
 gem 'nokogiri' # force the following gem updates
 gem 'pg'
 gem 'puma' # Use Puma as the app server
@@ -71,5 +72,3 @@ end
 group :assets do
   gem 'therubyracer', platforms: :ruby # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 end
-
-gem 'jquery-rails'
