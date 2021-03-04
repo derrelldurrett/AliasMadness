@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
       redirect_to user_path(current_user.id)
     else
       render layout: false,
-             file: "#{ Rails.root }/public/404",
+             file: "#{ Rails.root }/public/404.html",
              formats: [:html],
              status: '404'
     end
