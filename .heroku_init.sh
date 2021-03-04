@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ "$1" == "" ] || [ $# -gt 1 ]; then
+if [ "$1" = "" ] || [ $# -gt 1 ]; then
         echo "no application given"
         exit 0
 fi

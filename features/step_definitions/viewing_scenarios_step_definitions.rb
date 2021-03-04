@@ -5,6 +5,7 @@ When 'I view scenarios' do
 end
 
 Then("I should see only Round {int} in two Scenarios and Round {int} and Round {int} in eight Scenarios") do |int, int2, int3|
+  save_and_open_page
   pending # Write code here that turns the phrase above into concrete actions
 end
 

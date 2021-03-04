@@ -45,7 +45,7 @@ class Bracket < ApplicationRecord
 
   def lookup_game(l)
     # This probably can change to not always look at the DB
-    g= Game.where(bracket_id: self.id, label: l).first
+    g = Game.where(bracket_id: id, label: l).first
   end
 
   def lookup_node(n)

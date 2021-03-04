@@ -39,6 +39,5 @@ When "I use the '@' sign to identify another user by first name, and send them a
 end
 
 Then 'I should see the private heckle in my response window' do
-  save_and_open_page
   expect(find('div#chats-received')).to have_text(private_heckle)
 end

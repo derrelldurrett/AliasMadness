@@ -1,4 +1,4 @@
-ruby '2.7.0'
+ruby '2.7.1'
 
 source 'https://rubygems.org'
 
@@ -41,7 +41,7 @@ group :development, :test do
   gem 'capybara-chromedriver-logger'
   gem 'capybara-screenshot'
   gem 'webdrivers'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', require: false # 'require: false' is necessary for rake
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'factory_bot_rails'

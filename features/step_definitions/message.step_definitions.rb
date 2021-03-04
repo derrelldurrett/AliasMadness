@@ -5,6 +5,6 @@ end
 
 Then %q(The players should be sent the message) do
   get_players.each do |p|
-    mailbox_for(p.email).size.should == parse_email_count(1)
+    expect(mailbox_for(p.email).size).to eq parse_email_count(1)
   end
 end

@@ -74,7 +74,7 @@ class User < ApplicationRecord
     tokens = name.split(/\s+/)
     try_name = tokens[0,n_tokens] * ' '
     fix_ids = []
-    while existing_names.key? try_name and not existing_names[try_name][:id] == id do
+    while existing_names.key? try_name and existing_names[try_name][:id] != id do
       fix_ids << existing_names[try_name]
       try_name = tokens[0,n_tokens] * ' '
       n_tokens += 1
