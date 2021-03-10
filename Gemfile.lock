@@ -145,6 +145,7 @@ GEM
       launchy (~> 2.1)
       mail (~> 2.7)
     erubi (1.10.0)
+    erubis (2.7.0)
     execjs (2.7.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -172,6 +173,20 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    haml (5.2.1)
+      temple (>= 0.8.0)
+      tilt
+    haml-rails (2.0.1)
+      actionpack (>= 5.1)
+      activesupport (>= 5.1)
+      haml (>= 4.0.6, < 6.0)
+      html2haml (>= 1.0.1)
+      railties (>= 5.1)
+    html2haml (2.2.0)
+      erubis (~> 2.7.0)
+      haml (>= 4.0, < 6)
+      nokogiri (>= 1.6.0)
+      ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
@@ -295,6 +310,8 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
     ruby_http_client (3.5.2)
+    ruby_parser (3.15.1)
+      sexp_processor (~> 4.9)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -311,6 +328,7 @@ GEM
       rubyzip (>= 1.2.2)
     sendgrid-ruby (6.4.0)
       ruby_http_client (~> 3.4)
+    sexp_processor (4.15.2)
     shellany (0.0.1)
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
@@ -339,6 +357,7 @@ GEM
       generator
     sys-uname (1.2.2)
       ffi (~> 1.1)
+    temple (0.8.2)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
@@ -387,6 +406,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   guard-rspec
+  haml-rails
   jbuilder
   jquery-rails
   launchy

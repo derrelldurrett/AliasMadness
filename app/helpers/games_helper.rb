@@ -1,5 +1,19 @@
 module GamesHelper
-  def game_or_team_options_for_select(bracket, game)
+  def game_winner(node, is_disabled, bracket)
+    if @user.bracket_locked? and not @game.winner.nil?
+      @game.winner.name
+    else
+      options = {prompt: choose_winner_or(@game),
+                 node: node,
+                 class: 'game_winner force-font',
+                 id: 'game_' + node}
+      options[:disabled] = 'disabled' if is_disabled
+      select_tag 'winner',
+                 game_or_team_opts_for_select(bracket, @game), options
+    end
+  end
+
+  def game_or_team_opts_for_select(bracket, game)
     # produce a list of lists: [[object,display_value],...]
     result = []
     games_or_teams = bracket.lookup_ancestors(game).sort_by {|got| got.label}

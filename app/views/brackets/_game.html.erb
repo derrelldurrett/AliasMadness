@@ -1,9 +1,0 @@
-<% @game = bracket.lookup_node(node) %>
-<%= content_tag_for(:td, @game,
-                    {class: build_game_class(@game, node, bracket_locked), data: {node: node}}) do %>
-  <%= render partial: 'games/winner',
-             locals: {form: form,
-                      node: node,
-                      bracket: bracket,
-                      is_disabled: is_disabled} %>
-<% end %>

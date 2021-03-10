@@ -57,6 +57,7 @@ module AliasMadness
     # We use delayed_job_active_record to determine, in the background, which players
     # will benefit if a specific group of winning teams win out.
     config.active_job.queue_adapter = :delayed_job
+
   end
 
   #TODO try to initialize here?
