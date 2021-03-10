@@ -1,0 +1,1033 @@
+= form_for(@bracket, method: :put, remote: true, format: :json) do |f|
+  %table#bracket.bracket.center{"data-ancestors" => "#{@bracket.to_json_ancestor_lookup_string}", "data-bracket" => "#{@bracket.to_json_client_string}", "data-chat" => "#{@user.private_channel}"}
+    %tr
+      %th.center Round 1
+      %th.center Round 2
+      %th.center{colspan: "2"} Regionals
+      %th.center{colspan: "5"} Final Four
+      %th.center{colspan: "2"} Regionals
+      %th.center Round 2
+      %th.center Round 1
+    %tr
+      %td{colspan: "6"}
+      %td
+        = render 'brackets/button', locals: {bracket: @bracket, user: @user}
+      %td{colspan: "6"}
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '64'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '96'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '32'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '48'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '65'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '97'} |
+    %tr
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '16'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '24'} |
+      %td.left_connect
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '66'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.center.force-center= @user.name
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '98'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '33'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.center.force-center
+        - unless @user.admin?
+          = @user.current_score.to_s
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '49'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '67'} |
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '99'} |
+    %tr
+      %td
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '8'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '12'} |
+      %td.left_connect
+      %td
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '68'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '100'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '34'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '50'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '69'} |
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '101'} |
+    %tr
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '17'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '25'} |
+      %td.left_connect
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '70'} |
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '102'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '35'} |
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '51'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '71'} |
+      %td
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '103'} |
+    %tr
+      %td
+      %td
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '4'} |
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '6'} |
+      %td.left_connect
+      %td
+      %td
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '72'} |
+      %td
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '104'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '36'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '52'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '73'} |
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '105'} |
+    %tr
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '18'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '26'} |
+      %td.left_connect
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '74'} |
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '106'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '37'} |
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '53'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '75'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '107'} |
+    %tr
+      %td
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '9'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '13'} |
+      %td.left_connect
+      %td
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '76'} |
+      %td
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '108'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '38'} |
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '54'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '77'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '2'} |
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '109'} |
+    %tr
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '19'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '27'} |
+      %td.left_connect
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '78'} |
+      %td.right_connect
+      %td
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '110'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '39'} |
+      %td
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '55'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '79'} |
+      %td
+      %td
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '111'} |
+    %tr
+      %td
+      %td
+      %td
+      %td
+      %td.right_connect
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '1'} |
+      %td
+      %td.left_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '80'} |
+      %td
+      %td
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '112'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '40'} |
+      %td
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '56'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '81'} |
+      %td.right_connect
+      %td
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '113'} |
+    %tr
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '20'} |
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '28'} |
+      %td.left_connect
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '82'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '3'} |
+      %td.left_connect
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '114'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '41'} |
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '57'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '83'} |
+      %td
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '115'} |
+    %tr
+      %td
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '10'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '14'} |
+      %td.left_connect
+      %td
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '84'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '116'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '42'} |
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '58'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '85'} |
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '117'} |
+    %tr
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '21'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '29'} |
+      %td.left_connect
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '86'} |
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '118'} |
+    %tr
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '43'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '59'} |
+      %td.left_connect
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '87'} |
+      %td
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '119'} |
+    %tr
+      %td
+      %td
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '5'} |
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                               |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '7'} |
+      %td.left_connect
+      %td
+      %td
+      %td
+    %tr
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '88'} |
+      %td
+      %td
+      %td.right_connect
+      %td.chat-header
+        #chat-header-anchor
+          %h3 Heckle Forum
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '120'} |
+    %tr.chat-receipt
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '44'} |
+      %td
+      %td.right_connect
+      %td#chats-received-anchor
+        = render partial: 'brackets/chats/chats_received',   |
+          locals: {user: @user, heckles: load_users_heckles} |
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '60'} |
+      %td.left_connect
+    %tr.chat-receipt
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '89'} |
+      %td.right_connect
+      %td
+      %td.right_connect
+      %td.chat-width-marker
+      %td.chat-width-marker
+      %td.chat-width-marker
+      %td.chat-width-marker
+      %td.chat-width-marker
+      %td.left_connect
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '121'} |
+    %tr.chat-receipt
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '22'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '30'} |
+      %td.left_connect
+      %td
+    %tr.chat-receipt
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '90'} |
+      %td.right_connect
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '122'} |
+    %tr.chat-receipt
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '45'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '61'} |
+      %td.left_connect
+    %tr.chat-receipt
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '91'} |
+      %td
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '123'} |
+    %tr.chat-receipt
+      %td
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '11'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '15'} |
+      %td.left_connect
+      %td
+      %td
+    %tr.chat-receipt
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '92'} |
+      %td
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '124'} |
+    %tr.chat-receipt
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '46'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '62'} |
+      %td.left_connect
+    %tr.chat-receipt
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '93'} |
+      %td.right_connect
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '125'} |
+    %tr.chat-border
+      %td
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '23'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '31'} |
+      %td.left_connect
+      %td
+    %tr.chat-border
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '94'} |
+      %td.right_connect
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td.left_connect
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '126'} |
+    %tr.chat-sending
+      %td.right_connect
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '47'} |
+      %td
+      %td
+      %td#chat-sending-anchor
+        = render partial: 'brackets/chats/chat_to_send', |
+          locals: {user: @user}                          |
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/game',                                                                                |
+        locals: {form: f, bracket: @bracket, bracket_locked: @user.bracket_locked?, is_disabled: @disabled, node: '63'} |
+      %td.left_connect
+    %tr.chat-sending
+      = render partial: 'brackets/team',                 |
+        locals: {form: f, bracket: @bracket, node: '95'} |
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      %td
+      = render partial: 'brackets/team',                  |
+        locals: {form: f, bracket: @bracket, node: '127'} |

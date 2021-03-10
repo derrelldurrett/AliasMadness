@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %p
+      Welcome to Alia's Madness, #{@user.name}
+    %p
+      To complete your bracket, you must follow *this* link: #{@url}
+      = succeed "and" do
+        %br/
+      = @r
+    %p
+    %ul
+      %li The link points to your login page.
+      %li No other link will work to sign you in.
+      %li Enter the password and login.
+      %li
+        Once all brackets are complete, this link will display the list of players, their scores, and how you're doing
+        game-by-game.
+    %p Thanks for joining and good luck!

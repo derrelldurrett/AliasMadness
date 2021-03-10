@@ -1,0 +1,3 @@
+= form.fields_for :teams, @team, {hidden: node} do |team_fields|
+  = team_fields.label ' ('+@team.seed.to_s+') ', {size: 6, class: ' force-font'}
+  = team_fields.text_field :name, {size: 20, class: 'team_name force-font'}

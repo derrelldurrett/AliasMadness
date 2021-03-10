@@ -1,0 +1,11 @@
+%tr
+  = content_tag :td, class: 'scenario_display scenario' do
+    = div_for scenario, {class: 'scenario_list'} do
+      %br/
+      %p
+        = json_to_html(scenario.scenario_teams).html_safe
+  = content_tag :td, class: 'scenario_display results' do
+    = div_for scenario, {class: 'result_list'} do
+      %br/
+      %p
+        = json_to_html(scenario.result).html_safe

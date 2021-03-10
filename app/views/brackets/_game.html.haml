@@ -1,0 +1,6 @@
+- @game = bracket.lookup_node(node)
+= content_tag_for(:td, @game, {class: build_game_class(@game, node, bracket_locked), data: {node: node}}) do
+  .winner= game_winner(node, is_disabled, bracket)
+  -# = render partial: 'games/winner', locals: {form: form, node: node, bracket: bracket, is_disabled: is_disabled}
+  -# if the line above is used instead of the line above that, then _winner.html.haml should contain
+  -# .winner= game_winner(node, is_disabled, bracket)

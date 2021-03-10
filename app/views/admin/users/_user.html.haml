@@ -1,0 +1,5 @@
+%tr
+  = content_tag :td, class: 'player_summary'+bracket_complete_class(user, @user.admin?) do
+    = link_to user_url user.id do
+      = div_for @user, {class: clickable(user)} do
+        = user.name+' == '+user.current_score.to_s

@@ -1,0 +1,8 @@
+#leader_board
+  / class='span-2'
+  %p.header_text.center.text-right Leader Board
+  = render 'brackets/scenarios/users/index'
+.page-header.center.force-center
+  %h1 Scenario List
+%table.scenarios_ordered.center
+  = render partial: "brackets/scenarios/scenario", collection: @scenarios

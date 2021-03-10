@@ -1,0 +1,13 @@
+.center.force-center
+  - provide(:title, 'Invite Player')
+  %h2.center.text-center Invite a new player
+  = form_for(@user) do |f|
+    = render 'shared/error_messages', object: f.object
+    .allow-top-margin.text-right
+      = f.label :name
+      = f.text_field :name
+    .allow-top-margin.text-right
+      = f.label :email
+      = f.text_field :email
+    .center.allow-top-margin.force-center
+      = f.submit 'Invite Player'

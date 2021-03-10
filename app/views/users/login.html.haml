@@ -1,0 +1,13 @@
+.center.force-center
+  - provide(:title, 'Sign in')
+  %h1.center Sign in
+  = form_for(@user, {class: 'center force-center'}) do |f|
+    = render 'shared/error_messages', object: f.object
+    %p.text-right
+      = f.label :email
+      = f.text_field :email
+    %p#login_password.text-right
+      = f.label :password
+      = f.password_field :password
+    %p.center
+      = f.submit "Login", class: 'btn btn-large btn-primary'

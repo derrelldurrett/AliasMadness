@@ -1,0 +1,12 @@
+.center.force-center
+  - provide(:title, 'Send a message to players')
+  %h2.center.text-center Send a group message
+  = form_tag admin_messages_path, method: :post do
+    .allow-top-margin.text-center
+      = label_tag :subject
+      = text_field_tag :subject
+    .allow-top-margin.text-center
+      = label_tag :message
+      = text_area_tag :message, nil, escape: false, size: '80x10'
+    .center.allow-top-margin.force-center
+      = submit_tag 'Send Message'

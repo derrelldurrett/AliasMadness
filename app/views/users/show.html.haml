@@ -1,0 +1,11 @@
+#leader_board
+  / class='span-2'
+  %p.header_text.center.text-right Leader Board
+  = render 'index'
+#bracket_display
+  - if @user.admin? or team_names_locked?
+    - @bracket = @user.bracket
+    = render :partial => 'brackets/bracket'
+  - else
+    %h2.center Coming Soon!
+    / Coming Soon!

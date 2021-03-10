@@ -1,0 +1,6 @@
+#leader_board.center
+  %span.header_text Leader Board
+  = render 'index'
+#bracket_display.center
+  - @bracket = @user.bracket
+  = render :partial => 'brackets/bracket'
