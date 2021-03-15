@@ -44,4 +44,5 @@ Rails.application.configure do
   config.action_cable.mount_path = '/cable'
   # config.action_cable.url = 'wss://example.com/cable'
   config.action_cable.disable_request_forgery_protection = true
+  config.action_mailer.default_url_options = { :host => 'localhost:3000', protocol: 'http' }
 end
