@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module UsersHelper
   def update_player_scores
     players = get_players

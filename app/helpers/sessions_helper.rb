@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SessionsHelper
   delegate :url_helpers, to: 'Rails.application.routes'
   def session_authenticate(user)

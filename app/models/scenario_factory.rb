@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ScenarioFactory
   def build_scenarios(admin)
     data = initialize_scenario_data admin

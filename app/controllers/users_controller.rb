@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+require 'active_record/errors'
 class UsersController < ApplicationController
-  require 'active_record/errors'
 
   include SessionsHelper
   include UsersHelper

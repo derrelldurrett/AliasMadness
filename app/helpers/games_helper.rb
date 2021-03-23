@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module GamesHelper
   def game_winner(node, is_disabled, bracket)
     if @user.bracket_locked? and not @game.winner.nil?

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module BracketsHelper
   def chat_names_as_json
     User.where(role: :player).each_with_object([]) {|u,o| o << [u.chat_name, u.id]}.to_json

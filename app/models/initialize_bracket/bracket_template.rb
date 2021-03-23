@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rgl/base'
 require 'rgl/adjacency'
 require_relative './template_loader'

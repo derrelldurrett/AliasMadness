@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Heckle < ApplicationRecord
   has_many :heckles_user
   has_many :targets, source: :user, through: :heckles_user

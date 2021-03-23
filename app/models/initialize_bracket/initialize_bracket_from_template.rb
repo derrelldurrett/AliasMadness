@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative './template_loader'
 template_file = %Q(#{Rails.root}/app/models/initialize_bracket/aliasmadness_bracket_template.csv)
 

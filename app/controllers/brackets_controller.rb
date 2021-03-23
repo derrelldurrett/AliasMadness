@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class BracketsController < ApplicationController
   include BracketsHelper
   include SessionsHelper

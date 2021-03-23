@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+require 'active_record/errors'
 class Admin
   class AdminController < ApplicationController
-    require 'active_record/errors'
     include SessionsHelper
     include UsersHelper
     include BracketsHelper

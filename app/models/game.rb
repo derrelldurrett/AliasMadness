@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'helpers/hash_helper'
 require 'helpers/hash_class_helper'
 require 'helpers/json_client_helper'
