@@ -1,11 +1,6 @@
 class ForumChannel < ApplicationCable::Channel
   def subscribed
-    # How to identify the additional channel to which to subscribe?
     stream_from "forum_channel"
-  end
-
-  def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
   end
 
   def heckle(data)

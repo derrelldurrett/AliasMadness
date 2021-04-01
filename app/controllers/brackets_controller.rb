@@ -29,7 +29,7 @@ class BracketsController < ApplicationController
       lock_players_brackets
       flash[:success]= 'Players Brackets LOCKED!'.freeze
     end
-    respond_to { |format| format.json { render :json => current_user } }
+    respond_to { |format| format.json { render json: current_user } }
   end
 
   def scenarios
