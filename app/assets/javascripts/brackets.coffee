@@ -3,11 +3,6 @@
 #= require common
 #= require game_update
 
-buildGameNode = (bId, d) ->
-  $gameNode = $('select#game_' + d)
-  $gameNode.empty()
-  $gameNode.append($.parseHTML(buildSelectOptionsFor bId, d))
-
 buildOption = (bId, n) ->
   [displayName, value]= getBracketEntry(bId, n)
   "\n" + '<option value="' + value + '">' + displayName + '</option>'
@@ -41,8 +36,7 @@ getBracketEntry = (bId, n) ->
   if e?
     name = e
     e = n
-  else
-    # use value stored in 'winner' slot
+  else # use value stored in 'winner' slot
     e = StoreWrapper.getStoreWinnersLabel(bId, n)
     name = StoreWrapper.getStoreName(bId,  e)
   !name? and name = ''
@@ -112,21 +106,42 @@ teamUpdateSetup = (t) ->
   [teamId,bracketId,node,newName]
 
 updateLocalBracket = (input) ->
-  StoreWrapper.updateStore input
-  # input.node contains the node being updated, so have to lookup descendant
+  # input.node contains the node being updated, so have to look up descendants
   # to know which to update consequently
-  n = input.node
+  node = input.node
   bId = input.bracket_id
-  while  d = StoreWrapper.getDescendant n
-    buildGameNode(bId, d)
-    n = d
+  oldWinLabel = StoreWrapper.getStoreWinnersLabel bId, node
+  StoreWrapper.updateStore input
+  newWinLabel = input.winners_label
+  if !oldWinLabel? or oldWinLabel != newWinLabel
+    dNode = StoreWrapper.getDescendant node
+    if oldWinLabel? and newWinLabel != '' and dNode?
+      $gameNode = $('select#game_' + dNode)
+      sel = $gameNode.find(':selected')
+      curWinner = sel.text()
+      curWinLabel = sel.val()
+      $gameNode.empty()
+      $gameNode.append($.parseHTML(buildSelectOptionsFor bId, dNode))
+      if oldWinLabel? and oldWinLabel != ''
+        if curWinLabel? and curWinLabel == oldWinLabel
+          $gameNode.addClass('red_winner_state')
+        else
+          $gameNode.find('option[value="'+curWinLabel+'"]').prop('selected', true)
+      updateLocalBracket({node: dNode, winner: curWinner, bracket_id: bId, winners_label: curWinLabel})
 
 updateOptions = (target) ->
   node = $(target).attr 'node'
-  winnerLabel = $(target).find(':selected').val() # an integer, the label of the winning team
   bId = $('table.bracket').data 'bracket_id'
-  winner = $(target).find(':selected').text() # Store.get(buildLocalStoreLabel(bId,winnerLabel,'name'))
+  winnerLabel = $(target).find(':selected').val() # an integer, the label of the winning team
+  winner = $(target).find(':selected').text()
+  $(target).removeClass('red_winner_state')
   updateLocalBracket({node: node, winner: winner, bracket_id: bId, winners_label: winnerLabel})
+
+# wLabel is the label of the old winner, and if the node has this winner or no winner, update it
+nodeNeedsUpdate = (jqn, wLabel) ->
+  jqn[0]['selected'] or
+    (jqn[1]['selected'] and jqn[1]['value'] == wLabel) or
+    (jqn[2]['selected'] and jqn[2]['value'] == wLabel)
 
 wipeTextField = (targetNode) ->
   targetNode.value = ''

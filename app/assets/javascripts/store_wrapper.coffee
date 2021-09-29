@@ -18,9 +18,7 @@ class @StoreWrapper
     a
 
   @getDescendant: (n) ->
-    d = Store.get 'd_' + n
-    d? or d = ''
-    d
+    Store.get 'd_' + n
 
   @getStoreName: (bId, l) ->
     Store.get(@buildLocalStoreLabel(bId, l, 'name'))

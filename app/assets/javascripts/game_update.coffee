@@ -21,12 +21,12 @@ class @GameUpdate
     else
       null
 
-  @gameUpdateCallCleanUp: (t) ->
+  @gameUpdateCallCleanUp: () ->
     installGameUpdateClickHandler()
 
-  @gameUpdateError: (errorThrown, textStatus, t) ->
+  @gameUpdateError: (errorThrown, textStatus) ->
     showError errorThrown, textStatus
-    @gameUpdateCallCleanUp(t)
+    @gameUpdateCallCleanUp()
 
   @gameUpdateSetup: (e) ->
     e.preventDefault()
@@ -36,14 +36,14 @@ class @GameUpdate
     bId = $('table.bracket').data 'bracket_id'
     [target, bId]
 
-  @gameUpdateSuccess: (bId, t) ->
+  @gameUpdateSuccess: (bId) ->
     @clearNewGameChoiceFlags bId
     Common.reloadPage()
-    @gameUpdateCallCleanUp(t)
+    @gameUpdateCallCleanUp()
 
   @sendGameUpdates: (e) ->
     [target, bId] = @gameUpdateSetup e
-    sendMe = (gameDataCached for g in [63..1] when (gameDataCached = @gameData(g, bId))?)
+    sendMe = @buildGameData bId
     # gotta "" the game_data key, otherwise JSON parsing barfs on the server
     $.ajax
       contentType: 'application/json'
@@ -51,10 +51,9 @@ class @GameUpdate
       url: $(target).closest('form').attr('action')
       data: JSON.stringify({"bracket": {"game_data": sendMe}})
       success: (data, textStatus, jqXHR) ->
-        GameUpdate.clearNewGameChoiceFlags bId
-        Common.reloadPage()
+        GameUpdate.gameUpdateSuccess bId
       error: (jqXHR, textStatus, errorThrown) ->
-        Common.showError errorThrown, textStatus
+        GameUpdate.gameUpdateError errorThrown, textStatus
       complete: (jqXHR, textStatus) ->
         $(target).prop('disabled', false)
 

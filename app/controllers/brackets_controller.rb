@@ -44,19 +44,32 @@ class BracketsController < ApplicationController
   private
 
   def game_data_processed?(data, bracket_id)
-    ret= true
-    games_by_label= hash_by_label Game.where(bracket_id: bracket_id)
-    data.each do |d|
-      (game_label,winner_name,winner_label)= d
-      game= games_by_label.fetch game_label.to_s
-      team = get_team(game_label, winner_label, winner_name)
-      if team.nil?
-        ret = false
-        break
+    ret = true
+    Bracket.transaction do
+      Game.transaction do
+        ret = update_games(bracket_id, data)
       end
-      game.update!({winner: team})
     end
     ret
+  end
+
+  def update_games(bracket_id, data)
+    ret = true
+    games_by_label = hash_by_label Game.where(bracket_id: bracket_id)
+    data.each do |d|
+      ret = update_game(d, games_by_label)
+      break unless ret
+    end
+    ret
+  end
+
+  def update_game(d, games_by_label)
+    (game_label, winner_name, winner_label) = d
+    game = games_by_label.fetch game_label.to_s
+    team = get_team(game_label, winner_label, winner_name)
+    return false if team.nil?
+    game.update!({ winner: team })
+    true
   end
 
   def get_team(game_label, winner_label, winner_name)
@@ -65,7 +78,6 @@ class BracketsController < ApplicationController
     else
       team = Team.find_by_label winner_label
       if team.name != winner_name
-        ret = false
         flash.now[:error] =
             %Q(label/name mismatch! Expected winner #{winner_name}, got #{team.name})
         return

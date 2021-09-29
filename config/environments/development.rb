@@ -54,6 +54,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.action_dispatch.cookies_same_site_protection = :none
+  config.action_dispatch.cookies_same_site_protection = :strict
   config.action_mailer.default_url_options = { :host => 'localhost:3000', protocol: 'http' }
 end

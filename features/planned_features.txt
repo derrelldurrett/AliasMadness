@@ -1,6 +1,14 @@
 admin(auto-delete?) of sad-sack players (those what ain't paid)
 slimmed down game updates using ActionCable to do auto updates for players who are logged in
     pub-sub first for saving the games
+        each admin game has a channel (does this risk being too heavyweight?)
+        when a game is changed, that change is either saved or sent
+        if saved, the button is installed, and the existing code is used
+        if sent, a new route is used GameController#update and the result is in JSON
+        need to get rid of the page reload when games are sent in bulk.
+
+        player's game is subscribed to the publish for the admin's game of the same label
+
     show the games that aren't updated by a player in red!
     after brackets are locked, players subscribe to the admin's game to get updates when they are changed
 figure out if a machine-learning technique can improve scenario computation run-time
