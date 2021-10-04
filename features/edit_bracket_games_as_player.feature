@@ -5,7 +5,7 @@ Feature: Edit bracket as player
   and be able to enter my games
   and have them count
 
-  @javascript
+  @javascript @wip
   Scenario: Choosing winners for games
     Given 'An invited player' logs in with all teams entered
     When An invited player enters the winners for the games

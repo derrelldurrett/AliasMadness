@@ -24,7 +24,7 @@ gem 'responders' # extend controller classes with respond_to
 gem 'rgl' # build and traverse graphs easily
 gem 'sass-rails' # Use SCSS for stylesheets
 gem 'sendgrid-ruby' # mail with SendGrid
-gem 'sprockets', '>= 4.0'
+gem 'sprockets'
 gem 'sprockets-rails'
 gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
