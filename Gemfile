@@ -24,7 +24,7 @@ gem 'responders' # extend controller classes with respond_to
 gem 'rgl' # build and traverse graphs easily
 gem 'sass-rails' # Use SCSS for stylesheets
 gem 'sendgrid-ruby' # mail with SendGrid
-gem 'sprockets', '>= 4.0'
+gem 'sprockets'
 gem 'sprockets-rails'
 gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
@@ -71,5 +71,5 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'therubyracer', platforms: :ruby # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'mini_racer', platforms: :ruby # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 end

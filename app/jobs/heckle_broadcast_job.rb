@@ -18,9 +18,7 @@ class HeckleBroadcastJob < ApplicationJob
     # So, we have one static string ("forum_channel") for the shared channel and a
     # User-instance-specific channel to which each listener is subscribed on the
     # client side.
-    channels = heckle.targets.map do |t|
-      t.private_channel
-    end
+    channels = heckle.targets.map { |t| t.private_channel }
     channels << DEFAULT_CHANNEL if channels.empty?
     channels
   end

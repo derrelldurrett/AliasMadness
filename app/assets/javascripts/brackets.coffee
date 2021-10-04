@@ -3,18 +3,14 @@
 #= require common
 #= require game_update
 
-buildGameNode = (bId, d) ->
-  $gameNode = $('select#game_' + d)
-  $gameNode.empty()
-  $gameNode.append($.parseHTML(buildSelectOptionsFor bId, d))
-
 buildOption = (bId, n) ->
   [displayName, value]= getBracketEntry(bId, n)
   "\n" + '<option value="' + value + '">' + displayName + '</option>'
 
-buildSelectOptionsFor = (bracketId, node) ->
+#
+buildSelectOptionsFor = (input) ->
   optionString = '<option value>Choose winner...</option>'
-  optionString += buildOption(bracketId, ancestor) for ancestor in StoreWrapper.getAncestors(node)
+  optionString += buildOption(input.bracket_id, ancestor) for ancestor in StoreWrapper.getAncestors(input.node)
   optionString
 
 chooseWinner = (target) ->
@@ -41,8 +37,7 @@ getBracketEntry = (bId, n) ->
   if e?
     name = e
     e = n
-  else
-    # use value stored in 'winner' slot
+  else # use value stored in 'winner' slot
     e = StoreWrapper.getStoreWinnersLabel(bId, n)
     name = StoreWrapper.getStoreName(bId,  e)
   !name? and name = ''
@@ -85,6 +80,12 @@ lockPlayersBrackets = (e) ->
 nameTeam = (target) ->
   sendTeamNameUpdate(t) for t in $(target)
 
+# wLabel is the label of the old winner, and if the node has this winner or no winner, update it
+nodeNeedsUpdate = (jqn, wLabel) ->
+  jqn[0]['selected'] or
+    (jqn[1]['selected'] and jqn[1]['value'] == wLabel) or
+    (jqn[2]['selected'] and jqn[2]['value'] == wLabel)
+
 sendTeamNameUpdate = (target) ->
   [teamId,bracketId,node,newName] = teamUpdateSetup target
   $.ajax
@@ -111,21 +112,51 @@ teamUpdateSetup = (t) ->
   !bracketId? and bracketId = $('table.bracket').data('bracket').id
   [teamId,bracketId,node,newName]
 
+updateDescendant = (input) ->
+  dNode = StoreWrapper.getDescendant input.node
+  if dNode?
+    $descNode = $('select#game_' + dNode)
+    sel = $descNode.find(':selected')
+    descWinner = sel.text()
+    descWinLabel = sel.val()
+    $descNode.empty()
+    input.node = dNode
+    $descNode.append($.parseHTML(buildSelectOptionsFor input))
+    if input.invalidated != ''
+      if descWinLabel? and descWinLabel == input.invalidated
+        $descNode.addClass('red_winner_state')
+      else if descWinLabel != ''
+        $descNode.find('option[value="'+descWinLabel+'"]').prop('selected', true)
+      else
+        $descNode.children().first().value = 'Choose winner...'
+        $descNode.children().first().selected = true
+    updateLocalBracket(input) if input.invalidated == descWinLabel
+
 updateLocalBracket = (input) ->
-  StoreWrapper.updateStore input
-  # input.node contains the node being updated, so have to lookup descendant
+  # input.node contains the node being updated, so have to look up descendants
   # to know which to update consequently
-  n = input.node
-  bId = input.bracket_id
-  while  d = StoreWrapper.getDescendant n
-    buildGameNode(bId, d)
-    n = d
+  # steps:
+  # 1) update input.node in the store
+  # if a descendent exists:
+  # 2) add input.winners_label to the descendent node
+  # if input.node had no prior winner:
+  #   done
+  # else
+  #   3) make descendent red
+  #
+  oldWinLabel = StoreWrapper.getStoreWinnersLabel input.bracket_id, input.node
+  oldWinLabel = '' unless oldWinLabel?
+  StoreWrapper.updateStore input
+  input.invalidated = oldWinLabel unless input.invalidated? # propagate only the first change
+  input.winner = input.winners_label = '' # not valid to propagate from here.
+  updateDescendant(input)
 
 updateOptions = (target) ->
   node = $(target).attr 'node'
-  winnerLabel = $(target).find(':selected').val() # an integer, the label of the winning team
   bId = $('table.bracket').data 'bracket_id'
-  winner = $(target).find(':selected').text() # Store.get(buildLocalStoreLabel(bId,winnerLabel,'name'))
+  winnerLabel = $(target).find(':selected').val() # an integer, the label of the winning team
+  winner = $(target).find(':selected').text()
+  $(target).removeClass('red_winner_state')
   updateLocalBracket({node: node, winner: winner, bracket_id: bId, winners_label: winnerLabel})
 
 wipeTextField = (targetNode) ->
