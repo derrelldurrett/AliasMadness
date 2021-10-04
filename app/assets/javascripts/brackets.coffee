@@ -157,7 +157,6 @@ updateOptions = (target) ->
   winnerLabel = $(target).find(':selected').val() # an integer, the label of the winning team
   winner = $(target).find(':selected').text()
   $(target).removeClass('red_winner_state')
-  console.log('new call to update options')
   updateLocalBracket({node: node, winner: winner, bracket_id: bId, winners_label: winnerLabel})
 
 wipeTextField = (targetNode) ->
