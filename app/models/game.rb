@@ -19,6 +19,10 @@ class Game < ApplicationRecord
     to_json
   end
 
+  def channel
+    GameUpdaterChannel.broadcasting_for self
+  end
+
   def eql?(other)
     other.is_a?(Game) and label.eql? other.label and bracket.eql? other.bracket
   end

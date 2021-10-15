@@ -1,25 +1,14 @@
 admin(auto-delete?) of sad-sack players (those what ain't paid)
 slimmed down game updates using ActionCable to do auto updates for players who are logged in
-    pub-sub first for saving the games
-        each admin game has a channel (does this risk being too heavyweight?)
-        when a game is changed, that change is either saved or sent
-        if saved, the button is installed, and the existing code is used
-        if sent, a new route is used GameController#update and the result is in JSON
-        need to get rid of the page reload when games are sent in bulk.
-        player's game is subscribed to the publish for the admin's game of the same label
-    show the games that aren't updated by a player in red!
-        behavior summary in updateLocalBracket:
-          - update input.node in the Store
-          - update the options in the descendant
-          -- if we invalidated its winner, set descendant to red (if descWinLabel == input.invalidated)
-          -- else if it had a winner, set that <option/>'s selected property to true
-          -- else set the first child to have 'Choose winner...' and set its selected prop to true
-          - if input.node had a previous winner (oldWinLabel exists and isn't empty string)
-          -- invalidate that winner in descendant (input.invalidate = oldWinLabel, if invalidate isn't already set)
-          -- recurse for descendant node
-          - if it didn't have a winner
-          -- quit
-    after brackets are locked, players subscribe to the admin's game to get updates when they are changed
+    pub-sub for saving the games
+        a game has a channel (a la users subscribing to messages that are for them directly)
+        it subscribes to that channel while brackets are unlocked
+        when it gets a "new subscription" message, it subscribes to the channel for the admin's game w/same label
+
+        changing a game sends the new winner as a message to server
+
+        one channel per game (or per bracket? this would reduce the number of channels)
+    after brackets are locked, players subscribe to the admin's game (or bracket?) to get updates when they are changed
 figure out if a machine-learning technique can improve scenario computation run-time
 right-click on a player in the left column to directly compare future chances
 calculate "potential points" remaining for a bracket

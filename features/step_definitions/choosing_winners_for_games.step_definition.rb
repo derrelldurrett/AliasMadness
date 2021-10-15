@@ -196,7 +196,7 @@ When "I change a game's winner" do
 end
 
 Then "The subsequent games should display 'Choose winner...'" do
-  until @label_to_check.nil?
+  until @label_to_check.nil? or games_by_label(@players_bracket)[@label_to_check] != @previous_winner
     puts "checking game reset for player #{@user.id} and game #{@label_to_check}"
     winner_reset?(@label_to_check)
     @label_to_check = get_descendant_label(@label_to_check)

@@ -34,9 +34,7 @@ class PrivateChatter extends Chatter
 $ ->
   $(document).on 'turbolinks:load', ->
     chatter = new ForumChatter
-    Chats.forum = Chats.cable.subscriptions.create chatter.channel(),
-      chatter
+    Chats.forum = Chats.cable.subscriptions.create chatter.channel(), chatter
 
     chatter = new PrivateChatter
-    Chats.privt = Chats.cable.subscriptions.create chatter.channel(),
-      chatter
+    Chats.privt = Chats.cable.subscriptions.create chatter.channel(), chatter
