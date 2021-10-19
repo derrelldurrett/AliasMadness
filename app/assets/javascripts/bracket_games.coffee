@@ -31,7 +31,7 @@ class BracketGame
     if dNode?
       input.node = dNode
       descWinLabel = @updateNode(input)
-      @updateLocalBracket(input) if input.invalidated == descWinLabel
+      @updateLocalBracket(input) if (input.invalidated == descWinLabel and input.invalidated != '')
 
   updateLocalBracket: (input) ->
     # input.node contains the node being updated, so have to look up descendants
@@ -61,7 +61,6 @@ class BracketGame
     $descNode.empty()
     $descNode.append($.parseHTML(@buildSelectOptionsFor input))
     if input.invalidated != ''
-      # @updateServer(input)
       if descWinLabel? and descWinLabel == input.invalidated
         $descNode.addClass('red_winner_state')
       else if descWinLabel != ''
@@ -69,6 +68,8 @@ class BracketGame
       else
         $descNode.children().first().value = 'Choose winner...'
         $descNode.children().first().selected = true
+    else if descWinLabel != ''
+      $descNode.find('option[value="' + descWinLabel + '"]').prop('selected', true)
     descWinLabel
 
   updateOptions: (target) ->
@@ -83,9 +84,8 @@ class BracketGame
 
   updateServer: (input)->
     # move this into the loop? why is the front end doing too many games downstream?
-    input.game_id = $('select#game_' + input.node)[0].id.split('_')[1]
     console.log("update server's game: "+JSON.stringify(input))
-    gameUpdater = GameUpdaters['game_updater_' + input.game_id]
+    gameUpdater = GameUpdaters['game_updater_' + input.node]
     gameUpdater.update(input)
 
 $ ->
