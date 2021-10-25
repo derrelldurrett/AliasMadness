@@ -2,7 +2,7 @@
 #= require common
 #= require game_update
 #= require bracket_games
-class Bracket
+class @Bracket
   fixTeamNames: (e) ->
     e.preventDefault()
     target = e.target
@@ -56,6 +56,8 @@ class Bracket
 
   sendTeamNameUpdate: (target) ->
     [teamId,bracketId,node,newName] = @teamUpdateSetup target
+    bracketGames = new BracketGame()
+    bracket = this
     $.ajax
       type: 'PUT'
       url: '/teams/' + teamId
@@ -66,11 +68,11 @@ class Bracket
         'bracket[id]': bracketId
         'bracket[node]': node
       success: (data, textStatus, jqXHR) ->
-        @updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
+        bracketGames.updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
         Common.reloadPage()
       error: (jqXHR, textStatus, errorThrown) ->
         Common.showError errorThrown, textStatus
-        @wipeTextField target
+        bracket.wipeTextField target
 
   teamUpdateSetup: (t) ->
     newName = t.value
@@ -85,9 +87,6 @@ class Bracket
 
 $ ->
   bracket = new Bracket()
-  $('input.team_name').on 'change', (e) => bracket.nameTeam e.target
-  $('button#team_entry_done').on 'click', (e) => bracket.fixTeamNames e
   $('button#submit_games').on 'click', (e) => GameUpdate.sendGameUpdates e
-  $('button#lock_players_brackets').on 'click', (e) => bracket.lockPlayersBrackets e
   $('table.bracket').one 'focusin', (e) => bracket.loadBracket e.target
 

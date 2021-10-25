@@ -1,10 +1,8 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-#= require game_update
+#= require brackets
 
-installGameUpdateClickHandler = () ->
-  $('button#update_bracket').on 'click', (e) => GameUpdate.sendGameUpdates e
-
+# Admin behavior
 $ ->
-  installGameUpdateClickHandler()
+  bracket = new Bracket()
+  $('input.team_name').on 'change', (e) => bracket.nameTeam e.target
+  $('button#team_entry_done').on 'click', (e) => bracket.fixTeamNames e
+  $('button#lock_players_brackets').on 'click', (e) => bracket.lockPlayersBrackets e

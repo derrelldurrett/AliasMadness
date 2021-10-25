@@ -1,6 +1,7 @@
+#= require_self
 #= require store_wrapper
 #= require channels/game_updater
-class BracketGame
+class @BracketGame
   buildOption: (bId, n) ->
     [displayName, value]= @getBracketEntry(bId, n)
     "\n" + '<option value="' + value + '">' + displayName + '</option>'
@@ -33,6 +34,8 @@ class BracketGame
       descWinLabel = @updateNode(input)
       @updateLocalBracket(input) if (input.invalidated == descWinLabel and input.invalidated != '')
 
+  # Called to update a node, both recursively as warranted, and if an ancestor has changed. Since this includes if a
+  # team name has changed, we need to be sure to guard against that.
   updateLocalBracket: (input) ->
     # input.node contains the node being updated, so have to look up descendants
     # to know which to update consequently
@@ -45,32 +48,32 @@ class BracketGame
     # else
     #   3) make descendent red
     #
-    @updateServer(input)
+    gameUpdater = GameUpdaters['game_updater_' + input.node]
+    gameUpdater?.update(input) # guard against no updater for the Team name nodes.
+    StoreWrapper.updateStore input
     oldWinLabel = StoreWrapper.getStoreWinnersLabel input.bracket_id, input.node
     oldWinLabel = '' unless oldWinLabel?
-    StoreWrapper.updateStore input
     input.invalidated = oldWinLabel unless input.invalidated? # propagate only the first change
     input.winner = input.winners_label = '' # not valid to propagate from here.
     @updateDescendant(input)
 
   updateNode: (input) ->
-    $descNode = $('select#game_' + input.node)
-    sel = $descNode.find(':selected')
-    descWinner = sel.text()
-    descWinLabel = sel.val()
-    $descNode.empty()
-    $descNode.append($.parseHTML(@buildSelectOptionsFor input))
+    $node = $('select#game_' + input.node)
+    sel = $node.find(':selected')
+    winLabel = sel.val()
+    $node.empty()
+    $node.append($.parseHTML(@buildSelectOptionsFor input))
     if input.invalidated != ''
-      if descWinLabel? and descWinLabel == input.invalidated
-        $descNode.addClass('red_winner_state')
-      else if descWinLabel != ''
-        $descNode.find('option[value="' + descWinLabel + '"]').prop('selected', true)
+      if winLabel? and winLabel == input.invalidated
+        $node.addClass('red_winner_state')
+      else if winLabel != ''
+        $node.find('option[value="' + winLabel + '"]').prop('selected', true)
       else
-        $descNode.children().first().value = 'Choose winner...'
-        $descNode.children().first().selected = true
-    else if descWinLabel != ''
-      $descNode.find('option[value="' + descWinLabel + '"]').prop('selected', true)
-    descWinLabel
+        $node.children().first().value = 'Choose winner...'
+        $node.children().first().selected = true
+    else if winLabel != ''
+      $node.find('option[value="' + winLabel + '"]').prop('selected', true)
+    winLabel
 
   updateOptions: (target) ->
     node = $(target).attr 'node'
@@ -79,14 +82,7 @@ class BracketGame
     winner = $(target).find(':selected').text()
     $(target).removeClass('red_winner_state')
     input = {node: node, winner: winner, bracket_id: bId, winners_label: winnerLabel}
-    console.log("update options before updating server: "+JSON.stringify(input))
     @updateLocalBracket(input)
-
-  updateServer: (input)->
-    # move this into the loop? why is the front end doing too many games downstream?
-    console.log("update server's game: "+JSON.stringify(input))
-    gameUpdater = GameUpdaters['game_updater_' + input.node]
-    gameUpdater.update(input)
 
 $ ->
   bracketGame = new BracketGame()

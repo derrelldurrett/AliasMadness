@@ -224,10 +224,11 @@ class ChatWindowDriver
     selRge
 
 $ ->
-  chatDriver = new ChatWindowDriver
-  $('#chat-text').on 'input', (e) => chatDriver.checkInput(e)
-  $('#bracket').on 'click', (e) -> chatDriver.resetAutocomplete()
-  chatDriver.setChatDimensions()
-  chatDriver.highlightFromUser()
-  # force the newest chat into view
-  document.getElementById('chat-anchor').scrollIntoView()
+  $(document).on 'turbolinks:load', ->
+    chatDriver = new ChatWindowDriver
+    $('#chat-text').on 'input', (e) => chatDriver.checkInput(e)
+    $('#bracket').on 'click', (e) -> chatDriver.resetAutocomplete()
+    chatDriver.setChatDimensions()
+    chatDriver.highlightFromUser()
+    # force the newest chat into view
+    document.getElementById('chat-anchor').scrollIntoView()

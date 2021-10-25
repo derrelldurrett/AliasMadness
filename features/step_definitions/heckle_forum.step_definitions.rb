@@ -23,6 +23,8 @@ When 'Another player sends a heckle' do
 end
 
 Then 'I should see the heckle in my response window' do
+  sleep 25
+  # save_and_open_page
   expect(find('div#chats-received')).to have_text(group_chat_text2)
 end
 

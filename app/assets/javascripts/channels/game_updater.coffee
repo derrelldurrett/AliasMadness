@@ -1,5 +1,5 @@
 #= require bracket_games
-class GameUpdater
+class @GameUpdater
   constructor: (gameLabel) ->
     @labelAsSelector = 'td.game[data-node="'+gameLabel+'"]'
 
@@ -43,9 +43,3 @@ class GameUpdater
 
   @buildGameUpdaters: ->
     @buildGameUpdater(gameUpdaterId) for gameUpdaterId in [1..63]
-
-$ ->
-  $(document).on 'turbolinks:load', ->
-    # one for each game?
-    GameUpdater.buildGameUpdaters()
-

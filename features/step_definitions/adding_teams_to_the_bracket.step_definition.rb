@@ -57,7 +57,8 @@ Then(/\AThe team '([^']+)' should be the '([^']+)' for '([^']+)'\z/) do |new_tea
 end
 
 Then 'The teams should have the new names' do
-  #save_and_open_page
+  sleep 15
+  # save_and_open_page
   team_data.each do |t|
     steps %Q{
       Then The team '#{t[:new_name]}' should be the 'name' for '#{t[:old_name]}'
