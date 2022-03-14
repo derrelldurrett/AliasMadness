@@ -1,0 +1,1 @@
+(function(){this.Common=function(){function n(){}return n.reloadPage=function(){return window.location.reload()},n.showError=function(n){return alert(n)},n}()}).call(this);

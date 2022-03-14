@@ -1,0 +1,1 @@
+(function(){this.ChatLookup=function(){function t(t){var i,o,s;for(this.map={},this.autocompleteList=[],i=0,o=t.length;i<o;i++)s=t[i],this.buildLists(s)}return t.prototype.buildLists=function(t){var i,o;return o=t[0],i=t[1],this.map[o]=i,this.autocompleteList.push(o)},t.prototype.getIdForChatter=function(t){return this.map[t]},t}()}).call(this);

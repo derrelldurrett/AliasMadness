@@ -1,0 +1,1 @@
+(function(){$(function(){return $("p#login_password").on("focusin",function(){return localStorage.clear()})})}).call(this);
