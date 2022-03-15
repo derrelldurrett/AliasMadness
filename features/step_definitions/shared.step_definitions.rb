@@ -30,6 +30,7 @@ end
 When /\AI visit the '([^']+)' page\z/ do |page_name|
   puts 'I will visit '+page_name+' page'
   visit path_to(page_name)
+  save_and_open_page
 end
 
 When %q(click the button to set the names) do
