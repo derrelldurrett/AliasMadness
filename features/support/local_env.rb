@@ -16,37 +16,8 @@ require 'email_spec/cucumber'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'webdrivers/chromedriver'
-Capybara.register_driver :chrome do |app|
-  # Turn on browser logs
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      loggingPrefs: {
-          browser: 'ALL'
-      },
-      chromeOptions: {
-          w3c: false #,
-          #          args: %w(headless)
-      },
-  )
 
-  Capybara::Selenium::Driver.new(
-      app,
-      browser: :chrome,
-      desired_capabilities: capabilities
-  )
-end
-
-# Capybara.register_driver :headless_chrome do |app|
-#   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-#       chromeOptions: { args: %w(headless disable-gpu) }
-#   )
-#
-#   Capybara::Selenium::Driver.new app,
-#                                  browser: :chrome,
-#                                  desired_capabilities: capabilities
-# end
-#
-# Capybara.javascript_driver = :headless_chrome
-chosen_capybara_driver = :chrome
+chosen_capybara_driver = :selenium_chrome
 Capybara.default_driver = chosen_capybara_driver
 Capybara.javascript_driver = chosen_capybara_driver
 Capybara::Chromedriver::Logger::TestHooks.for_rspec!

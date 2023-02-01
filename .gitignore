@@ -27,3 +27,7 @@ coverage/*
 /config/master.key
 
 /config/credentials/production.key
+/public/assets/*.js
+/public/assets/*.js.gz
+/public/assets/*.css
+/public/assets/*.css.gz
