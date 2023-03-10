@@ -23,7 +23,7 @@ truncate_log [OPTION] ...
         EOF
       when '--log'
         @name=(arg.empty? ? ENV['RAILS_ENV'] : arg)+'.log'
-        if !File.exists? @name
+        unless File.exist? @name
           raise NoSuchFileError, "File '#{@name}' not found.\n"
         end
     end

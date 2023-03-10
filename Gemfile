@@ -1,4 +1,4 @@
-ruby '2.7.7'
+ruby '3.2.0'
 
 source 'https://rubygems.org'
 
@@ -18,16 +18,18 @@ gem 'jquery-rails'
 gem 'nokogiri' # force the following gem updates
 gem 'pg'
 gem 'puma' # Use Puma as the app server
-gem 'rails', '~> 6.1.4'# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 7.0.4'# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'record_tag_helper'
 gem 'responders' # extend controller classes with respond_to
 gem 'rgl' # build and traverse graphs easily
 gem 'sass-rails' # Use SCSS for stylesheets
+gem 'sorted_set'
 gem 'sendgrid-ruby' # mail with SendGrid
 gem 'sprockets'
 gem 'sprockets-rails'
 gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
+
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis'
