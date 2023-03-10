@@ -57,6 +57,7 @@ module AliasMadness
     # will benefit if a specific group of winning teams win out.
     config.active_job.queue_adapter = :delayed_job
 
+    config.active_record.legacy_connection_handling = false
   end
 
   #TODO try to initialize here?
