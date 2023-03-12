@@ -1,15 +1,10 @@
 # Load the Rails application.
 require_relative 'application'
 
-ActionMailer::Base.delivery_method = :smtp
-ActionMailer::Base.default_options = { host: ENV['ALIASMADNESS_HOST'] }
-ActionMailer::Base.smtp_settings = {
-    user_name: ENV['ALIASMADNESS_EMAIL_USERNAME'],
-    password: ENV['ALIASMADNESS_EMAIL_PASSWORD'],
-    address: 'smtp.gmail.com',
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
+ActionMailer::Base.delivery_method = :sendmail
+ActionMailer::Base.default_options = {
+  host: ENV['ALIASMADNESS_HOST'],
+  reply_to: ENV['ALIASMADNESS_ADMINEMAIL']
 }
 
 # Initialize the Rails application.
