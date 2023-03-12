@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'singleton'
 require 'assets/rgl/directed_adjacency_graph'
-require 'initialize_bracket/initialize_bracket_from_template'
-require 'initialize_bracket/bracket_template'
+#require 'initialize_bracket/initialize_bracket_from_template'
+#require 'initialize_bracket/bracket_template'
 
 class BracketFactory
   include Singleton
