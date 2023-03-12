@@ -1,2 +1,0 @@
-class BadProgrammerError < StandardError
-end
