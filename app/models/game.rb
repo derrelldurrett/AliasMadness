@@ -1,13 +1,13 @@
 # frozen_string_literal: true
-require 'helpers/hash_helper'
-require 'helpers/hash_class_helper'
-require 'helpers/json_client_helper'
-require 'helpers/json_client_class_helper'
+# require 'helpers/hash_helper'
+# require 'helpers/hash_class_helper'
+# require 'helpers/json_client_helper'
+# require 'helpers/json_client_class_helper'
 class Game < ApplicationRecord
-  include HashHelper
-  extend HashClassHelper
-  include JSONClientHelper
-  extend JSONClientClassHelper
+  include Helpers::HashHelper
+  extend Helpers::HashClassHelper
+  include Helpers::JsonClientHelper
+  extend Helpers::JsonClientClassHelper
   belongs_to :team, inverse_of: :games, optional: true
   belongs_to :bracket, inverse_of: :games, optional: true
 

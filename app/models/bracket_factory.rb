@@ -22,6 +22,6 @@ class BracketFactory
   def serialized_bracket
     # BracketTemplate should be passed the TemplateLoader from the
     # config: BracketTemplate.new(config.template_loader).copy
-    @serialized_bracket ||= BracketTemplate.new(InitializeBracketFromTemplate.template_loader).copy
+    @serialized_bracket ||= InitializeBracket::BracketTemplate.new(InitializeBracket::InitializeBracketFromTemplate.template_loader).copy
   end
 end

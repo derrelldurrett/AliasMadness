@@ -2,17 +2,17 @@
 
 class Bracket < ApplicationRecord
   require 'assets/rgl/directed_adjacency_graph'
-  require 'initialize_bracket/bracket_template'
-  require 'helpers/hash_helper'
-  require 'helpers/hash_class_helper'
-  require 'helpers/json_client_helper'
-  require 'helpers/json_client_class_helper'
+  # require 'initialize_bracket/bracket_template'
+  # require 'helpers/hash_helper'
+  # require 'helpers/hash_class_helper'
+  # require 'helpers/json_client_helper'
+  # require 'helpers/json_client_class_helper'
   @@cached_teams = []
-  include HashHelper
-  extend HashClassHelper
-  include JSONClientHelper
-  extend JSONClientClassHelper
-  serialize :bracket_data, BracketTemplate
+  include Helpers::HashHelper
+  extend Helpers::HashClassHelper
+  include Helpers::JsonClientHelper
+  extend Helpers::JsonClientClassHelper
+  serialize :bracket_data, InitializeBracket::BracketTemplate
   serialize :lookup_by_label, Hash
   attr_accessor :bracket_data
   belongs_to :user, optional: true

@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_221156) do
-
+ActiveRecord::Schema[7.0].define(version: 2020_04_27_221156) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,8 +18,8 @@ ActiveRecord::Schema.define(version: 2020_04_27_221156) do
     t.integer "user_id"
     t.text "bracket_data"
     t.text "lookup_by_label"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id"], name: "index_brackets_on_user_id"
   end
 
@@ -29,13 +28,13 @@ ActiveRecord::Schema.define(version: 2020_04_27_221156) do
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
     t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
+    t.datetime "run_at", precision: nil
+    t.datetime "locked_at", precision: nil
+    t.datetime "failed_at", precision: nil
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
@@ -43,8 +42,8 @@ ActiveRecord::Schema.define(version: 2020_04_27_221156) do
     t.integer "team_id"
     t.integer "bracket_id"
     t.string "label"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "locked", default: false
     t.index ["bracket_id"], name: "index_games_on_bracket_id"
     t.index ["team_id"], name: "index_games_on_team_id"
@@ -52,8 +51,8 @@ ActiveRecord::Schema.define(version: 2020_04_27_221156) do
 
   create_table "heckles", force: :cascade do |t|
     t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "from_id"
     t.integer "to_id"
   end
@@ -74,16 +73,16 @@ ActiveRecord::Schema.define(version: 2020_04_27_221156) do
     t.string "name"
     t.integer "seed"
     t.string "label"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "name_locked", default: false
     t.boolean "eliminated", default: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "password"
     t.string "password_digest"
     t.string "role"

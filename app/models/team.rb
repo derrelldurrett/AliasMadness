@@ -1,12 +1,12 @@
-require 'helpers/hash_helper'
-require 'helpers/hash_class_helper'
-require 'helpers/json_client_helper'
-require 'helpers/json_client_class_helper'
+# require 'helpers/hash_helper'
+# require 'helpers/hash_class_helper'
+# require 'helpers/json_client_helper'
+# require 'helpers/json_client_class_helper'
 class Team < ApplicationRecord
-  include HashHelper
-  extend HashClassHelper
-  include JSONClientHelper
-  extend JSONClientClassHelper
+  include Helpers::HashHelper
+  extend Helpers::HashClassHelper
+  include Helpers::JsonClientHelper
+  extend Helpers::JsonClientClassHelper
   has_many :games, inverse_of: :teams
   validates :name, uniqueness: true
   validates :seed, numericality: {only_integer: true}
