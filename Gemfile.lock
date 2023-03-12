@@ -322,8 +322,6 @@ GEM
     rspec-support (3.12.0)
     ruby_http_client (3.5.5)
     rubyzip (2.3.2)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -435,7 +433,7 @@ DEPENDENCIES
   rgl
   rspec
   rspec-rails
-  sass-rails
+  sassc-rails
   selenium-webdriver
   sendgrid-ruby
   shoulda

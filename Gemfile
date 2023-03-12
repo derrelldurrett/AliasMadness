@@ -22,7 +22,7 @@ gem 'rails', '~> 7.0.4'# Bundle edge Rails instead: gem 'rails', github: 'rails/
 gem 'record_tag_helper'
 gem 'responders' # extend controller classes with respond_to
 gem 'rgl' # build and traverse graphs easily
-gem 'sass-rails' # Use SCSS for stylesheets
+gem 'sassc-rails' # Use SCSS for stylesheets
 gem 'sorted_set'
 gem 'sendgrid-ruby' # mail with SendGrid
 gem 'sprockets'
@@ -75,3 +75,4 @@ end
 group :assets do
   gem 'mini_racer', platforms: :ruby # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 end
+
