@@ -1,2 +1,3 @@
-class TemplateFormatError < StandardError
+module InitializeBracket
+  class TemplateFormatError < StandardError; end
 end
