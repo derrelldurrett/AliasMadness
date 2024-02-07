@@ -25,6 +25,7 @@ gem 'rgl' # build and traverse graphs easily
 gem 'sassc-rails' # Use SCSS for stylesheets
 gem 'sorted_set'
 gem 'sendgrid-ruby' # mail with SendGrid
+# gem 'sendgrid-actionmailer' # sugar for that
 gem 'sprockets'
 gem 'sprockets-rails'
 gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -43,7 +44,6 @@ group :development, :test do
   gem 'capybara' # Adds support for Capybara system testing and selenium driver
   gem 'capybara-chromedriver-logger'
   gem 'capybara-screenshot'
-  gem 'webdrivers'
   gem 'cucumber-rails', require: false # 'require: false' is necessary for rake
   gem 'database_cleaner'
   gem 'email_spec'
@@ -56,6 +56,7 @@ group :development, :test do
   gem 'rspec' # , '>= 2.14'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
+  gem 'selenium-devtools', '~> 0.119'
   gem 'shoulda' # , '>3.1.1'
 end
 

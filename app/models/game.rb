@@ -8,8 +8,8 @@ class Game < ApplicationRecord
   extend Helpers::HashClassHelper
   include Helpers::JsonClientHelper
   extend Helpers::JsonClientClassHelper
-  belongs_to :team, inverse_of: :games, optional: true
-  belongs_to :bracket, inverse_of: :games, optional: true
+  belongs_to :team, optional: true
+  belongs_to :bracket, optional: true
 
   serialize :team, Team
 

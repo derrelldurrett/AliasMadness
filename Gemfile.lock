@@ -330,6 +330,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    selenium-devtools (0.121.0)
+      selenium-webdriver (~> 4.2)
     selenium-webdriver (4.8.1)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -383,10 +385,6 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.2.0)
-      nokogiri (~> 1.6)
-      rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
     webrick (1.8.1)
     websocket (1.2.9)
     websocket-driver (0.7.5)
@@ -434,6 +432,7 @@ DEPENDENCIES
   rspec
   rspec-rails
   sassc-rails
+  selenium-devtools (~> 0.119)
   selenium-webdriver
   sendgrid-ruby
   shoulda
@@ -446,7 +445,6 @@ DEPENDENCIES
   turbolinks
   uglifier
   web-console
-  webdrivers
 
 RUBY VERSION
    ruby 3.2.0p0

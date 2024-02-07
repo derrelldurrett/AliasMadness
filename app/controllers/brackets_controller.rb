@@ -96,24 +96,31 @@ class BracketsController < ApplicationController
     ancestors.each do |a|
       a_team = ancestor_team a
       unless a_team.nil? or a_team.label == winner_label
-        a_team.update!({eliminated: true})
+        a_team.update!(eliminated: true)
         break
       end
     end
   end
 
   def lock_players_brackets
+    puts "locking players brackets"
     User.transaction do
       Bracket.transaction do
         Game.transaction do
-          User.where({role: :player}).each do |p|
+          User.where(role: :player).each do |p|
             b= p.bracket
             b.games.update_all(locked: true)
+            p.bracket_locked = true
+            p.save!
           end
-          User.where({role: :player}).update_all(bracket_locked: true)
+          noop
         end
       end
     end
+  end
+
+  def noop
+
   end
 
   def resource_params

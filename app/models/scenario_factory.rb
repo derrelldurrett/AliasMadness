@@ -7,10 +7,13 @@ class ScenarioFactory
     process_and_store_scenarios
   rescue => exception
     Delayed::Worker.logger.info exception.message
-    Delayed::Worker.logger.info exception.backtrace.join("\n")
+    Delayed::Worker.logger.info exception.backtrace&.join("\n")
   end
   handle_asynchronously :build_scenarios
 
+  def build_scenarios_without_delay(_admin)
+    # nothing yet, because we need a better data model to do this calculation quickly
+  end
   private
 
   def assert_winner(g, r)
@@ -146,7 +149,7 @@ class ScenarioFactory
     g.winner = nil
   end
 
-  # We have to protect the call to disjoint_winners? from the possibliity that we'll call this with i = 0, since we'll
+  # We have to protect the call to disjoint_winners? from the possibility that we'll call this with i = 0, since we'll
   # address a place outside of the array if we do.
   # We're done (so return true) if we've worked through all the games or g is the last in its round, and the set of
   # winning teams which exist in this scenario branch are disjoint from the set of predicted winners.

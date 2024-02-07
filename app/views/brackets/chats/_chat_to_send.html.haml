@@ -1,4 +1,5 @@
 #chat-to-send-container
   #chat-send
-    %label{for: "chat-text"} Send
-    #chat-text.autocomplete{contenteditable: "true", "data-chat-name-lookup" => chat_names_as_json, "data-uid" => "#{user.id}"}
+    %label{for: "chat-text"}
+      Send
+      #chat-text.autocomplete{contenteditable: "true", data: {chat_name_lookup: chat_names_as_json, uid: "#{user.id}"}}

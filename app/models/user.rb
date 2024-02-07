@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  # require 'helpers/hash_helper'
-  # require 'helpers/hash_class_helper'
   extend Helpers::HashClassHelper
   attr_accessor :remember_for_email
-  has_one :bracket, inverse_of: :user
+  has_one :bracket
   has_many :heckles_user
   has_many :heckles, through: :heckles_user
   before_validation :do_validation_setup

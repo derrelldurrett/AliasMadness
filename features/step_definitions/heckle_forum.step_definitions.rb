@@ -19,7 +19,7 @@ sender = nil
 When 'Another player sends a heckle' do
   sender = choose_another_player
   Heckle.create! content: group_chat_text2, from_id: sender.id
-  sleep 2
+  sleep 5
 end
 
 Then 'I should see the heckle in my response window' do

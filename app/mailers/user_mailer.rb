@@ -15,7 +15,6 @@ class UserMailer < ApplicationMailer
 
   def construct_user_response_url(u)
     # first pass doesn't bother with encryption
-    puts 'ALIASMADNESS_HOST nil? ' + ENV['ALIASMADNESS_HOST'].nil?.to_s
     ENV['ALIASMADNESS_HOST'] + '/login?' +
       build_params(u).to_query(nil)
   end

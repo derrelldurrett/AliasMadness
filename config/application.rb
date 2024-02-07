@@ -13,7 +13,7 @@ module AliasMadness
   class Application < Rails::Application
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
-    config.load_defaults 5.1
+    config.load_defaults 7.0
 
     # Settoad the plugins named here, in the order given (default is alphabetical).
     #     # :all canings in config/environments/* take precedence over those specified here.
