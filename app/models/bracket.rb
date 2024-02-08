@@ -16,7 +16,7 @@ class Bracket < ApplicationRecord
   serialize :lookup_by_label, Hash
   attr_accessor :bracket_data
   belongs_to :user, optional: true
-  has_many :games, inverse_of: :bracket
+  has_many :games
   after_find :init_lookups
   after_initialize :init_lookups
 

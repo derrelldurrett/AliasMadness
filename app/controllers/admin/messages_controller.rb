@@ -20,6 +20,7 @@ class Admin
         params[:message] = CGI::escapeHTML(params[:message]).gsub(/\n/, '<br>').html_safe
         get_players.each do |p|
           params[:to] = player_email_to_field(p)
+          puts params[:to]
           MessageMailer.message_mail(params.slice(*MESSAGE_KEYS)).deliver
         end
         flash.now[:success] = %Q(Message sent!)

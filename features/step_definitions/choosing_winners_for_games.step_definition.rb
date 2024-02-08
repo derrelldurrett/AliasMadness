@@ -51,6 +51,8 @@ Given(/\A'([^']+)' visiting the '([^']+)' page with all players' games entered\z
     steps "
                Given 'An invited player' logs in with all teams entered and players' games chosen
                "
+  else
+    raise "Bad feature spec!"
   end
 end
 
@@ -131,13 +133,13 @@ end
 
 When /I view "([^"]+)"/ do |which_bracket|
   case which_bracket
-  when /my/
-    # do nothing, since that's where we are.
   when /another/
     @other_id = get_players.each_other_id(@user.id).to_a.sample
     other = User.find(@other_id)
     # can't use this for when there's a score without computing it.
     click_link "#{other.name} == 0"
+  else
+    # do nothing
   end
   sleep 2
 end
@@ -154,6 +156,8 @@ When /\AThe Admin has updated some games the (\w+) time\z/ do |which_time|
   case which_time
   when 'first'
     steps "Given The Admin has locked the players' brackets"
+  else
+    #do nothing
   end
   pick_game_winners_as_admin(ADMINS_LABEL_BLOCK[WHICH_TIME[which_time.to_sym]], false)
 end

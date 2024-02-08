@@ -15,8 +15,8 @@ require 'capybara/rails'
 require 'email_spec/cucumber'
 require 'capybara/cucumber'
 require 'selenium-webdriver'
-require 'webdrivers/chromedriver'
 
+# Selenium::WebDriver.logger.level = :debug
 chosen_capybara_driver = :selenium_chrome
 Capybara.default_driver = chosen_capybara_driver
 Capybara.javascript_driver = chosen_capybara_driver

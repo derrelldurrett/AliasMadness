@@ -365,7 +365,6 @@ def change_winner(game)
 end
 
 def winner_reset?(label)
-  # use within? build the td string....
   within(build_css_for_game_select(label)) do
     expect(page).not_to have_selector('option[selected="selected"]')
   end

@@ -7,7 +7,7 @@ class Team < ApplicationRecord
   extend Helpers::HashClassHelper
   include Helpers::JsonClientHelper
   extend Helpers::JsonClientClassHelper
-  has_many :games, inverse_of: :teams
+  has_many :games
   validates :name, uniqueness: true
   validates :seed, numericality: {only_integer: true}
 
