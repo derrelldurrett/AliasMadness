@@ -34,7 +34,7 @@ class BracketsController < ApplicationController
 
   def scenarios
     @user = current_user
-    @players = get_players_sorted_by_score
+    @players = User.players.sorted_by_score
     @scenarios = Scenario.all
     respond_to do |format|
       format.html { render 'brackets/scenarios'.freeze }
@@ -113,14 +113,9 @@ class BracketsController < ApplicationController
             p.bracket_locked = true
             p.save!
           end
-          noop
         end
       end
     end
-  end
-
-  def noop
-
   end
 
   def resource_params

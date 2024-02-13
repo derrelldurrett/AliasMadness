@@ -8,19 +8,15 @@ module UsersHelper
         p.score reference
         p.reload
       end
-      @players = get_players_sorted_by_score
+      @players = players.sorted_by_score
       puts %Q(Players scores updated.)
     end
-  end
-
-  def get_players_sorted_by_score
-    User.where(role: :player).order('current_score desc')
   end
 
   def bracket_complete_class(player, is_for_admin)
     complete_class = ''
     if is_for_admin
-      games_nil = player.bracket.games.any? {|g| g.winner.nil?}
+      games_nil = player.bracket.games.any? { |g| g.winner.nil? }
       complete_class = ' bracket_complete' unless games_nil and !players_brackets_locked?
     end
     complete_class

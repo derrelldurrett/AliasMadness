@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 require 'rgl/base'
 require 'rgl/adjacency'
-# require_relative './template_loader'
-# require_relative './initialize_bracket_from_template'
 
 module InitializeBracket
   class BracketTemplate < RGL::DirectedAdjacencyGraph
 
     attr_reader :template_as_nodes
-    attr :entry_node #, :iterator
+    attr :entry_node
 
     def self.saved_template_loader
       if @saved_template_loader.nil?

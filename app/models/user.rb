@@ -6,7 +6,8 @@ class User < ApplicationRecord
   has_one :bracket
   has_many :heckles_user
   has_many :heckles, through: :heckles_user
-  scope :players, -> {where role: :player}
+  scope :players, -> { where role: :player }
+  scope :sorted_by_score, -> { order 'current_score desc' }
   before_validation :do_validation_setup
   before_save :create_remember_token
   before_save :create_initial_bracket
@@ -31,7 +32,6 @@ class User < ApplicationRecord
   ROLES = %w[admin player].freeze
 
   self.hash_vars = %i(name email)
-# self.json_client_ids = %i[id chat_name]
 
   def to_s
     s = name

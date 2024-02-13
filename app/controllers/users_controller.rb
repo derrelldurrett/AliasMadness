@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       begin
         @user = User.find resource_params(:id)
         @bracket = @user.bracket
-        @players = get_players_sorted_by_score
+        @players = User.players.sorted_by_score
         @disabled = current_user != @user
       rescue ActiveRecord::RecordNotFound => e
         logger.info e.message

@@ -2,11 +2,6 @@
 
 class Bracket < ApplicationRecord
   require 'assets/rgl/directed_adjacency_graph'
-  # require 'initialize_bracket/bracket_template'
-  # require 'helpers/hash_helper'
-  # require 'helpers/hash_class_helper'
-  # require 'helpers/json_client_helper'
-  # require 'helpers/json_client_class_helper'
   @@cached_teams = []
   include Helpers::HashHelper
   extend Helpers::HashClassHelper
@@ -35,10 +30,6 @@ class Bracket < ApplicationRecord
     end
   end
 
-  def teams_attributes=(name)
-    puts "Got attributes: #{name}"
-  end
-
   def initialization_data
     bracket_data.edges
   end
@@ -60,7 +51,6 @@ class Bracket < ApplicationRecord
   end
 
   def update_node(content, node)
-    # old_content= @lookup_by_label[node]
     @lookup_by_label[node] = content
     content
   end
@@ -77,7 +67,7 @@ class Bracket < ApplicationRecord
   end
 
   def init_lookups
-    init_lookup_by_label# if lookup_by_label_uninitialized?
+    init_lookup_by_label
     init_ancestors
     init_relationships
   end
