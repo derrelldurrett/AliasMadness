@@ -78,13 +78,13 @@ Given 'The players have been invited' do
 end
 
 Given 'The players have entered their winning teams' do
-  get_players.each do |player|
+  User.players.each do |player|
     complete_brackets(player)
   end
 end
 
 Given 'One of the players logs in' do
-  login_as_player get_players.first
+  login_as_player User.players.first
 end
 
 When /\A'([^']+)' enters the winner for game '([^']+)'\z/ do |_who, label|
@@ -117,7 +117,7 @@ When 'An invited player enters the winners for the games' do
 end
 
 When "An invited player's winners for the games have all been entered" do
-  complete_brackets(get_players.first)
+  complete_brackets(User.players.first)
 end
 
 Then 'The games should display correctly' do
@@ -134,7 +134,7 @@ end
 When /I view "([^"]+)"/ do |which_bracket|
   case which_bracket
   when /another/
-    @other_id = get_players.each_other_id(@user.id).to_a.sample
+    @other_id = User.players.each_other_id(@user.id).to_a.sample
     other = User.find(@other_id)
     # can't use this for when there's a score without computing it.
     click_link "#{other.name} == 0"
@@ -185,7 +185,7 @@ end
 
 Then "An admin should see the player's entry in the leader board turn green" do
   steps "Given 'An Admin' visiting the 'Edit Bracket' page"
-  verify_player_is_green_state get_players.first
+  verify_player_is_green_state User.players.first
 end
 
 When "I change a game's winner" do

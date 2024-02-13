@@ -6,9 +6,10 @@ Given /\A'([^']+)' who is logged in\z/ do |login|
   case login
     when /(?i:admin)/
       login_as_admin
-    when /(?i:(\binvited player))/
-      @login = (get_players.nil? or get_players.empty?) ? create_a_player : get_players.first
-      login_as_player @login
+  when /(?i:(\binvited player))/
+    players = User.players
+    @login = (players.nil? or players.empty?) ? create_a_player : players.first
+    login_as_player @login
   end
 end
 

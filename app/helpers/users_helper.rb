@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module UsersHelper
   def update_player_scores
-    players = get_players
+    players = User.players
     if players.length >= 1
       reference = Admin.get.reload.bracket
       players.sort_by do |p|
@@ -11,10 +11,6 @@ module UsersHelper
       @players = get_players_sorted_by_score
       puts %Q(Players scores updated.)
     end
-  end
-
-  def get_players
-    User.where(role: :player)
   end
 
   def get_players_sorted_by_score

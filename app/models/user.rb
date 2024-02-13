@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_one :bracket
   has_many :heckles_user
   has_many :heckles, through: :heckles_user
+  scope :players, -> {where role: :player}
   before_validation :do_validation_setup
   before_save :create_remember_token
   before_save :create_initial_bracket
