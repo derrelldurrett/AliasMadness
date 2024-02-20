@@ -6,6 +6,7 @@ NODE_64_CSS = 'td.team[data-node="64"]'
 NODE_97_CSS = 'td.team[data-node="97"]'
 
 Then %q(I should see the initial bracket) do
+  sleep 3
   team_1_node = find(NODE_64_CSS)
   within(team_1_node) do
     find(INPUT_TEAM_CSS).value.should have_content 'Team 1'
@@ -35,7 +36,6 @@ Then(/\AI should see '([^']+)' on the '([^']+)' page in place of '([^']+)', (\w+
     expect(find(team_css)).to have_content new_item
   else
     within(team_css) do
-      # save_and_open_page
       expect(find(INPUT_TEAM_CSS).value).to have_content new_item
     end
   end
@@ -57,7 +57,6 @@ Then(/\AThe team '([^']+)' should be the '([^']+)' for '([^']+)'\z/) do |new_tea
 end
 
 Then 'The teams should have the new names' do
-  #save_and_open_page
   team_data.each do |t|
     steps %Q{
       Then The team '#{t[:new_name]}' should be the 'name' for '#{t[:old_name]}'

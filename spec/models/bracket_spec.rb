@@ -65,6 +65,8 @@ describe Bracket do
     expect(@bracket.lookup_ancestors(g1)).to include(g3)
     expect(@reloaded_bracket.lookup_node('32').id).not_to be_nil
     expect(@reloaded_bracket.lookup_game('63').id).to eql @bracket.lookup_game('63').id
+    expect(@reloaded_bracket.lookup_team('64').id).not_to be_nil
+    expect(@reloaded_bracket.lookup_team('64').id).to eql @bracket.lookup_team('64').id
   end
 
   # TODO: This needs a real test

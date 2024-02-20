@@ -33,7 +33,7 @@ module GamesHelper
   GAME_DISPLAY_CLASS = 'game_display'
 
   def build_game_class(game, node, bracket_locked)
-    [GAME_DISPLAY_CLASS, left_or_right_node(node), color_winner(game.winner, node, bracket_locked)] * ' '.freeze
+    [GAME_DISPLAY_CLASS, left_or_right_node(node), color_winner(game.winner, node, bracket_locked)].join(' ')
   end
 
   GAME_CHOICE_DEFAULT = 'Choose winner...'
@@ -44,25 +44,24 @@ module GamesHelper
 
   def color_winner(winner, node, bracket_locked)
     # need a space in front
-    ' '.freeze + [winner_state(bracket_locked, node, winner), 'winner_state'.freeze].join('_'.freeze)
+    ' ' + [winner_state(bracket_locked, node, winner), 'winner_state'].join('_')
   end
 
   private
 
   def winner_state(bracket_locked, node, winner)
-    color = 'grey'.freeze
+    color = 'grey'
     if bracket_locked
       w = User.find_by_role(:admin).bracket.lookup_game(node).winner
-      w.reload unless w.nil?
       # color is green if the winner is the actual winner
       # color is red if the winner is eliminated
       # color otherwise remains grey if the game is not complete (w.nil?)
       color = if winner == w
-                'green'.freeze
+                'green'
               elsif winner.eliminated?
-                'red'.freeze
+                'red'
               else
-                'grey'.freeze
+                'grey'
               end
     end
     color

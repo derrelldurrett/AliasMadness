@@ -58,6 +58,10 @@ module AliasMadness
     config.active_job.queue_adapter = :delayed_job
 
     config.active_record.legacy_connection_handling = false
+
+    config.after_initialize do
+      ActiveRecord.yaml_column_permitted_classes += [LabelLookup, Game, Team]
+    end
   end
 
   #TODO try to initialize here?

@@ -18,7 +18,7 @@ class Admin
         params = Hash.new
         resource_params.each_with_index {|p, i| params[PARAM_KEYS[i]] = p}
         params[:message] = CGI::escapeHTML(params[:message]).gsub(/\n/, '<br>').html_safe
-        players.each do |p|
+        User.players.each do |p|
           params[:to] = player_email_to_field(p)
           puts params[:to]
           MessageMailer.message_mail(params.slice(*MESSAGE_KEYS)).deliver

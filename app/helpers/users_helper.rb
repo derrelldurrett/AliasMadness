@@ -23,7 +23,7 @@ module UsersHelper
   end
 
   def clickable(user)
-    User.where({id: user.id}).where(bracket_locked: true) ? 'clickable' : ''
+    user.reload.bracket_locked? ? 'clickable' : ''
   end
 
   def create_player params

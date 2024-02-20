@@ -7,5 +7,9 @@ module Helpers
       end
       r
     end
+
+    def to_json
+      { self.class.name.to_sym => self }.to_json
+    end
   end
 end

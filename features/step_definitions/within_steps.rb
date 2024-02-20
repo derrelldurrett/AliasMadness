@@ -8,10 +8,8 @@ def seed_database
 end
 
 def reset_database
-  User.all.each(&:delete)
-  Bracket.all.each(&:delete)
-  Game.all.each(&:delete)
-  Team.all.each(&:delete)
+  User.destroy_all
+  Bracket.destroy_all
 end
 
 WHICH_TIME = { first: 0, second: 1, third: 2 }.freeze
@@ -56,11 +54,9 @@ def store_team_data
 end
 
 def init_team_lookup_data
-  ret = {}
-  Team.all.each do |t|
-    ret[t.name] = t.id
+  Admin.get.bracket.teams.each_with_object({}) do |t, h|
+    h[t.name] = t.id
   end
-  ret
 end
 
 def look_up_team_id_by_original_data(data)
@@ -147,7 +143,7 @@ end
 N_PLAYERS = 5
 
 def team_data_by_label(label)
-  @team_data_by_label ||= hash_by_label Team.all
+  @team_data_by_label ||= Admin.get.bracket.teams.each_with_object({}) { |t,h| h[t.label] = t }
   @team_data_by_label[label]
 end
 
@@ -176,7 +172,7 @@ end
 def games_by_label(bracket)
   @bracket_in_db ||= {}
   @bracket_in_db[bracket.reload.id] ||= {}
-  @bracket_in_db[bracket.id][:games_by_label] ||= hash_by_label Game.where(bracket_id: bracket.id)
+  @bracket_in_db[bracket.id][:games_by_label] ||= bracket.games.each_with_object({}) { |g, h| h[g.label] = g }
 end
 
 def choose_games_for_bracket(user, labels = 63.downto(1), reset_game_data = true)
@@ -185,22 +181,21 @@ def choose_games_for_bracket(user, labels = 63.downto(1), reset_game_data = true
   bracket_games_by_label = games_by_label(bracket)
   labels.each do |label|
     g = bracket_games_by_label[label.to_s]
-    g.reload
     winning_team = team_data_by_label(game_by_label(label)[:winners_label])
     # puts "assigning winners for #{bracket.id} (#{user.name}) -- node #{label} -- winner #{winning_team.name}"
-    g.update!({ winner: winning_team })
+    g.winner = winning_team
     mark_losing_team_eliminated g, bracket if user.admin?
   end
+  bracket.save!
 end
 
 def mark_losing_team_eliminated(g, b)
-  ancestors = b.reload.lookup_ancestors(g)
+  ancestors = b.lookup_ancestors(g)
   ancestors.each do |a|
-    a.reload
     a_team = a.is_a?(Team) ? a : a.winner
     puts "game: #{g.label}, ancestor: #{a.label}; a_team: #{a_team}" if a_team.nil?
     unless a_team.label == g.winner.label
-      a_team.update!({ eliminated: true })
+      a_team.eliminated = true
       break
     end
   end
@@ -209,7 +204,6 @@ end
 def hash_by_label(labeled_entities)
   ret = {}
   labeled_entities.each do |e|
-    e.reload
     ret[e.label] = e
   end
   ret
@@ -302,15 +296,17 @@ def attempt_to_change_a_team_name_as_a_player(name, wrong_name)
 end
 
 def lock_team_names
-  Team.update_all name_locked: true
+  b = Admin.get.bracket
+  b.teams.each { |t| t.name_locked = true }
+  b.save!
 end
 
 def lock_players_brackets
   puts 'locking players brackets!'
   User.where({ role: :player, bracket_locked: false }).each do |p|
     b = p.bracket
-    b.games.update_all(locked: true)
-    b.reload
+    b.games.each { |g| g.locked = true }
+    b.save!
   end
   User.where({ role: :player }).update_all(bracket_locked: true)
 end
@@ -350,11 +346,10 @@ end
 def change_winner(game)
   ancestors = @players_bracket.lookup_ancestors(game)
   ancestors.each do |a|
-    a.reload
     a_team = a.is_a?(Team) ? a : a.winner
     next unless game.winner != a_team
 
-    td_node_name = build_game_css(game[:label])
+    td_node_name = build_game_css(game.label)
     within(td_node_name) do
       choose_winner_script = build_winner_script(game, td_node_name, a_team.label)
       # puts "Script to execute:\n"+choose_winner_script.strip
@@ -400,7 +395,6 @@ def check_winners_correctly_listed(is_eliminated, nth, players_bracket, referenc
     label = l.to_s
     r_game = reference_bracket[label]
     p_game = players_bracket[label]
-    [r_game, p_game].each(&:reload)
     expect(r_game.winner).not_to be_nil
     check_winner_state_conditions(is_eliminated, label, p_game, r_game)
   end

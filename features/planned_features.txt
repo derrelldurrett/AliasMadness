@@ -23,4 +23,12 @@ slimmed down game updates using ActionCable to do auto updates for players who a
 figure out if a machine-learning technique can improve scenario computation run-time
 right-click on a player in the left column to directly compare future chances
 calculate "potential points" remaining for a bracket
-show "potential (or final, as appropriate) point/original potential points"
+show "potential (or final, as appropriate) points/original potential points"
+
+
+Steps to improve bracket loading performance:
+    - Write a test that creates the admin, and checks for the bracket and certain features of the bracket (like teams
+      initialized, etc., and it can be saved and retrieved)
+    - Write a test that creates a player, and checks that the bracket isn't a clone of the admin's but the teams are
+      clones
+    - Mod the code to create the admin's bracket using the Game and Team serializers

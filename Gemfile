@@ -7,6 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+#gem 'active_model_serializers', '~> 0.10.0'
 gem 'bcrypt' # Use ActiveModel has_secure_password
 gem 'cancancan' # roles
 gem 'coffee-rails' # Use CoffeeScript for .coffee assets and views
@@ -25,21 +26,16 @@ gem 'rgl' # build and traverse graphs easily
 gem 'sassc-rails' # Use SCSS for stylesheets
 gem 'sorted_set'
 gem 'sendgrid-ruby' # mail with SendGrid
-# gem 'sendgrid-actionmailer' # sugar for that
 gem 'sprockets'
 gem 'sprockets-rails'
 gem 'turbolinks' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'uglifier' # Use Uglifier as compressor for JavaScript assets
 
-
 # Use Redis adapter to run Action Cable in production
 gem 'redis'
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 # development/test shared gems
 group :development, :test do
-  #gem 'bootstrap-generators'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara' # Adds support for Capybara system testing and selenium driver
   gem 'capybara-chromedriver-logger'

@@ -85,7 +85,6 @@ def init_brackets(bracket_key)
         user = admin_and_users[i]
         game = user.bracket.lookup_game label
         game.winner= user.bracket.lookup_node users_team
-        game.save!
         user.bracket.update_node game, game.label
       end
     end
@@ -101,10 +100,7 @@ def init_admin_and_players
   User.all.delete_all
   admin = create(:admin)
   ActiveRecord::Base.transaction do
-    admin.bracket.games.each do |g|
-      g.winner = nil
-      g.save!
-    end
+    admin.bracket.games.each { |g| g.winner = nil }
     admin.bracket.save!
   end
   users = []

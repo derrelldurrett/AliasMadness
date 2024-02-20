@@ -5,10 +5,15 @@ module BracketsHelper
   end
 
   def common_bracket_update(id, params)
-    if params[:game_data].nil?
-      flash[:error]= 'Request FAILED!'
-      respond_with false, {status: 400}
-    else
+    if not params[:team_data].nil?
+      if team_data_processed? params[:team_data], id
+        flash[:success]= 'Team name saved!'
+        respond_with true, {status: 204}
+      else
+        flash[:error]= 'Team name NOT SAVED!'
+        respond_with false, {status: 400}
+      end
+    elsif not params[:game_data].nil?
       if game_data_processed? params[:game_data], id
         flash[:success]= 'Games saved!'
         respond_with true, {status: 204}
@@ -16,6 +21,9 @@ module BracketsHelper
         flash[:error]= 'Games NOT SAVED!'
         respond_with false, {status: 400}
       end
+    else
+      flash[:error]= 'Request FAILED!'
+      respond_with false, {status: 400}
     end
   end
 
@@ -58,7 +66,7 @@ module BracketsHelper
   end
 
   def players_brackets_locked?
-    User.where({role: :player, bracket_locked: 'false'}).empty?
+    User.where({role: :player, bracket_locked: false}).empty?
   end
 
   def tag_heckle_content(heckle)

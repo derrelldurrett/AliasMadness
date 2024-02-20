@@ -2,56 +2,53 @@
 
 class Bracket < ApplicationRecord
   require 'assets/rgl/directed_adjacency_graph'
-  @@cached_teams = []
   include Helpers::HashHelper
   extend Helpers::HashClassHelper
   include Helpers::JsonClientHelper
   extend Helpers::JsonClientClassHelper
   serialize :bracket_data, InitializeBracket::BracketTemplate
-  serialize :lookup_by_label, Hash
-  attr_accessor :bracket_data
+  serialize :lookup_by_label, LabelLookup
+  #serialize :games, serializer: GameSerializer
+  attr_accessor :bracket_data, :games
   belongs_to :user, optional: true
-  has_many :games
-  after_find :init_lookups
-  after_initialize :init_lookups
+  after_create :init_lookups
 
   self.hash_vars = %i[id user]
   self.json_client_ids = %i[id nodes]
 
   def teams
-    @@cached_teams.empty? and init_cached_teams
-    @@cached_teams
+    filter_lookups(Team)
   end
 
-  def init_cached_teams
-    init_lookups if lookup_by_label_uninitialized?
-    lookup_by_label.each do |_l, n|
-      @@cached_teams << n if n.is_a?(Team)
-    end
+  def games
+    filter_lookups(Game)
   end
 
   def initialization_data
     bracket_data.edges
   end
 
-  def lookup_game(l)
-    # This probably can change to not always look at the DB
-    g = Game.where(bracket_id: id, label: l).first
-  end
-
   def lookup_node(n)
-    init_lookups if lookup_by_label_uninitialized?
-    lookup_by_label[n.to_s]
+    # init_lookups if lookup_by_label_uninitialized?
+    self.lookup_by_label[n.to_s]
   end
+  alias lookup_game lookup_node
+  alias lookup_team lookup_node
 
   def lookup_ancestors(g)
-    bracket_data.vertices_dict.fetch(g.label).map do |l|
-      lookup_node(l)
+    init_ancestors if @bracket_ancestors.nil?
+    @bracket_ancestors[g.label].each_with_object(SortedSet.new) do |a, s|
+      s << lookup_node(a)
     end
   end
 
   def update_node(content, node)
-    @lookup_by_label[node] = content
+    self.lookup_by_label[node] = content
+    if content.is_a? Team
+      games.each do |g|
+        g.winner = content if g.winner == content
+      end
+    end
     content
   end
 
@@ -63,13 +60,15 @@ class Bracket < ApplicationRecord
   end
 
   def games_by_label
-    @ordered_games ||= games.order('label').to_a
+    @ordered_games ||= games.sort_by { |g| g.label }
   end
 
   def init_lookups
     init_lookup_by_label
     init_ancestors
     init_relationships
+    save!
+    reload
   end
 
   def to_json_client_string
@@ -78,18 +77,12 @@ class Bracket < ApplicationRecord
   end
 
   def lookup_by_label_uninitialized?
-    lookup_by_label.nil? or lookup_by_label.empty?
+    self.lookup_by_label.nil? or self.lookup_by_label.empty?
   end
 
   def to_json_ancestor_lookup_string
     init_lookups if bracket_ancestors.nil? or bracket_ancestors.empty?
     @bracket_ancestors.to_json
-  end
-
-  def newest_game_date
-    # TODO: turn this into a SQL statement on the bracket returning the most
-    # recent game
-    Game.where(bracket_id: id)
   end
 
   def bracket_data
@@ -98,18 +91,19 @@ class Bracket < ApplicationRecord
 
   private
 
-  attr_reader :lookup_by_label, :bracket_ancestors
+  attr_reader :bracket_ancestors
+
+  def filter_lookups(clazz)
+    init_lookups if lookup_by_label_uninitialized?
+    self.lookup_by_label.filter { |_l, n| n.is_a? clazz }.values
+  end
 
   def find_or_init_team(n)
-    t = Team.find_by(label: n[:label])
-    n[:name_locked] = false
-    n[:eliminated] = false
-    t = Team.create(n) if t.nil?
-    t
+    TeamFactory.instance.find_or_create_team(**n)
   end
 
   def find_or_init_game(n)
-    n.is_a?(Game) ? n : init_game(n[:label])
+    GameFactory.instance.find_or_create_game(**n)
   end
 
   def init_ancestors
@@ -121,18 +115,10 @@ class Bracket < ApplicationRecord
     end
   end
 
-  def init_game(label)
-    Game.find_or_create_by(label: label.to_s, bracket_id: id, locked: false)
-  end
-
   def init_lookup_by_label
     if lookup_by_label_uninitialized?
-      @lookup_by_label ||= {}
-      if id.nil? or games.empty?
-        init_lookups_from_template
-      else
-        init_lookups_from_database
-      end
+      self.lookup_by_label = LabelLookup.new
+      init_lookups_from_template
     end
   end
 
@@ -143,38 +129,22 @@ class Bracket < ApplicationRecord
     end
   end
 
-  def init_lookups_from_database
-    if lookup_by_label_uninitialized?
-      @lookup_by_label ||= {}
-      games.each do |g|
-        @lookup_by_label[g.label] = g
-      end
-      Team.all.each do |t|
-        @lookup_by_label[t.label] = t
-      end
-    end
-    init_ancestors unless bracket_data.nil?
-  end
-
   def init_node(n)
     n = n.key?(:name) ? find_or_init_team(n) : find_or_init_game(n)
-    @lookup_by_label[n.label.to_s] = n
+    update_node(n, n.label.to_s)
   end
 
   def init_relationships
-    game_ids = []
-    my_games = []
-    lookup_by_label.each_value do |v|
-      next unless v.is_a? Game
+    if @games.nil? or @games.empty?
+      game_ids = []
+      my_games = []
+      self.lookup_by_label.each_value do |v|
+        next unless v.is_a? Game
 
-      v.save! if v.id.nil?
-      game_ids << v.id
-      my_games << v
-    end
-    if id.nil?
-      self. games = my_games
-    else
-      Game.where(id: game_ids).update_all(bracket_id: id)
+        game_ids << v.id
+        my_games << v
+      end
+      @games = my_games
     end
   end
 
@@ -182,7 +152,7 @@ class Bracket < ApplicationRecord
   def nodes
     r = []
     bracket_data.vertices.each do |v|
-      r << lookup_by_label[v].as_json_client_data
+      r << self.lookup_by_label[v].as_json_client_data
     end
     r
   end

@@ -15,8 +15,6 @@ if not ENV['TEAM_NAMES_SET'].nil? or not ENV['SEED_PLAYERS'].nil? or not ENV['SE
 end
 
 def delete_db_contents
-  Game.destroy_all
-  Team.destroy_all
   Bracket.destroy_all
   User.destroy_all
 end
@@ -35,12 +33,15 @@ def seed_admin
 end
 
 def seed_teams
-  processed_teams = process_team_data team_data
-  processed_teams.each do |t|
-    list = Team.where(label: t[:label])
-    list.update_all(name: t[:name])
+  @processed_teams = process_team_data team_data
+  admin = Admin.get
+  @admins_bracket = admin.bracket
+  @processed_teams.each do |t|
+    bracket_team = @admins_bracket.lookup_node t[:label]
+    bracket_team.name = t[:name]
+    bracket_team.name_locked = true
   end
-  Team.update_all(name_locked: true)
+  @admins_bracket.save!
   puts 'Set team names'
 end
 
@@ -51,21 +52,32 @@ def build_new_player(player_file)
     u.role = :player
   end
   player.save!
+  init_players_bracket_from_admin(player)
   player_file.write %Q(#{player.email} -- #{player.remember_for_email}\n)
+
   player
+end
+
+def init_players_bracket_from_admin(player)
+  @processed_teams.each do |t|
+    team = @admins_bracket.lookup_node t[:label]
+    player.bracket.lookup_by_label[team.label] = team
+  end
+  player.save!
 end
 
 def choose_winners_in_bracket(bracket, down_to = 1, label_losers = false)
   return if down_to > 63
 
   puts 'CHOOSING GAME WINNERS'
-  games_by_label = hash_by_label Game.where(bracket_id: bracket.id)
   63.downto(down_to).each do |l|
-    g = games_by_label[l.to_s]
+    g = bracket.lookup_game l.to_s
     a = bracket.lookup_ancestors g
     g.winner = choose_winner a.to_a, label_losers
-    g.save!
+    g.locked = true
+    bracket.lookup_by_label[l.to_s] = g
   end
+  bracket.save!
 end
 
 def seed_players
@@ -84,17 +96,8 @@ def seed_players_games
     bracket = player.bracket
     choose_winners_in_bracket bracket
   end
-  Game.where('team_id is not null').update_all(locked: true)
   User.where(role: :player).update_all(bracket_locked: true) unless ENV['LOCK_BRACKETS'].nil?
   puts 'seeded games'
-end
-
-def hash_by_label(labeled_entities)
-  ret = {}
-  labeled_entities.each_with_object(ret) do |g, o|
-    o[g.label] = g
-  end
-  ret
 end
 
 def process_team_data(d)
@@ -109,24 +112,16 @@ OTHER = [1, 0]
 
 def choose_winner(a, label_losers = false)
   r = rand(2)
-  w = winner_from_ancestor a[r]
+  w = a[r].is_a?(Game) ? a[r].winner : a[r]
   eliminate_team a[OTHER[r]] if label_losers
   w
 end
 
-def eliminate_team(loser)
+def eliminate_team(ancestor)
   # loser is either a Team or a Game-- get the Team from the Game
-  loser = winner_from_ancestor(loser)
-  loser.update!({eliminated: true})
-  puts "Eliminated #{loser.name}"
-end
-
-def winner_from_ancestor(a)
-  if a.is_a? Game
-    a.reload
-    a = a.winner
-  end
-  a
+  previous_winner = ancestor.is_a?(Game) ? ancestor.winner : ancestor
+  previous_winner.eliminated = true
+  puts "Eliminated #{previous_winner.name}"
 end
 
 def seed_result

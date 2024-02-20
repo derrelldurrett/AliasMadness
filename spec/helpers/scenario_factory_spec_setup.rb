@@ -298,7 +298,6 @@ def init_brackets(bracket_key)
         user = admin_and_users[i]
         game = user.bracket.lookup_game label
         game.winner= user.bracket.lookup_node users_team
-        game.save!
         user.bracket.update_node game, game.label
       end
     end
@@ -316,7 +315,7 @@ def init_admin_and_players
   ActiveRecord::Base.transaction do
     admin.bracket.games.each do |g|
       g.winner = nil
-      g.save!
+      admin.bracket.update_node g, g.label
     end
     admin.bracket.save!
   end

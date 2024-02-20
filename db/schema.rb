@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2020_04_27_221156) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_20_002737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,17 +38,6 @@ ActiveRecord::Schema[7.0].define(version: 2020_04_27_221156) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "games", id: :serial, force: :cascade do |t|
-    t.integer "team_id"
-    t.integer "bracket_id"
-    t.string "label"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.boolean "locked", default: false
-    t.index ["bracket_id"], name: "index_games_on_bracket_id"
-    t.index ["team_id"], name: "index_games_on_team_id"
-  end
-
   create_table "heckles", force: :cascade do |t|
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
@@ -67,16 +56,6 @@ ActiveRecord::Schema[7.0].define(version: 2020_04_27_221156) do
     t.string "scenario_teams"
     t.string "result"
     t.integer "remaining_games"
-  end
-
-  create_table "teams", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.integer "seed"
-    t.string "label"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.boolean "name_locked", default: false
-    t.boolean "eliminated", default: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

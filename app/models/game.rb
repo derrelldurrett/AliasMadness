@@ -1,33 +1,36 @@
 # frozen_string_literal: true
-# require 'helpers/hash_helper'
-# require 'helpers/hash_class_helper'
-# require 'helpers/json_client_helper'
-# require 'helpers/json_client_class_helper'
-class Game < ApplicationRecord
+
+class Game
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
   include Helpers::HashHelper
   extend Helpers::HashClassHelper
   include Helpers::JsonClientHelper
   extend Helpers::JsonClientClassHelper
-  belongs_to :team, optional: true
-  belongs_to :bracket, optional: true
 
-  serialize :team, Team
+  attr_accessor :id, :label, :winner, :winners_label, :locked
 
-  self.hash_vars= %i(id team bracket label)
-  self.json_client_ids= [:id, :label, :winner, :winners_label]
+  self.hash_vars= %i(id team label)
+  self.json_client_ids= %i(id label winner winners_label locked)
   def to_s
     to_json
   end
 
-  def eql?(other)
-    other.is_a?(Game) and label.eql? other.label and bracket.eql? other.bracket
+  def <=> (o)
+    label <=> o.label
   end
-  alias == eql? # This was necessary to get the
-                # comparisons to work (even though it
-                # shouldn't have mattered?)
 
-  alias winner team
-  alias winner= team=
+  def eql?(other)
+    other.is_a?(Game) and label.eql? other.label
+  end
+  alias == eql?
+
+  alias team winner
+
+  def team=(t)
+    raise(ArgumentError, "#{t} is not a Team object") unless t.is_a? Team
+    self.team = t
+  end
 
   def winners_label
     winner.nil? ? nil : winner.label

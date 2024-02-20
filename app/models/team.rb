@@ -1,18 +1,19 @@
-# require 'helpers/hash_helper'
-# require 'helpers/hash_class_helper'
-# require 'helpers/json_client_helper'
-# require 'helpers/json_client_class_helper'
-class Team < ApplicationRecord
+# frozen_string_literal: true
+
+class Team
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
   include Helpers::HashHelper
   extend Helpers::HashClassHelper
   include Helpers::JsonClientHelper
   extend Helpers::JsonClientClassHelper
-  has_many :games
-  validates :name, uniqueness: true
-  validates :seed, numericality: {only_integer: true}
 
   self.hash_vars= %i(name seed id)
   self.json_client_ids= [:id, :label, :name, :seed, :eliminated]
+
+  attr_accessor :id, :label, :name, :seed, :eliminated, :name_locked
+  alias :eliminated? :eliminated
+  alias :name_locked? :name_locked
 
   def to_s
     "#{name} (#{seed})"
@@ -25,10 +26,13 @@ class Team < ApplicationRecord
   alias dup clone
 
   def eql?(other)
-    other.is_a? Team and ((object_id==other.object_id) or (name == other.name and
-        seed == other.seed))
+    other.is_a? Team and name == other.name and seed == other.seed
   end
   alias == eql?
+
+  def <=>(other)
+    label <=> other.label
+  end
 
   private
 

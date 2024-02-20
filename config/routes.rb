@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get :login
   end
   resources :brackets, only: [:update, :show]
-  resources :teams, only: [:update]
+  #  resources :teams, only: [:update]
 
   get 'scenarios', to: 'brackets#scenarios'
   put 'lock_names', to: 'teams#lock_names'

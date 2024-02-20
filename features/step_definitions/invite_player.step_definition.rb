@@ -47,6 +47,5 @@ When %q(I invite an existing player) do
 end
 
 Then /\AI should see the "([^"]+)" error\z/ do |error|
-  #save_and_open_page
   page.should have_content error
 end

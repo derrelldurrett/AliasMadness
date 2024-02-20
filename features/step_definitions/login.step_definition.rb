@@ -44,6 +44,5 @@ Given %q(a link to the login page containing the email) do
 end
 
 Then %q(the returned page should be ‘404’) do
-  #save_and_open_page
   expect(page).to have_title(%q(The page you were looking for doesn't exist (404)))
 end

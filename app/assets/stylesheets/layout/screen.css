@@ -132,13 +132,17 @@ caption {background:#eee;}
     position: relative;
     float: left;
     padding-right: 3px;
-    width: 8%
+    min-width: 8%
 }
 
 #bracket_display {
     position: relative;
-    width: 91.5%;
+    min-width: 91.5%;
     margin-left: auto;
+}
+
+table.bracket {
+    min-width: 91.5%;
 }
 
 td.player_summary {
@@ -160,17 +164,17 @@ div.allow-top-margin {
 }
 
 .force-font {
-    font-size: 80%;
+    font-size: 90%;
 }
 
 td.team_display {
     border-bottom: 2px solid;
-    width: 7%
+    min-width: 7.69%
 }
 
 td.game_display {
     border-bottom: 2px solid;
-    width: 6%
+    min-width: 7.69%
 }
 
 td.left_connect {
@@ -183,6 +187,10 @@ td.right_connect {
 
 .text-right {
     text-align: right;
+}
+
+tr {
+    min-width: 100%
 }
 
 .text-center {
@@ -216,6 +224,7 @@ td.right_connect {
     background: #CCE6FF;
     color: #0066cc;
     border: #0061BD;
+    z-index: 999999;
 }
 
 .scenario_display {

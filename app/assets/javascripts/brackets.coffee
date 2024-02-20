@@ -2,6 +2,14 @@
 #= require_self
 #= require common
 #= require game_update
+#= require team_name_update
+
+assignNext = (node, indx, nodes) ->
+#  node.data('nextNode') = nodes[indx+1].data 'node'
+
+buildNextNodeLookup = () ->
+#  nodes = $('table.bracket').children().children(name|="td.team_display")
+#  assignNext n, i, nodes for n, i in nodes
 
 buildOption = (bId, n) ->
   [displayName, value]= getBracketEntry(bId, n)
@@ -16,21 +24,6 @@ buildSelectOptionsFor = (input) ->
 chooseWinner = (target) ->
   updateOptions(t) for t in $(target)
   return
-
-fixTeamNames = (e) ->
-  e.preventDefault()
-  target = e.target
-  $.ajax
-    type: 'PUT'
-    url: '/lock_names'
-    beforeSend: (xhr) ->
-      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-    data:
-      'fix_team_names': true
-    success: (data, textStatus, jqXHR) ->
-      Common.reloadPage()
-    error: (jqXHR, textStatus, errorThrown) ->
-      Common.showError errorThrown, textStatus
 
 getBracketEntry = (bId, n) ->
   e = StoreWrapper.getStoreName(bId, n)
@@ -60,6 +53,9 @@ loadBracketData = ->
   $('table.bracket').data 'bracket', ''
   $('table.bracket').data 'bracket_id', bracketId
 
+locateNewTeamFocus = (e) ->
+  e.target.focus
+
 lockPlayersBrackets = (e) ->
   e.preventDefault()
   $(e.target).prop('disabled', true)
@@ -77,40 +73,23 @@ lockPlayersBrackets = (e) ->
     complete: (jqXHR, textStatus) ->
       $(e.target).prop('disabled', false)
 
-nameTeam = (target) ->
-  sendTeamNameUpdate(t) for t in $(target)
-
 # wLabel is the label of the old winner, and if the node has this winner or no winner, update it
 nodeNeedsUpdate = (jqn, wLabel) ->
   jqn[0]['selected'] or
     (jqn[1]['selected'] and jqn[1]['value'] == wLabel) or
     (jqn[2]['selected'] and jqn[2]['value'] == wLabel)
 
-sendTeamNameUpdate = (target) ->
-  [teamId,bracketId,node,newName] = teamUpdateSetup target
-  $.ajax
-    type: 'PUT'
-    url: '/teams/' + teamId
-    beforeSend: (xhr) ->
-      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-    data:
-      'team[name]': newName
-      'bracket[id]': bracketId
-      'bracket[node]': node
-    success: (data, textStatus, jqXHR) ->
-      updateLocalBracket node: node, data: data, name: newName, bracket_id: bracketId
-      Common.reloadPage()
-    error: (jqXHR, textStatus, errorThrown) ->
-      Common.showError errorThrown, textStatus
-      wipeTextField target
+setNextNode = () ->
+#  $('table.bracket').data 'nextNode', buildNextNodeLookup
 
-teamUpdateSetup = (t) ->
-  newName = t.value
-  node = $(t).closest('td').data('node')
-  teamId = $(t).next()[0].value
-  bracketId = $('table.bracket').data 'bracket_id'
-  !bracketId? and bracketId = $('table.bracket').data('bracket').id
-  [teamId,bracketId,node,newName]
+tnError = (input) ->
+  Common.showError input.err, input.tStatus
+  wipeTextField input.tar
+
+tnSuccess = (input) ->
+  updateLocalBracket input
+  Common.reloadPage()
+  #locateNewFocus input
 
 updateDescendant = (input) ->
   dNode = StoreWrapper.getDescendant input.node
@@ -163,10 +142,10 @@ wipeTextField = (targetNode) ->
   targetNode.value = ''
 
 $ ->
-  $('input.team_name').on 'change', (e) => nameTeam e.target
+  $('input.team_name').on 'change', (e) => TeamNameUpdate.changeTeamName e, tnSuccess, tnError
   $('select.game_winner').on 'change', (e) => chooseWinner e.target
-  $('button#team_entry_done').on 'click', (e) => fixTeamNames e
+  $('button#team_entry_done').on 'click', (e) => TeamNameUpdate.lockTeamNames e
   $('button#submit_games').on 'click', (e) => GameUpdate.sendGameUpdates e
   $('button#lock_players_brackets').on 'click', (e) => lockPlayersBrackets e
   $('table.bracket').one 'focusin', (e) => loadBracket e.target
-
+  #await setNextNodes

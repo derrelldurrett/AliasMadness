@@ -57,8 +57,8 @@ class User < ApplicationRecord
   def compute_score(reference_bracket)
     my_score = 0
     reference_bracket.games_by_label.zip(bracket.games_by_label) do |g_arr|
-      next if g_arr.any? {|g|g&.winner.nil?}
-      my_score += (g_arr[0]&.winner&.seed * g_arr[0].round_multiplier) if g_arr[0]&.winner == g_arr[1]&.winner
+      next if g_arr.any? { |g| g&.winner.nil? }
+      my_score += ( g_arr[0]&.winner&.seed * g_arr[0]&.round_multiplier ) if g_arr[0]&.winner == g_arr[1]&.winner
     end
     my_score
   end

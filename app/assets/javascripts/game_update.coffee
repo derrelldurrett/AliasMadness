@@ -21,12 +21,9 @@ class @GameUpdate
     else
       null
 
-  @gameUpdateCallCleanUp: () ->
-    installGameUpdateClickHandler()
-
   @gameUpdateError: (errorThrown, textStatus) ->
-    showError errorThrown, textStatus
-    @gameUpdateCallCleanUp()
+    Common.showError errorThrown, textStatus
+    @installGameUpdateClickHandler
 
   @gameUpdateSetup: (e) ->
     e.preventDefault()
@@ -38,23 +35,28 @@ class @GameUpdate
 
   @gameUpdateSuccess: (bId) ->
     @clearNewGameChoiceFlags bId
-    Common.reloadPage()
-    @gameUpdateCallCleanUp()
+    @installGameUpdateClickHandler
+
+  @installGameUpdateClickHandler = () ->
+    $('button#update_bracket').on 'click', (e) => @sendGameUpdates e
 
   @sendGameUpdates: (e) ->
     [target, bId] = @gameUpdateSetup e
     sendMe = @buildGameData bId
-    # gotta "" the game_data key, otherwise JSON parsing barfs on the server
     $.ajax
       contentType: 'application/json'
       type: 'PUT'
       url: $(target).closest('form').attr('action')
-      data: JSON.stringify({"bracket": {"game_data": sendMe}})
+      data: JSON.stringify {"bracket": {"game_data": sendMe}}
       success: (data, textStatus, jqXHR) ->
         GameUpdate.gameUpdateSuccess bId
       error: (jqXHR, textStatus, errorThrown) ->
         GameUpdate.gameUpdateError errorThrown, textStatus
       complete: (jqXHR, textStatus) ->
+        Common.reloadPage()
         $(target).prop('disabled', false)
 
     return false
+
+$ ->
+  GameUpdate.installGameUpdateClickHandler()

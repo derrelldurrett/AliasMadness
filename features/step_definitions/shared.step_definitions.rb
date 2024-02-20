@@ -55,19 +55,20 @@ When /\AClicks '([^']+)'\z/ do |link|
 end
 
 Given %q(The teams have already been entered) do
-  team_data.each do |t|
-    team= Team.where(name: t[:old_name]).first
+  admin_bracket = Admin.get.bracket
+  team_data.each do |td|
+    team= admin_bracket.teams.filter { |at| at.name == td[:old_name] }.first
     if team.nil?
-      team= Team.where(name: t[:new_name]).first
+      team= admin_bracket.teams.filter { |at| at.name == td[:new_name] }.first
       next unless team.nil?
-      puts %Q(Team not found under old (#{t[:old_name]}) or new name (#{t[:new_name]}))
-      Team.all.each do |t|
+      puts %Q(Team not found under old (#{td[:old_name]}) or new name (#{td[:new_name]}))
+      admin_bracket.teams.each do |t|
         puts "Team: #{t.name} (#{t.id})"
       end
       next
     end
-    result= team.update_attribute :name, t[:new_name]
-    redo unless result
+    team.name = td[:new_name]
+    admin_bracket.lookup_by_label[team.label] = team
   end
   lock_team_names
   sleep 1
