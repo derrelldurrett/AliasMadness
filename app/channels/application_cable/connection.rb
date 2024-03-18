@@ -1,5 +1,5 @@
-# module ApplicationCable
-#   class Connection < ActionCable::Connection::Base
+module ApplicationCable
+  class Connection < ActionCable::Connection::Base
 #     include SessionsHelper
 #     identified_by :current_user
 #
@@ -13,5 +13,5 @@
 #       return current_user unless current_user.nil?
 #       reject_unauthorized_connection
 #     end
-#   end
-# end
+  end
+end

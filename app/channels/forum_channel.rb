@@ -1,4 +1,4 @@
-# class ForumChannel < ApplicationCable::Channel
+class ForumChannel < ApplicationCable::Channel
 #   def subscribed
 #     stream_from "forum_channel"
 #   end
@@ -28,4 +28,4 @@
 #     end
 #     message
 #   end
-# end
+end

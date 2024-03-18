@@ -1,7 +1,7 @@
-# class PrivateChannel < ApplicationCable::Channel
+class PrivateChannel < ApplicationCable::Channel
 #   def subscribed
 #     u = current_user
 #     logger.info("#{caller_locations(0, 1)}\n\tUser #{u} on #{String(broadcasting_for(u))}")
 #     stream_for u
 #   end
-# end
+end
