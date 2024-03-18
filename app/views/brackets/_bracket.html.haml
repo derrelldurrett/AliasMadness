@@ -1,5 +1,7 @@
 = form_for(@bracket, method: :put, remote: true, format: :json) do |f|
-  %table#bracket.bracket.center{"data-ancestors" => "#{@bracket.to_json_ancestor_lookup_string}", "data-bracket" => "#{@bracket.to_json_client_string}", "data-chat" => "#{@user.private_channel}"}
+  %table#bracket.bracket.center{"data-ancestors" => "#{@bracket.to_json_ancestor_lookup_string}", "data-bracket" => "#{@bracket.to_json_client_string}",
+       #"data-chat" => "#{@user.private_channel}"
+       }
     %tr
       %th.center Round 1
       %th.center Round 2
@@ -793,7 +795,7 @@
       %td.right_connect
       %td.chat-header
         #chat-header-anchor
-          %h3 Heckle Forum
+          -# %h3 Heckle Forum
       %td
       %td
       %td
@@ -810,8 +812,8 @@
       %td
       %td.right_connect
       %td#chats-received-anchor
-        = render partial: 'brackets/chats/chats_received',   |
-          locals: {user: @user, heckles: load_users_heckles} |
+        -# = render partial: 'brackets/chats/chats_received',   |
+        -#   locals: {user: @user, heckles: load_users_heckles} |
       %td
       %td
       %td
@@ -1004,8 +1006,8 @@
       %td
       %td
       %td#chat-sending-anchor
-        = render partial: 'brackets/chats/chat_to_send', |
-          locals: {user: @user}                          |
+        -# = render partial: 'brackets/chats/chat_to_send', |
+        -#   locals: {user: @user}                          |
       %td
       %td
       %td

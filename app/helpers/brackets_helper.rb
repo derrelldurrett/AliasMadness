@@ -28,7 +28,7 @@ module BracketsHelper
   end
 
   def heckler(id)
-    "<b>@#{User.find(id).chat_name}:</b> ".html_safe
+    # "<b>@#{User.find(id).chat_name}:</b> ".html_safe
   end
 
   def json_to_html(jsn)
@@ -70,11 +70,11 @@ module BracketsHelper
   end
 
   def tag_heckle_content(heckle)
-    c = heckle.content
-    heckle.targets.each do |t|
-      c = BracketsHelper.embolden_user(c, t.chat_name, logger )
-    end
-    c.html_safe
+    # c = heckle.content
+    # heckle.targets.each do |t|
+    #   c = BracketsHelper.embolden_user(c, t.chat_name, logger )
+    # end
+    # c.html_safe
   end
 
   class << self
